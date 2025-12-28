@@ -629,21 +629,23 @@
     </div>
 
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
-        import { getAuth, signInWithPopup, GoogleAuthProvider, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut as firebaseSignOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
-        import { getFirestore, collection, addDoc, query, where, orderBy, limit, getDocs, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-firestore.js";
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut as firebaseSignOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
+        import { getFirestore, collection, addDoc, query, where, orderBy, limit, getDocs, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-analytics.js";
 
         const firebaseConfig = {
-            apiKey: "AIzaSyCjUqdLToR_nCpKDgSM2rwovuBFqgQ9S_8",
-            authDomain: "health-checkup-ltnproj.firebaseapp.com",
-            projectId: "health-checkup-ltnproj",
-            storageBucket: "health-checkup-ltnproj.firebasestorage.app",
-            messagingSenderId: "59683817432",
-            appId: "1:59683817432:web:b915d918cda3be585054ad",
-            measurementId: "G-3BSMK50917"
+            apiKey: "AIzaSyA6Wd5CpEgCy8kN3_fdGhS_kZE1jjoj7RU",
+            authDomain: "ltn-proj-ai.firebaseapp.com",
+            projectId: "ltn-proj-ai",
+            storageBucket: "ltn-proj-ai.firebasestorage.app",
+            messagingSenderId: "613995076174",
+            appId: "1:613995076174:web:d2316a95ab8c9b93f4c11f",
+            measurementId: "G-VTPB88L4Y6"
         };
 
         const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
         const auth = getAuth(app);
         const db = getFirestore(app);
 
