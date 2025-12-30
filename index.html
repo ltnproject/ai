@@ -251,6 +251,319 @@
             white-space: nowrap;
         }
 
+        .user-credits {
+            font-size: 0.75em;
+            color: #1e88e5;
+            font-weight: 600;
+            margin-top: 2px;
+        }
+
+        .credits-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #ffd54f 0%, #ffb300 100%);
+            color: #37474f;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.85em;
+            font-weight: 700;
+            margin-left: 8px;
+            box-shadow: 0 2px 6px rgba(255, 179, 0, 0.3);
+        }
+
+        .billing-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .billing-modal.active {
+            display: flex;
+        }
+
+        .billing-content {
+            background: white;
+            border-radius: 20px;
+            padding: 32px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: modalSlideIn 0.3s;
+        }
+
+        @keyframes modalSlideIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .billing-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .billing-header h2 {
+            color: #1e88e5;
+            font-size: 1.8em;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.8em;
+            color: #90a4ae;
+            cursor: pointer;
+            padding: 0;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+
+        .close-modal:hover {
+            background: #e3f2fd;
+            color: #1e88e5;
+        }
+
+        .current-balance {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            padding: 24px;
+            border-radius: 16px;
+            text-align: center;
+            margin-bottom: 24px;
+            border: 2px solid #90caf9;
+        }
+
+        .current-balance h3 {
+            color: #546e7a;
+            font-size: 0.9em;
+            margin-bottom: 8px;
+        }
+
+        .balance-amount {
+            font-size: 3em;
+            font-weight: 700;
+            color: #1e88e5;
+            margin-bottom: 8px;
+        }
+
+        .balance-info {
+            color: #78909c;
+            font-size: 0.9em;
+        }
+
+        .pricing-plans {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .pricing-card {
+            background: white;
+            border: 3px solid #e3f2fd;
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .pricing-card:hover {
+            border-color: #42a5f5;
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(66, 165, 245, 0.2);
+        }
+
+        .pricing-card.popular {
+            border-color: #1e88e5;
+            background: linear-gradient(135deg, #e3f2fd 0%, #fff 100%);
+        }
+
+        .popular-badge {
+            position: absolute;
+            top: -10px;
+            right: 10px;
+            background: linear-gradient(135deg, #ffd54f 0%, #ffb300 100%);
+            color: #37474f;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.75em;
+            font-weight: 700;
+        }
+
+        .credits-amount {
+            font-size: 2em;
+            font-weight: 700;
+            color: #1e88e5;
+            margin: 8px 0;
+        }
+
+        .credits-label {
+            color: #78909c;
+            font-size: 0.85em;
+            margin-bottom: 12px;
+        }
+
+        .price {
+            font-size: 1.5em;
+            font-weight: 700;
+            color: #37474f;
+            margin-bottom: 8px;
+        }
+
+        .price-per {
+            color: #90a4ae;
+            font-size: 0.8em;
+        }
+
+        .buy-btn {
+            width: 100%;
+            padding: 10px;
+            background: linear-gradient(135deg, #42a5f5 0%, #1e88e5 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 8px;
+            transition: all 0.3s;
+        }
+
+        .buy-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(30, 136, 229, 0.4);
+        }
+
+        .usage-info {
+            background: #f5f9fc;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 24px;
+        }
+
+        .usage-info h4 {
+            color: #1e88e5;
+            margin-bottom: 12px;
+        }
+
+        .usage-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #e3f2fd;
+        }
+
+        .usage-item:last-child {
+            border-bottom: none;
+        }
+
+        .usage-label {
+            color: #546e7a;
+        }
+
+        .usage-value {
+            color: #37474f;
+            font-weight: 600;
+        }
+
+        .low-credits-warning {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+            display: none;
+        }
+
+        .low-credits-warning.show {
+            display: block;
+        }
+
+        .warning-text {
+            color: #856404;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .topup-btn {
+            background: #ffc107;
+            color: #37474f;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .topup-btn:hover {
+            background: #ffb300;
+            transform: scale(1.05);
+        }
+
+        .payment-section {
+            margin-top: 24px;
+            padding-top: 24px;
+            border-top: 2px solid #e3f2fd;
+        }
+
+        .payment-section h4 {
+            color: #1e88e5;
+            margin-bottom: 16px;
+        }
+
+        .payment-methods {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 12px;
+        }
+
+        .payment-method {
+            background: white;
+            border: 2px solid #e3f2fd;
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .payment-method:hover {
+            border-color: #42a5f5;
+            transform: translateY(-2px);
+        }
+
+        .payment-method.selected {
+            border-color: #1e88e5;
+            background: #e3f2fd;
+        }
+
+        .payment-icon {
+            font-size: 2em;
+            margin-bottom: 8px;
+        }
+
+        .payment-name {
+            color: #546e7a;
+            font-size: 0.9em;
+            font-weight: 600;
+        }
+
         .logout-btn {
             background: none;
             border: none;
@@ -671,6 +984,10 @@
                     <div class="user-avatar" id="userAvatar">U</div>
                     <div class="user-info">
                         <div class="user-email" id="userEmail">user@email.com</div>
+                        <div class="user-credits">
+                            <span id="creditsDisplay">0</span> credits
+                            <span class="credits-badge" onclick="openBillingModal()">+ Add</span>
+                        </div>
                     </div>
                     <button class="logout-btn" onclick="signOut()">Logout</button>
                 </div>
@@ -731,11 +1048,120 @@
         </div>
     </div>
 
+    <!-- Billing Modal -->
+    <div id="billingModal" class="billing-modal">
+        <div class="billing-content">
+            <div class="billing-header">
+                <h2>💳 Purchase Credits</h2>
+                <button class="close-modal" onclick="closeBillingModal()">×</button>
+            </div>
+
+            <div id="lowCreditsWarning" class="low-credits-warning">
+                <div class="warning-text">⚠️ Low Credits!</div>
+                <p style="color: #856404; margin-bottom: 12px;">You're running low on credits. Top up to continue chatting.</p>
+            </div>
+
+            <div class="current-balance">
+                <h3>Current Balance</h3>
+                <div class="balance-amount"><span id="modalCreditsDisplay">0</span></div>
+                <div class="balance-info">credits remaining</div>
+            </div>
+
+            <div style="text-align: center; margin: 24px 0; padding: 20px; background: #f0f8ff; border-radius: 12px; border: 2px solid #72a4f2;">
+                <h3 style="color: #1e88e5; margin-bottom: 12px;">☕ Support This Project</h3>
+                <p style="color: #546e7a; margin-bottom: 16px; font-size: 0.95em;">
+                    Running this AI costs electricity!<br>
+                    <strong>My PC (600W):</strong> 11 hours/day = ~฿155/month<br>
+                    Any donation helps keep it online ❤️
+                </p>
+                <script type='text/javascript' src='https://storage.ko-fi.com/cdn/widget/Widget_2.js'></script>
+                <script type='text/javascript'>kofiwidget2.init('Support me on Ko-fi', '#72a4f2', 'Y8Y71R9GV2');kofiwidget2.draw();</script>
+            </div>
+
+            <div class="pricing-plans">
+                <div class="pricing-card" onclick="selectPlan(100, 70)">
+                    <div class="credits-amount">100</div>
+                    <div class="credits-label">credits</div>
+                    <div class="price">฿70</div>
+                    <div class="price-per">฿0.70 per credit</div>
+                    <button class="buy-btn">Buy Now</button>
+                </div>
+
+                <div class="pricing-card popular" onclick="selectPlan(500, 280)">
+                    <span class="popular-badge">POPULAR</span>
+                    <div class="credits-amount">500</div>
+                    <div class="credits-label">credits</div>
+                    <div class="price">฿280</div>
+                    <div class="price-per">฿0.56 per credit</div>
+                    <button class="buy-btn">Buy Now</button>
+                </div>
+
+                <div class="pricing-card" onclick="selectPlan(1000, 525)">
+                    <div class="credits-amount">1000</div>
+                    <div class="credits-label">credits</div>
+                    <div class="price">฿525</div>
+                    <div class="price-per">฿0.525 per credit</div>
+                    <button class="buy-btn">Buy Now</button>
+                </div>
+
+                <div class="pricing-card" onclick="selectPlan(5000, 2100)">
+                    <span class="popular-badge">BEST VALUE</span>
+                    <div class="credits-amount">5000</div>
+                    <div class="credits-label">credits</div>
+                    <div class="price">฿2,100</div>
+                    <div class="price-per">฿0.42 per credit</div>
+                    <button class="buy-btn">Buy Now</button>
+                </div>
+            </div>
+
+            <div class="payment-section">
+                <h4>Payment Method</h4>
+                <div class="payment-methods">
+                    <div class="payment-method selected" data-method="stripe">
+                        <div class="payment-icon">💳</div>
+                        <div class="payment-name">Card</div>
+                    </div>
+                    <div class="payment-method" data-method="paypal">
+                        <div class="payment-icon">🅿️</div>
+                        <div class="payment-name">PayPal</div>
+                    </div>
+                    <div class="payment-method" data-method="crypto">
+                        <div class="payment-icon">₿</div>
+                        <div class="payment-name">Crypto</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="usage-info">
+                <h4>📊 Usage Information</h4>
+                <div class="usage-item">
+                    <span class="usage-label">Cost per message:</span>
+                    <span class="usage-value">1 credit</span>
+                </div>
+                <div class="usage-item">
+                    <span class="usage-label">Messages sent today:</span>
+                    <span class="usage-value" id="todayMessages">0</span>
+                </div>
+                <div class="usage-item">
+                    <span class="usage-label">Total messages:</span>
+                    <span class="usage-value" id="totalMessages">0</span>
+                </div>
+                <div class="usage-item">
+                    <span class="usage-label">Account created:</span>
+                    <span class="usage-value" id="accountAge">Today</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
         import { getAuth, signInWithPopup, GoogleAuthProvider, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut as firebaseSignOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
         import { getFirestore, collection, addDoc, query, where, orderBy, limit, getDocs, doc, getDoc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-analytics.js";
+
+        // Load Stripe
+        const stripe = Stripe('pk_test_YOUR_PUBLISHABLE_KEY'); // Replace with your Stripe publishable key
 
         const firebaseConfig = {
             apiKey: "AIzaSyA6Wd5CpEgCy8kN3_fdGhS_kZE1jjoj7RU",
@@ -756,6 +1182,17 @@
         let conversationHistory = [];
         let currentConversationId = null;
         let allConversations = [];
+        let userCredits = 0;
+        let selectedPaymentMethod = 'stripe';
+
+        // Payment method selection
+        document.addEventListener('click', (e) => {
+            if (e.target.closest('.payment-method')) {
+                document.querySelectorAll('.payment-method').forEach(m => m.classList.remove('selected'));
+                e.target.closest('.payment-method').classList.add('selected');
+                selectedPaymentMethod = e.target.closest('.payment-method').dataset.method;
+            }
+        });
 
         onAuthStateChanged(auth, (user) => {
             if (user) {
@@ -764,7 +1201,9 @@
                 document.getElementById('mainApp').classList.remove('hidden');
                 document.getElementById('userEmail').textContent = user.email;
                 document.getElementById('userAvatar').textContent = user.email.charAt(0).toUpperCase();
+                loadUserCredits();
                 loadConversations();
+                loadUsageStats();
             } else {
                 currentUser = null;
                 document.getElementById('loginScreen').classList.remove('hidden');
@@ -931,6 +1370,14 @@
             const text = input.value.trim();
             if (!text) return;
 
+            // Check credits before sending
+            if (userCredits <= 0) {
+                document.getElementById('lowCreditsWarning').classList.add('show');
+                openBillingModal();
+                alert('⚠️ You need credits to send messages. Please purchase credits to continue.');
+                return;
+            }
+
             input.value = '';
             input.style.height = 'auto';
 
@@ -967,6 +1414,9 @@
                 addMessage(reply, 'ai');
                 conversationHistory.push({ role: 'assistant', content: reply });
 
+                // Deduct 1 credit
+                await deductCredit();
+                
                 await saveConversation(text, reply);
 
             } catch (err) {
@@ -997,21 +1447,38 @@
             try {
                 const convRef = doc(db, 'conversations', currentConversationId);
                 
+                // Save complete conversation with all messages
                 await setDoc(convRef, {
                     userId: currentUser.uid,
                     conversationId: currentConversationId,
                     preview: userMsg.substring(0, 60),
-                    messages: conversationHistory,
+                    messages: conversationHistory, // Save full history
                     lastMessage: aiReply.substring(0, 100),
                     timestamp: serverTimestamp(),
                     updatedAt: serverTimestamp()
                 }, { merge: true });
 
-                console.log('Conversation saved successfully');
-                await loadConversations();
+                console.log('✅ Conversation saved successfully');
                 
             } catch (error) {
-                console.error('Error saving conversation:', error);
+                console.error('❌ Error saving conversation:', error);
+                console.log('Retrying save...');
+                
+                // Retry once if failed
+                try {
+                    await setDoc(convRef, {
+                        userId: currentUser.uid,
+                        conversationId: currentConversationId,
+                        preview: userMsg.substring(0, 60),
+                        messages: conversationHistory,
+                        lastMessage: aiReply.substring(0, 100),
+                        timestamp: serverTimestamp(),
+                        updatedAt: serverTimestamp()
+                    });
+                    console.log('✅ Retry successful');
+                } catch (retryError) {
+                    console.error('❌ Retry failed:', retryError);
+                }
             }
         }
 
@@ -1032,6 +1499,7 @@
                 container.innerHTML = '';
 
                 if (snapshot.empty) {
+                    console.log('No conversations found');
                     container.innerHTML = `
                         <div class="conversation-item active">
                             <div class="conversation-preview">New Conversation</div>
@@ -1046,10 +1514,17 @@
 
                 snapshot.forEach(docSnapshot => {
                     const conv = docSnapshot.data();
+                    
+                    // Skip if no messages
+                    if (!conv.messages || conv.messages.length === 0) {
+                        return;
+                    }
+                    
                     allConversations.push({ id: docSnapshot.id, ...conv });
                     
                     const div = document.createElement('div');
                     div.className = 'conversation-item';
+                    
                     if (isFirst && !currentConversationId) {
                         div.classList.add('active');
                         currentConversationId = docSnapshot.id;
@@ -1060,7 +1535,9 @@
                         div.classList.add('active');
                     }
                     
-                    const timeStr = conv.timestamp ? new Date(conv.timestamp.seconds * 1000).toLocaleDateString() : 'Recent';
+                    const timeStr = conv.timestamp?.seconds 
+                        ? new Date(conv.timestamp.seconds * 1000).toLocaleDateString('th-TH')
+                        : 'เมื่อสักครู่';
                     
                     div.innerHTML = `
                         <div class="conversation-preview">${escapeHtml(conv.preview || 'New Chat')}</div>
@@ -1070,8 +1547,22 @@
                     div.onclick = () => loadConversationById(docSnapshot.id);
                     container.appendChild(div);
                 });
+                
+                console.log(`✅ Loaded ${allConversations.length} conversations`);
+                
             } catch (error) {
-                console.error('Error loading conversations:', error);
+                console.error('❌ Error loading conversations:', error);
+                
+                // Show error in UI
+                const container = document.getElementById('conversationsList');
+                container.innerHTML = `
+                    <div style="padding: 16px; color: #f44336; text-align: center;">
+                        <p>⚠️ Error loading chats</p>
+                        <button onclick="location.reload()" style="margin-top: 8px; padding: 8px 16px; background: #42a5f5; color: white; border: none; border-radius: 6px; cursor: pointer;">
+                            Reload Page
+                        </button>
+                    </div>
+                `;
             }
         }
 
@@ -1085,15 +1576,25 @@
                     currentConversationId = convId;
                     conversationHistory = conv.messages || [];
                     
+                    // Update UI
                     document.querySelectorAll('.conversation-item').forEach(item => {
                         item.classList.remove('active');
                     });
-                    event.currentTarget.classList.add('active');
+                    
+                    // Find and highlight clicked item
+                    const items = document.querySelectorAll('.conversation-item');
+                    items.forEach(item => {
+                        if (item.textContent.includes(conv.preview?.substring(0, 20))) {
+                            item.classList.add('active');
+                        }
+                    });
                     
                     loadConversationMessages(conversationHistory);
+                    console.log(`✅ Loaded conversation: ${convId}`);
                 }
             } catch (error) {
-                console.error('Error loading conversation:', error);
+                console.error('❌ Error loading conversation:', error);
+                alert('Failed to load conversation. Please try again.');
             }
         }
 
@@ -1132,6 +1633,222 @@
             
             document.getElementById('messagesContainer').scrollTop = document.getElementById('messagesContainer').scrollHeight;
         }
+
+        // ============================================
+        // BILLING FUNCTIONS
+        // ============================================
+        
+        async function loadUserCredits() {
+            if (!currentUser) return;
+            
+            try {
+                const userRef = doc(db, 'users', currentUser.uid);
+                const userSnap = await getDoc(userRef);
+                
+                if (userSnap.exists()) {
+                    const userData = userSnap.data();
+                    userCredits = userData.credits || 0;
+                } else {
+                    // New user - give 10 free credits
+                    userCredits = 10;
+                    await setDoc(userRef, {
+                        email: currentUser.email,
+                        credits: 10,
+                        totalMessages: 0,
+                        createdAt: serverTimestamp()
+                    });
+                }
+                
+                updateCreditsDisplay();
+                
+                // Show warning if low credits
+                if (userCredits <= 5) {
+                    document.getElementById('lowCreditsWarning').classList.add('show');
+                }
+                
+            } catch (error) {
+                console.error('Error loading credits:', error);
+            }
+        }
+        
+        function updateCreditsDisplay() {
+            document.getElementById('creditsDisplay').textContent = userCredits;
+            document.getElementById('modalCreditsDisplay').textContent = userCredits;
+            
+            // Update warning visibility
+            if (userCredits <= 5) {
+                document.getElementById('lowCreditsWarning').classList.add('show');
+            } else {
+                document.getElementById('lowCreditsWarning').classList.remove('show');
+            }
+        }
+        
+        async function deductCredit() {
+            if (!currentUser) return;
+            
+            try {
+                const userRef = doc(db, 'users', currentUser.uid);
+                const userSnap = await getDoc(userRef);
+                
+                if (userSnap.exists()) {
+                    const userData = userSnap.data();
+                    const newCredits = (userData.credits || 0) - 1;
+                    const newTotal = (userData.totalMessages || 0) + 1;
+                    
+                    await setDoc(userRef, {
+                        credits: Math.max(0, newCredits),
+                        totalMessages: newTotal,
+                        lastMessageAt: serverTimestamp()
+                    }, { merge: true });
+                    
+                    userCredits = Math.max(0, newCredits);
+                    updateCreditsDisplay();
+                    
+                    // Log transaction
+                    await addDoc(collection(db, 'transactions'), {
+                        userId: currentUser.uid,
+                        type: 'deduct',
+                        amount: 1,
+                        reason: 'message_sent',
+                        timestamp: serverTimestamp()
+                    });
+                }
+            } catch (error) {
+                console.error('Error deducting credit:', error);
+            }
+        }
+        
+        async function loadUsageStats() {
+            if (!currentUser) return;
+            
+            try {
+                const userRef = doc(db, 'users', currentUser.uid);
+                const userSnap = await getDoc(userRef);
+                
+                if (userSnap.exists()) {
+                    const userData = userSnap.data();
+                    
+                    document.getElementById('totalMessages').textContent = userData.totalMessages || 0;
+                    
+                    // Calculate messages today
+                    const today = new Date();
+                    today.setHours(0, 0, 0, 0);
+                    
+                    const transQuery = query(
+                        collection(db, 'transactions'),
+                        where('userId', '==', currentUser.uid),
+                        where('type', '==', 'deduct'),
+                        orderBy('timestamp', 'desc'),
+                        limit(100)
+                    );
+                    
+                    const transSnap = await getDocs(transQuery);
+                    let todayCount = 0;
+                    
+                    transSnap.forEach(doc => {
+                        const trans = doc.data();
+                        if (trans.timestamp) {
+                            const transDate = new Date(trans.timestamp.seconds * 1000);
+                            if (transDate >= today) {
+                                todayCount++;
+                            }
+                        }
+                    });
+                    
+                    document.getElementById('todayMessages').textContent = todayCount;
+                    
+                    // Account age
+                    if (userData.createdAt) {
+                        const created = new Date(userData.createdAt.seconds * 1000);
+                        const days = Math.floor((Date.now() - created) / (1000 * 60 * 60 * 24));
+                        if (days === 0) {
+                            document.getElementById('accountAge').textContent = 'Today';
+                        } else if (days === 1) {
+                            document.getElementById('accountAge').textContent = 'Yesterday';
+                        } else {
+                            document.getElementById('accountAge').textContent = days + ' days ago';
+                        }
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading usage stats:', error);
+            }
+        }
+        
+        window.openBillingModal = function() {
+            document.getElementById('billingModal').classList.add('active');
+            loadUsageStats();
+        };
+        
+        window.closeBillingModal = function() {
+            document.getElementById('billingModal').classList.remove('active');
+        };
+        
+        window.selectPlan = async function(credits, price) {
+            const confirm = window.confirm(
+                `Purchase ${credits} credits for ${price}?\n\n` +
+                `Payment Method: ${selectedPaymentMethod.toUpperCase()}\n\n` +
+                `Note: This is a demo. In production, this would process a real payment.`
+            );
+            
+            if (confirm) {
+                await processPurchase(credits, price);
+            }
+        };
+        
+        async function processPurchase(credits, price) {
+            if (!currentUser) return;
+            
+            try {
+                // In production, you would:
+                // 1. Call Stripe/PayPal API
+                // 2. Process payment
+                // 3. Then add credits
+                
+                // For demo, we'll just add credits
+                const userRef = doc(db, 'users', currentUser.uid);
+                const userSnap = await getDoc(userRef);
+                
+                if (userSnap.exists()) {
+                    const userData = userSnap.data();
+                    const newCredits = (userData.credits || 0) + credits;
+                    
+                    await setDoc(userRef, {
+                        credits: newCredits
+                    }, { merge: true });
+                    
+                    // Log transaction
+                    await addDoc(collection(db, 'transactions'), {
+                        userId: currentUser.uid,
+                        type: 'purchase',
+                        amount: credits,
+                        price: price,
+                        paymentMethod: selectedPaymentMethod,
+                        timestamp: serverTimestamp()
+                    });
+                    
+                    userCredits = newCredits;
+                    updateCreditsDisplay();
+                    
+                    alert(`✅ Success! ${credits} credits added to your account!`);
+                    closeBillingModal();
+                    loadUsageStats();
+                }
+            } catch (error) {
+                console.error('Error processing purchase:', error);
+                alert('❌ Purchase failed. Please try again.');
+            }
+        }
+        
+        // Close modal on outside click
+        document.getElementById('billingModal').addEventListener('click', (e) => {
+            if (e.target.id === 'billingModal') {
+                closeBillingModal();
+            }
+        });
     </script>
+    
+    <!-- Stripe.js -->
+    <script src="https://js.stripe.com/v3/"></script>
 </body>
 </html>
