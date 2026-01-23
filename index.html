@@ -5,12 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Chat Platform</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
@@ -18,7 +13,6 @@
             height: 100vh;
             overflow: hidden;
         }
-
         .login-screen {
             display: flex;
             align-items: center;
@@ -27,7 +21,6 @@
             background: linear-gradient(135deg, #42a5f5 0%, #1e88e5 100%);
             padding: 20px;
         }
-
         .login-box {
             background: white;
             padding: 40px;
@@ -37,45 +30,17 @@
             max-width: 400px;
             width: 100%;
         }
-
-        .login-box h1 {
-            color: #1e88e5;
-            margin-bottom: 10px;
-            font-size: 2em;
-        }
-
-        .login-box p {
-            color: #546e7a;
-            margin-bottom: 30px;
-        }
-
-        .input-group {
-            margin-bottom: 20px;
-            text-align: left;
-        }
-
-        .input-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: 600;
-            color: #37474f;
-            font-size: 0.9em;
-        }
-
+        .login-box h1 { color: #1e88e5; margin-bottom: 10px; font-size: 2em; }
+        .login-box p { color: #546e7a; margin-bottom: 30px; }
+        .input-group { margin-bottom: 20px; text-align: left; }
+        .input-group label { display: block; margin-bottom: 5px; font-weight: 600; color: #37474f; font-size: 0.9em; }
         .input-group input {
             width: 100%;
             padding: 12px;
             border: 2px solid #e3f2fd;
             border-radius: 8px;
             font-size: 1em;
-            transition: border 0.3s;
         }
-
-        .input-group input:focus {
-            outline: none;
-            border-color: #42a5f5;
-        }
-
         .btn {
             width: 100%;
             padding: 12px;
@@ -83,67 +48,21 @@
             border-radius: 8px;
             font-size: 1em;
             cursor: pointer;
-            transition: all 0.3s;
             margin-bottom: 10px;
             font-weight: 600;
         }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #42a5f5 0%, #1e88e5 100%);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(30, 136, 229, 0.3);
-        }
-
-        .btn-google {
-            background: white;
-            color: #37474f;
-            border: 2px solid #e3f2fd;
-        }
-
-        .btn-google:hover {
-            background: #f5f5f5;
-        }
-
-        .btn-secondary {
-            background: #78909c;
-            color: white;
-        }
-
-        .divider {
-            margin: 20px 0;
-            color: #78909c;
-            font-size: 0.9em;
-        }
-
-        .app-container {
-            display: flex;
-            height: 100vh;
-            max-height: 100vh;
-        }
-
+        .btn-primary { background: linear-gradient(135deg, #42a5f5 0%, #1e88e5 100%); color: white; }
+        .btn-google { background: white; color: #37474f; border: 2px solid #e3f2fd; }
+        .divider { margin: 20px 0; color: #78909c; font-size: 0.9em; }
+        .app-container { display: flex; height: 100vh; }
         .sidebar {
             width: 280px;
             background: white;
             border-right: 2px solid #e3f2fd;
             display: flex;
             flex-direction: column;
-            transition: all 0.3s;
-            box-shadow: 2px 0 10px rgba(0,0,0,0.05);
         }
-
-        .sidebar.collapsed {
-            margin-left: -280px;
-        }
-
-        .sidebar-header {
-            padding: 16px;
-            border-bottom: 2px solid #e3f2fd;
-        }
-
+        .sidebar-header { padding: 16px; border-bottom: 2px solid #e3f2fd; }
         .new-chat-btn {
             width: 100%;
             padding: 12px;
@@ -156,64 +75,20 @@
             align-items: center;
             gap: 10px;
             justify-content: center;
-            transition: all 0.3s;
             font-weight: 600;
-            box-shadow: 0 4px 10px rgba(30, 136, 229, 0.2);
         }
-
-        .new-chat-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(30, 136, 229, 0.3);
-        }
-
-        .conversations {
-            flex: 1;
-            overflow-y: auto;
-            padding: 12px;
-        }
-
+        .conversations { flex: 1; overflow-y: auto; padding: 12px; }
         .conversation-item {
             padding: 12px;
             margin-bottom: 6px;
             border-radius: 10px;
             cursor: pointer;
-            transition: all 0.2s;
             color: #546e7a;
             font-size: 0.9em;
-            border: 2px solid transparent;
         }
-
-        .conversation-item:hover {
-            background: #e3f2fd;
-            border-color: #bbdefb;
-        }
-
-        .conversation-item.active {
-            background: #e3f2fd;
-            color: #1e88e5;
-            border-color: #42a5f5;
-            font-weight: 600;
-        }
-
-        .conversation-preview {
-            font-weight: 500;
-            margin-bottom: 4px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-
-        .conversation-time {
-            font-size: 0.8em;
-            color: #90a4ae;
-        }
-
-        .sidebar-footer {
-            padding: 16px;
-            border-top: 2px solid #e3f2fd;
-            background: #f5f9fc;
-        }
-
+        .conversation-item:hover { background: #e3f2fd; }
+        .conversation-item.active { background: #e3f2fd; color: #1e88e5; font-weight: 600; }
+        .sidebar-footer { padding: 16px; border-top: 2px solid #e3f2fd; }
         .user-profile {
             display: flex;
             align-items: center;
@@ -223,7 +98,6 @@
             background: white;
             border: 2px solid #e3f2fd;
         }
-
         .user-avatar {
             width: 36px;
             height: 36px;
@@ -234,123 +108,7 @@
             justify-content: center;
             color: white;
             font-weight: bold;
-            font-size: 1em;
-            flex-shrink: 0;
         }
-
-        .user-info {
-            flex: 1;
-            min-width: 0;
-        }
-
-        .user-email {
-            font-size: 0.85em;
-            color: #546e7a;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-
-        .billing-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        .billing-modal.active {
-            display: flex;
-        }
-
-        .billing-content {
-            background: white;
-            border-radius: 20px;
-            padding: 32px;
-            max-width: 600px;
-            width: 100%;
-            max-height: 90vh;
-            overflow-y: auto;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            animation: modalSlideIn 0.3s;
-        }
-
-        @keyframes modalSlideIn {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .billing-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 24px;
-        }
-
-        .billing-header h2 {
-            color: #1e88e5;
-            font-size: 1.8em;
-        }
-
-        .close-modal {
-            background: none;
-            border: none;
-            font-size: 1.8em;
-            color: #90a4ae;
-            cursor: pointer;
-            padding: 0;
-            width: 32px;
-            height: 32px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 8px;
-            transition: all 0.2s;
-        }
-
-        .close-modal:hover {
-            background: #e3f2fd;
-            color: #1e88e5;
-        }
-
-        .usage-info {
-            background: #f5f9fc;
-            padding: 20px;
-            border-radius: 12px;
-            margin-top: 24px;
-        }
-
-        .usage-info h4 {
-            color: #1e88e5;
-            margin-bottom: 12px;
-        }
-
-        .usage-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 8px 0;
-            border-bottom: 1px solid #e3f2fd;
-        }
-
-        .usage-item:last-child {
-            border-bottom: none;
-        }
-
-        .usage-label {
-            color: #546e7a;
-        }
-
-        .usage-value {
-            color: #37474f;
-            font-weight: 600;
-        }
-
         .logout-btn {
             background: none;
             border: none;
@@ -359,140 +117,59 @@
             padding: 6px 10px;
             font-size: 0.8em;
             border-radius: 6px;
-            transition: all 0.2s;
         }
-
-        .logout-btn:hover {
-            background: #e3f2fd;
-            color: #1e88e5;
-        }
-
-        .main-content {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            background: white;
-            min-width: 0;
-        }
-
+        .main-content { flex: 1; display: flex; flex-direction: column; background: white; }
         .chat-header {
             padding: 16px 24px;
             border-bottom: 2px solid #e3f2fd;
             display: flex;
             align-items: center;
             gap: 12px;
-            background: white;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
-
-        .menu-btn {
-            background: none;
-            border: none;
-            color: #1e88e5;
-            cursor: pointer;
-            padding: 8px;
-            border-radius: 8px;
-            transition: all 0.2s;
-            font-size: 1.3em;
-        }
-
-        .menu-btn:hover {
-            background: #e3f2fd;
-        }
-
-        .chat-title {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .chat-title h1 {
-            font-size: 1.3em;
-            font-weight: 600;
-            color: #1e88e5;
-        }
-
+        .chat-title h1 { font-size: 1.3em; color: #1e88e5; }
         .messages-container {
             flex: 1;
             overflow-y: auto;
             padding: 24px;
             background: linear-gradient(to bottom, #f5f9fc 0%, #ffffff 100%);
         }
-
-        .messages-wrapper {
-            max-width: 900px;
-            margin: 0 auto;
-            width: 100%;
-        }
-
+        .messages-wrapper { max-width: 900px; margin: 0 auto; }
         .message {
             margin-bottom: 24px;
             display: flex;
             gap: 12px;
             animation: fadeIn 0.3s;
         }
-
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
-
         .message-avatar {
             width: 36px;
             height: 36px;
             border-radius: 50%;
-            flex-shrink: 0;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 1.2em;
         }
-
-        .message-avatar.user {
-            background: linear-gradient(135deg, #42a5f5 0%, #1e88e5 100%);
-        }
-
-        .message-avatar.ai {
-            background: #e3f2fd;
-            color: #1e88e5;
-        }
-
-        .message-content {
-            flex: 1;
-            min-width: 0;
-        }
-
-        .message-role {
-            font-weight: 600;
-            margin-bottom: 6px;
-            font-size: 0.9em;
-            color: #546e7a;
-        }
-
+        .message-avatar.user { background: linear-gradient(135deg, #42a5f5 0%, #1e88e5 100%); color: white; }
+        .message-avatar.ai { background: #e3f2fd; color: #1e88e5; }
+        .message-content { flex: 1; }
         .message-text {
             line-height: 1.6;
             color: #37474f;
             white-space: pre-wrap;
-            word-wrap: break-word;
             background: white;
             padding: 12px 16px;
             border-radius: 12px;
             border: 2px solid #e3f2fd;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
-
         .message.user .message-text {
             background: linear-gradient(135deg, #42a5f5 0%, #1e88e5 100%);
             color: white;
-            border-color: #1e88e5;
         }
-
-        .typing-indicator {
-            display: flex;
-            gap: 4px;
-            padding: 12px 0;
-        }
-
+        .typing-indicator { display: flex; gap: 4px; padding: 12px 0; }
         .typing-dot {
             width: 8px;
             height: 8px;
@@ -500,21 +177,13 @@
             background: #42a5f5;
             animation: typing 1.4s infinite;
         }
-
         .typing-dot:nth-child(2) { animation-delay: 0.2s; }
         .typing-dot:nth-child(3) { animation-delay: 0.4s; }
-
         @keyframes typing {
             0%, 60%, 100% { opacity: 0.3; transform: translateY(0); }
             30% { opacity: 1; transform: translateY(-4px); }
         }
-
-        .input-area {
-            padding: 20px 24px;
-            border-top: 2px solid #e3f2fd;
-            background: white;
-        }
-
+        .input-area { padding: 20px 24px; border-top: 2px solid #e3f2fd; }
         .input-wrapper {
             max-width: 900px;
             margin: 0 auto;
@@ -524,32 +193,16 @@
             border-radius: 16px;
             padding: 12px;
             border: 2px solid #e3f2fd;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-            transition: all 0.3s;
         }
-
-        .input-wrapper:focus-within {
-            border-color: #42a5f5;
-            box-shadow: 0 6px 20px rgba(66, 165, 245, 0.2);
-        }
-
         #messageInput {
             flex: 1;
             background: none;
             border: none;
-            color: #37474f;
             font-size: 1em;
             outline: none;
             resize: none;
-            max-height: 200px;
             font-family: inherit;
-            line-height: 1.5;
         }
-
-        #messageInput::placeholder {
-            color: #90a4ae;
-        }
-
         .send-btn {
             background: linear-gradient(135deg, #42a5f5 0%, #1e88e5 100%);
             border: none;
@@ -561,168 +214,33 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.3s;
-            flex-shrink: 0;
-            box-shadow: 0 4px 10px rgba(30, 136, 229, 0.3);
         }
-
-        .send-btn:hover:not(:disabled) {
-            transform: scale(1.05);
-            box-shadow: 0 6px 15px rgba(30, 136, 229, 0.4);
-        }
-
-        .send-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
+        .send-btn:disabled { opacity: 0.5; cursor: not-allowed; }
         .welcome-screen {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100%;
             padding: 24px;
         }
-
-        .welcome-icon {
-            font-size: 4em;
-            margin-bottom: 24px;
-        }
-
-        .welcome-title {
-            font-size: 2em;
-            font-weight: 600;
-            margin-bottom: 12px;
-            color: #1e88e5;
-        }
-
-        .welcome-subtitle {
-            color: #78909c;
-            margin-bottom: 32px;
-            text-align: center;
-            max-width: 500px;
-            line-height: 1.6;
-        }
-
+        .welcome-icon { font-size: 4em; margin-bottom: 24px; }
+        .welcome-title { font-size: 2em; font-weight: 600; margin-bottom: 12px; color: #1e88e5; }
+        .welcome-subtitle { color: #78909c; margin-bottom: 32px; text-align: center; max-width: 500px; }
         .suggestions {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 12px;
             max-width: 900px;
-            width: 100%;
         }
-
         .suggestion-card {
             background: white;
             padding: 18px;
             border-radius: 12px;
             border: 2px solid #e3f2fd;
             cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
-
-        .suggestion-card:hover {
-            background: #e3f2fd;
-            border-color: #42a5f5;
-            transform: translateY(-4px);
-            box-shadow: 0 6px 16px rgba(0,0,0,0.1);
-        }
-
-        .suggestion-icon {
-            font-size: 1.8em;
-            margin-bottom: 10px;
-        }
-
-        .suggestion-text {
-            font-size: 0.95em;
-            color: #546e7a;
-            font-weight: 500;
-        }
-
-        .hidden {
-            display: none !important;
-        }
-
-        /* Mobile Responsive */
-        @media (max-width: 768px) {
-            .sidebar {
-                position: fixed;
-                left: 0;
-                top: 0;
-                height: 100%;
-                z-index: 100;
-                box-shadow: 2px 0 20px rgba(0,0,0,0.15);
-            }
-
-            .sidebar.collapsed {
-                margin-left: -280px;
-            }
-
-            .login-box {
-                padding: 30px 20px;
-            }
-
-            .chat-header {
-                padding: 12px 16px;
-            }
-
-            .messages-container {
-                padding: 16px;
-            }
-
-            .input-area {
-                padding: 12px 16px;
-            }
-
-            .suggestions {
-                grid-template-columns: 1fr;
-            }
-
-            .welcome-title {
-                font-size: 1.5em;
-            }
-
-            .message-text {
-                font-size: 0.95em;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .sidebar {
-                width: 260px;
-            }
-
-            .login-box h1 {
-                font-size: 1.5em;
-            }
-
-            .chat-title h1 {
-                font-size: 1.1em;
-            }
-
-            .welcome-icon {
-                font-size: 3em;
-            }
-        }
-
-        ::-webkit-scrollbar {
-            width: 10px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: #f5f9fc;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: #bbdefb;
-            border-radius: 5px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: #90caf9;
-        }
+        .suggestion-card:hover { background: #e3f2fd; transform: translateY(-4px); }
+        .hidden { display: none !important; }
     </style>
 </head>
 <body>
@@ -730,23 +248,13 @@
         <div class="login-box">
             <h1>✨ AI Platform</h1>
             <p>Sign in to start chatting with AI</p>
-            
-            <button class="btn btn-google" onclick="signInWithGoogle()">
-                🔐 Sign in with Google
-            </button>
-            
+            <button class="btn btn-google" onclick="signInWithGoogle()">🔐 Sign in with Google</button>
             <div class="divider">or</div>
-            
             <div class="input-group">
                 <label>Email</label>
                 <input type="email" id="loginEmail" placeholder="your@email.com">
             </div>
-            <div class="input-group">
-                <label>Password</label>
-                <input type="password" id="loginPassword" placeholder="••••••••">
-            </div>
-            <button class="btn btn-primary" onclick="signInWithEmail()">Sign In</button>
-            <button class="btn btn-secondary" onclick="signUpWithEmail()">Create Account</button>
+            <button class="btn btn-primary" onclick="signInWithEmail()">Sign In / Sign Up</button>
         </div>
     </div>
 
@@ -758,22 +266,12 @@
                     <span>New Chat</span>
                 </button>
             </div>
-            
-            <div class="conversations" id="conversationsList">
-                <div class="conversation-item active">
-                    <div class="conversation-preview">New Conversation</div>
-                    <div class="conversation-time">Just now</div>
-                </div>
-            </div>
-
+            <div class="conversations" id="conversationsList"></div>
             <div class="sidebar-footer">
                 <div class="user-profile">
                     <div class="user-avatar" id="userAvatar">U</div>
-                    <div class="user-info">
-                        <div class="user-email" id="userEmail">user@email.com</div>
-                        <div style="font-size: 0.75em; color: #4caf50; font-weight: 600; margin-top: 2px;">
-                            ✨ Unlimited Free Access
-                        </div>
+                    <div style="flex: 1;">
+                        <div id="userEmail" style="font-size: 0.85em; color: #546e7a;">user@email.com</div>
                     </div>
                     <button class="logout-btn" onclick="signOut()">Logout</button>
                 </div>
@@ -782,15 +280,9 @@
 
         <div class="main-content">
             <div class="chat-header">
-                <button class="menu-btn" onclick="toggleSidebar()">☰</button>
                 <div class="chat-title">
                     <span style="font-size: 1.5em;">✨</span>
                     <h1>AI Assistant</h1>
-                </div>
-                <div style="margin-left: auto; display: flex; gap: 12px; align-items: center;">
-                    <button onclick="openBillingModal()" style="background: linear-gradient(135deg, #ffd54f 0%, #ffb300 100%); color: #37474f; border: none; padding: 8px 16px; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 0.9em; transition: all 0.3s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
-                        ☕ Donate
-                    </button>
                 </div>
             </div>
 
@@ -799,24 +291,24 @@
                     <div id="welcomeScreen" class="welcome-screen">
                         <div class="welcome-icon">✨</div>
                         <h2 class="welcome-title">How can I help you today?</h2>
-                        <p class="welcome-subtitle">I'm an AI assistant powered by advanced language models. Ask me anything!</p>
+                        <p class="welcome-subtitle">I'm an AI assistant powered by Claude. Ask me anything!</p>
                         
                         <div class="suggestions">
                             <div class="suggestion-card" onclick="sendSuggestion('Explain quantum computing in simple terms')">
-                                <div class="suggestion-icon">🔬</div>
-                                <div class="suggestion-text">Explain quantum computing in simple terms</div>
+                                <div style="font-size: 1.8em; margin-bottom: 10px;">🔬</div>
+                                <div style="font-size: 0.95em; color: #546e7a;">Explain quantum computing in simple terms</div>
                             </div>
-                            <div class="suggestion-card" onclick="sendSuggestion('Write a creative story about space exploration')">
-                                <div class="suggestion-icon">🚀</div>
-                                <div class="suggestion-text">Write a creative story about space exploration</div>
+                            <div class="suggestion-card" onclick="sendSuggestion('Write a creative story about space')">
+                                <div style="font-size: 1.8em; margin-bottom: 10px;">🚀</div>
+                                <div style="font-size: 0.95em; color: #546e7a;">Write a creative story about space</div>
                             </div>
-                            <div class="suggestion-card" onclick="sendSuggestion('Help me plan a healthy weekly meal plan')">
-                                <div class="suggestion-icon">🥗</div>
-                                <div class="suggestion-text">Help me plan a healthy weekly meal plan</div>
+                            <div class="suggestion-card" onclick="sendSuggestion('Help me plan a healthy meal plan')">
+                                <div style="font-size: 1.8em; margin-bottom: 10px;">🥗</div>
+                                <div style="font-size: 0.95em; color: #546e7a;">Help me plan a healthy meal plan</div>
                             </div>
-                            <div class="suggestion-card" onclick="sendSuggestion('Teach me about machine learning basics')">
-                                <div class="suggestion-icon">🤖</div>
-                                <div class="suggestion-text">Teach me about machine learning basics</div>
+                            <div class="suggestion-card" onclick="sendSuggestion('Teach me about machine learning')">
+                                <div style="font-size: 1.8em; margin-bottom: 10px;">🤖</div>
+                                <div style="font-size: 0.95em; color: #546e7a;">Teach me about machine learning</div>
                             </div>
                         </div>
                     </div>
@@ -839,71 +331,154 @@
         </div>
     </div>
 
-    <div id="billingModal" class="billing-modal">
-        <div class="billing-content">
-            <div class="billing-header">
-                <h2>🚀 Coming Soon!</h2>
-                <button class="close-modal" onclick="closeBillingModal()">×</button>
-            </div>
+    <script>
+        let currentUser = null;
+        let messageHistory = [];
 
-            <div style="text-align: center; padding: 40px 20px;">
-                <div style="font-size: 4em; margin-bottom: 20px;">🎉</div>
-                <h3 style="color: #1e88e5; margin-bottom: 16px; font-size: 1.5em;">
-                    Currently FREE for Everyone!
-                </h3>
-                <p style="color: #546e7a; font-size: 1.1em; line-height: 1.8; margin-bottom: 24px;">
-                    Enjoy <strong>unlimited messages</strong> at no cost!<br>
-                    Premium features coming in the next update.
-                </p>
-            </div>
+        function signInWithGoogle() {
+            simulateLogin('Google User', 'google.user@gmail.com');
+        }
 
-            <div style="text-align: center; margin: 24px 0; padding: 20px; background: #f0f8ff; border-radius: 12px; border: 2px solid #72a4f2;">
-                <h3 style="color: #1e88e5; margin-bottom: 12px;">☕ Support This Project</h3>
-                <p style="color: #546e7a; margin-bottom: 16px; font-size: 0.95em;">
-                    Running this AI costs electricity!<br>
-                    <strong>My PC (600W):</strong> 11 hours/day = ~฿250/month<br>
-                    Any donation helps keep it free for everyone ❤️
-                </p>
-                <script type='text/javascript' src='https://storage.ko-fi.com/cdn/widget/Widget_2.js'></script>
-                <script type='text/javascript'>kofiwidget2.init('Support me on Ko-fi', '#72a4f2', 'Y8Y71R9GV2');kofiwidget2.draw();</script>
-            </div>
+        function signInWithEmail() {
+            const email = document.getElementById('loginEmail').value || 'demo@example.com';
+            simulateLogin(email.split('@')[0], email);
+        }
 
-            <div class="usage-info">
-                <h4>📊 Your Usage Statistics</h4>
-                <div class="usage-item">
-                    <span class="usage-label">Messages sent today:</span>
-                    <span class="usage-value" id="todayMessages">0</span>
+        function simulateLogin(name, email) {
+            currentUser = { name, email };
+            document.getElementById('userEmail').textContent = email;
+            document.getElementById('userAvatar').textContent = name.charAt(0).toUpperCase();
+            document.getElementById('loginScreen').classList.add('hidden');
+            document.getElementById('mainApp').classList.remove('hidden');
+        }
+
+        function signOut() {
+            currentUser = null;
+            messageHistory = [];
+            document.getElementById('loginScreen').classList.remove('hidden');
+            document.getElementById('mainApp').classList.add('hidden');
+        }
+
+        function startNewConversation() {
+            messageHistory = [];
+            document.getElementById('messagesWrapper').innerHTML = `
+                <div id="welcomeScreen" class="welcome-screen">
+                    <div class="welcome-icon">✨</div>
+                    <h2 class="welcome-title">How can I help you today?</h2>
+                    <p class="welcome-subtitle">I'm an AI assistant powered by Claude. Ask me anything!</p>
                 </div>
-                <div class="usage-item">
-                    <span class="usage-label">Total messages:</span>
-                    <span class="usage-value" id="totalMessages">0</span>
-                </div>
-                <div class="usage-item">
-                    <span class="usage-label">Account created:</span>
-                    <span class="usage-value" id="accountAge">Today</span>
-                </div>
-                <div class="usage-item">
-                    <span class="usage-label">Status:</span>
-                    <span class="usage-value" style="color: #4caf50; font-weight: 700;">✨ FREE Forever</span>
-                </div>
-            </div>
+            `;
+        }
 
-            <div style="margin-top: 24px; padding: 20px; background: #e8f5e9; border-radius: 12px; border: 2px solid #4caf50;">
-                <h4 style="color: #2e7d32; margin-bottom: 12px;">🎁 What's Free:</h4>
-                <ul style="color: #388e3c; line-height: 2; margin-left: 20px;">
-                    <li>✅ Unlimited messages</li>
-                    <li>✅ Full conversation history</li>
-                    <li>✅ All AI features</li>
-                    <li>✅ Fast responses</li>
-                    <li>✅ No ads, no limits!</li>
-                </ul>
-            </div>
+        function sendSuggestion(text) {
+            document.getElementById('messageInput').value = text;
+            sendMessage();
+        }
 
-            <div style="margin-top: 24px; padding: 20px; background: #fff3e0; border-radius: 12px; border: 2px solid #ff9800;">
-                <h4 style="color: #e65100; margin-bottom: 12px;">🔮 Next Update (Coming Soon):</h4>
-                <ul style="color: #ef6c00; line-height: 2; margin-left: 20px;">
-                    <li>💳 Optional premium features</li>
-                    <li>🚀 Priority response times</li>
-                    <li>🎨 Custom AI personalities</li>
-                    <li>📊 Advanced analytics</li>
-                    <li>💾 Extended history backup</li>
+        function handleKeyDown(event) {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                sendMessage();
+            }
+        }
+
+        async function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const message = input.value.trim();
+            
+            if (!message) return;
+            
+            input.value = '';
+            input.style.height = 'auto';
+            
+            const welcome = document.getElementById('welcomeScreen');
+            if (welcome) welcome.remove();
+            
+            addMessage('user', message);
+            messageHistory.push({ role: 'user', content: message });
+            
+            const sendBtn = document.getElementById('sendBtn');
+            sendBtn.disabled = true;
+            
+            showTypingIndicator();
+            
+            try {
+                const response = await fetch('https://api.anthropic.com/v1/messages', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        model: 'claude-sonnet-4-20250514',
+                        max_tokens: 1024,
+                        messages: messageHistory
+                    })
+                });
+                
+                const data = await response.json();
+                removeTypingIndicator();
+                
+                if (data.content && data.content[0]) {
+                    const aiMessage = data.content[0].text;
+                    addMessage('ai', aiMessage);
+                    messageHistory.push({ role: 'assistant', content: aiMessage });
+                } else {
+                    addMessage('ai', 'Sorry, I encountered an error. Please try again.');
+                }
+            } catch (error) {
+                removeTypingIndicator();
+                addMessage('ai', 'Connection error. Please check your internet and try again.');
+                console.error('Error:', error);
+            }
+            
+            sendBtn.disabled = false;
+        }
+
+        function addMessage(role, text) {
+            const wrapper = document.getElementById('messagesWrapper');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${role}`;
+            
+            const avatar = role === 'user' ? 
+                '<div class="message-avatar user">👤</div>' :
+                '<div class="message-avatar ai">✨</div>';
+            
+            messageDiv.innerHTML = `
+                ${avatar}
+                <div class="message-content">
+                    <div class="message-text">${text}</div>
+                </div>
+            `;
+            
+            wrapper.appendChild(messageDiv);
+            document.getElementById('messagesContainer').scrollTop = 
+                document.getElementById('messagesContainer').scrollHeight;
+        }
+
+        function showTypingIndicator() {
+            const wrapper = document.getElementById('messagesWrapper');
+            const typingDiv = document.createElement('div');
+            typingDiv.id = 'typingIndicator';
+            typingDiv.className = 'message ai';
+            typingDiv.innerHTML = `
+                <div class="message-avatar ai">✨</div>
+                <div class="message-content">
+                    <div class="typing-indicator">
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                    </div>
+                </div>
+            `;
+            wrapper.appendChild(typingDiv);
+            document.getElementById('messagesContainer').scrollTop = 
+                document.getElementById('messagesContainer').scrollHeight;
+        }
+
+        function removeTypingIndicator() {
+            const indicator = document.getElementById('typingIndicator');
+            if (indicator) indicator.remove();
+        }
+    </script>
+</body>
+</html>
