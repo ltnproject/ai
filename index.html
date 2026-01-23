@@ -1342,7 +1342,7 @@
             const typingIndicator = addTypingIndicator();
 
             try {
-                const response = await fetch('https://notional-alfonzo-rodlike.ngrok-free.dev/chat', {
+                const response = await fetch('https://notional-alfonzo-rodlike.ngrok-free.dev/v1/chat/completions', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
