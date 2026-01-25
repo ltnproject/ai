@@ -975,7 +975,7 @@ Any donation helps keep it free for everyone ❤️
 <script type="module">
     const API_ENDPOINT = 'https://notional-alfonzo-rodlike.ngrok-free.dev';
 
-fetch(`${API_ENDPOINT}/v1/chat/completions`, {
+    fetch(`${API_ENDPOINT}/v1/chat/completions`, {
   method: "POST",
   headers: {
     "Content-Type": "application/json"
@@ -983,7 +983,7 @@ fetch(`${API_ENDPOINT}/v1/chat/completions`, {
   body: JSON.stringify({
     model: "qwen2.5",
     messages: [
-      { role: "user", content: "Hi bro" }
+      { role: "user", content: "Hi" }
     ]
   })
 })
@@ -1200,18 +1200,19 @@ fetch(`${API_ENDPOINT}/v1/chat/completions`, {
         const typingIndicator = addTypingIndicator();
 
         try {
-            console.log('🚀 Sending request to:', API_ENDPOINT);
+        console.log('🚀 Sending request to:', `${API_ENDPOINT}/v1/chat/completions`);
+    
+        const response = await fetch(`${API_ENDPOINT}/v1/chat/completions`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                model: "qwen2.5",
+                messages: conversationHistory.slice(-10)
+            })
+        });
 
-            const response = await fetch(API_ENDPOINT, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    model: "qwen2.5",
-                    messages: conversationHistory.slice(-10)
-                })
-            });
 
             console.log('📡 Response status:', response.status);
 
