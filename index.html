@@ -973,7 +973,20 @@ Any donation helps keep it free for everyone ❤️
 </div>
 
 <script type="module">
-    const API_ENDPOINT = 'http://localhost:8080/v1/chat/completions';
+    const API_ENDPOINT = 'https://notional-alfonzo-rodlike.ngrok-free.dev';
+
+fetch(`${API_ENDPOINT}/v1/chat/completions`, {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({
+    model: "qwen2.5",
+    messages: [
+      { role: "user", content: "Hi bro" }
+    ]
+  })
+})
 
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
     import { getAuth, signInWithPopup, GoogleAuthProvider, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut as firebaseSignOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
@@ -1241,7 +1254,7 @@ Any donation helps keep it free for everyone ❤️
             
             let errorMessage = '❌ Unable to reach AI server. ';
             if (err.message.includes('Failed to fetch')) {
-                errorMessage += 'Check that your server is running on http://localhost:8080';
+                errorMessage += 'The server is not running';
             } else {
                 errorMessage += err.message;
             }
