@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DrkChat — Docs & Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #08080e;
+  --surface: #0f0f1a;
+  --surface2: #161625;
+  --surface3: #1e1e30;
+  --border: #252538;
+  --accent: #a855f7;
+  --accent-glow: rgba(168,85,247,0.22);
+  --accent2: #22d3ee;
+  --accent3: #fb923c;
+  --text: #ededf5;
+  --text2: #8888aa;
+  --text3: #4a4a6a;
+  --green: #34d399;
+  --red: #f87171;
+  --pink: #f472b6;
+  --yellow: #fbbf24;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Syne', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Grain */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: 1000; opacity: 0.4;
+}
+
+/* Orbs */
+.orb { position: fixed; border-radius: 50%; pointer-events: none; z-index: 0; filter: blur(100px); opacity: 0.07; }
+.orb-1 { width: 600px; height: 600px; background: var(--accent); top: -200px; left: -200px; animation: d1 25s ease-in-out infinite; }
+.orb-2 { width: 500px; height: 500px; background: var(--accent2); bottom: 10%; right: -150px; animation: d2 30s ease-in-out infinite; }
+.orb-3 { width: 350px; height: 350px; background: var(--pink); top: 50%; left: 30%; animation: d3 20s ease-in-out infinite; }
+@keyframes d1{0%,100%{transform:translate(0,0)}50%{transform:translate(80px,100px)}}
+@keyframes d2{0%,100%{transform:translate(0,0)}50%{transform:translate(-80px,-80px)}}
+@keyframes d3{0%,100%{transform:translate(0,0)}33%{transform:translate(60px,-80px)}66%{transform:translate(-60px,60px)}}
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(8,8,14,0.9); backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 32px;
+  display: flex; align-items: center; height: 58px; gap: 16px;
+}
+.nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+.nav-mark {
+  width: 34px; height: 34px;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  border-radius: 10px; display: flex; align-items: center; justify-content: center;
+  font-size: 17px; box-shadow: 0 0 16px var(--accent-glow);
+}
+.nav-name { font-size: 17px; font-weight: 800; letter-spacing: -0.5px; color: var(--text); }
+.nav-name em { font-style: normal; color: var(--accent); }
+.nav-badge {
+  font-size: 9px; padding: 2px 7px;
+  background: rgba(168,85,247,0.12); border: 1px solid rgba(168,85,247,0.3);
+  border-radius: 20px; color: var(--accent); font-family: 'Space Mono', monospace;
+  letter-spacing: 1px;
+}
+.nav-links { display: flex; gap: 4px; margin-left: auto; }
+.nav-link {
+  padding: 6px 12px; border-radius: 8px;
+  font-size: 12px; color: var(--text2); text-decoration: none;
+  font-family: 'Space Mono', monospace; transition: all 0.2s;
+}
+.nav-link:hover { color: var(--text); background: var(--surface2); }
+.nav-cta {
+  padding: 7px 16px;
+  background: linear-gradient(135deg, var(--accent), #7c3aed);
+  border-radius: 8px; color: #fff; text-decoration: none;
+  font-size: 12px; font-weight: 700; font-family: 'Space Mono', monospace;
+  box-shadow: 0 2px 12px var(--accent-glow); transition: all 0.2s;
+}
+.nav-cta:hover { transform: translateY(-1px); box-shadow: 0 4px 20px var(--accent-glow); }
+
+/* ── LAYOUT ── */
+.layout { display: flex; padding-top: 58px; min-height: 100vh; }
+
+/* Sidebar TOC */
+.toc {
+  width: 240px; flex-shrink: 0;
+  position: sticky; top: 58px; height: calc(100vh - 58px);
+  overflow-y: auto; padding: 28px 16px;
+  border-right: 1px solid var(--border);
+  background: rgba(15,15,26,0.6);
+}
+.toc::-webkit-scrollbar { width: 2px; }
+.toc::-webkit-scrollbar-thumb { background: var(--border); }
+.toc-section { margin-bottom: 20px; }
+.toc-label {
+  font-size: 9px; color: var(--text3); text-transform: uppercase;
+  letter-spacing: 2px; font-family: 'Space Mono', monospace;
+  padding: 0 8px; margin-bottom: 6px;
+}
+.toc-item {
+  display: block; padding: 6px 10px; border-radius: 7px;
+  font-size: 12px; color: var(--text2); text-decoration: none;
+  font-family: 'Space Mono', monospace; transition: all 0.15s;
+  margin-bottom: 1px;
+}
+.toc-item:hover { color: var(--text); background: var(--surface2); }
+.toc-item.active { color: var(--accent); background: rgba(168,85,247,0.08); }
+
+/* ── CONTENT ── */
+.content { flex: 1; max-width: 820px; padding: 48px 48px 120px; }
+
+/* Hero */
+.doc-hero {
+  margin-bottom: 56px; padding-bottom: 48px;
+  border-bottom: 1px solid var(--border);
+}
+.doc-hero-tag {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 10px; font-family: 'Space Mono', monospace;
+  color: var(--accent2); background: rgba(34,211,238,0.08);
+  border: 1px solid rgba(34,211,238,0.2); border-radius: 20px;
+  padding: 4px 10px; margin-bottom: 18px;
+}
+.doc-hero h1 {
+  font-size: 44px; font-weight: 800; letter-spacing: -2px;
+  line-height: 1.1; margin-bottom: 14px;
+}
+.doc-hero h1 em { font-style: normal; color: var(--accent); }
+.doc-hero p {
+  font-size: 15px; color: var(--text2); line-height: 1.8;
+  max-width: 560px; margin-bottom: 24px;
+}
+.hero-pills { display: flex; gap: 8px; flex-wrap: wrap; }
+.hero-pill {
+  padding: 5px 12px; border-radius: 20px; font-size: 11px;
+  font-family: 'Space Mono', monospace; border: 1px solid var(--border);
+  color: var(--text2);
+}
+.hp-purple { border-color: rgba(168,85,247,0.3); color: var(--accent); background: rgba(168,85,247,0.06); }
+.hp-cyan { border-color: rgba(34,211,238,0.3); color: var(--accent2); background: rgba(34,211,238,0.06); }
+.hp-green { border-color: rgba(52,211,153,0.3); color: var(--green); background: rgba(52,211,153,0.06); }
+.hp-orange { border-color: rgba(251,146,60,0.3); color: var(--accent3); background: rgba(251,146,60,0.06); }
+
+/* Sections */
+.doc-section { margin-bottom: 56px; scroll-margin-top: 80px; }
+.section-tag {
+  display: inline-block; font-size: 9px; font-family: 'Space Mono', monospace;
+  color: var(--text3); text-transform: uppercase; letter-spacing: 2px;
+  margin-bottom: 10px;
+}
+.doc-section h2 {
+  font-size: 26px; font-weight: 800; letter-spacing: -0.5px;
+  margin-bottom: 16px; display: flex; align-items: center; gap: 10px;
+}
+.doc-section h3 {
+  font-size: 17px; font-weight: 700; margin: 28px 0 12px;
+  color: var(--accent2);
+}
+.doc-section p {
+  font-size: 14px; color: var(--text2); line-height: 1.85;
+  margin-bottom: 14px;
+}
+.doc-section p strong { color: var(--text); }
+
+/* Cards */
+.card-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin: 20px 0; }
+.card {
+  padding: 18px 20px; background: var(--surface);
+  border: 1px solid var(--border); border-radius: 14px;
+  transition: all 0.2s;
+}
+.card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 4px 20px rgba(168,85,247,0.1); }
+.card-icon { font-size: 22px; margin-bottom: 10px; }
+.card-title { font-size: 13px; font-weight: 700; margin-bottom: 6px; }
+.card-desc { font-size: 12px; color: var(--text2); line-height: 1.6; }
+
+/* Steps */
+.steps { display: flex; flex-direction: column; gap: 0; margin: 20px 0; }
+.step { display: flex; gap: 16px; position: relative; padding-bottom: 28px; }
+.step:last-child { padding-bottom: 0; }
+.step:last-child .step-line { display: none; }
+.step-num {
+  width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 800; position: relative; z-index: 1;
+}
+.step-line {
+  position: absolute; left: 15px; top: 32px; bottom: 0;
+  width: 2px; background: var(--border);
+}
+.step-body { flex: 1; padding-top: 5px; }
+.step-title { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+.step-desc { font-size: 13px; color: var(--text2); line-height: 1.7; }
+
+/* Code blocks */
+.code-block {
+  background: #080810; border: 1px solid var(--border);
+  border-radius: 12px; padding: 18px 20px; margin: 16px 0;
+  font-family: 'Space Mono', monospace; font-size: 12px;
+  line-height: 1.7; color: var(--accent2); overflow-x: auto;
+  position: relative;
+}
+.code-block .cb-label {
+  position: absolute; top: 10px; right: 12px;
+  font-size: 9px; color: var(--text3); letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.code-block .kw { color: var(--accent); }
+.code-block .str { color: var(--green); }
+.code-block .cm { color: var(--text3); font-style: italic; }
+
+/* Callouts */
+.callout {
+  padding: 14px 18px; border-radius: 10px; margin: 16px 0;
+  display: flex; gap: 12px; align-items: flex-start;
+  font-size: 13px; line-height: 1.7;
+}
+.callout-info { background: rgba(34,211,238,0.06); border: 1px solid rgba(34,211,238,0.2); color: var(--accent2); }
+.callout-warn { background: rgba(251,146,60,0.06); border: 1px solid rgba(251,146,60,0.2); color: var(--accent3); }
+.callout-ok { background: rgba(52,211,153,0.06); border: 1px solid rgba(52,211,153,0.2); color: var(--green); }
+.callout-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+.callout-body { color: var(--text2); }
+.callout-body strong { color: inherit; }
+
+/* Model table */
+.model-table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 12px; }
+.model-table th {
+  background: var(--surface2); padding: 9px 14px;
+  border: 1px solid var(--border); font-weight: 700;
+  text-align: left; font-family: 'Space Mono', monospace;
+  font-size: 10px; color: var(--text2); text-transform: uppercase; letter-spacing: 0.5px;
+}
+.model-table td { padding: 9px 14px; border: 1px solid var(--border); color: var(--text2); }
+.model-table tr:hover td { background: var(--surface2); }
+.badge {
+  display: inline-block; padding: 2px 7px; border-radius: 4px;
+  font-size: 9px; font-family: 'Space Mono', monospace; font-weight: 700;
+}
+.badge-prod { background: rgba(52,211,153,0.12); color: var(--green); border: 1px solid rgba(52,211,153,0.2); }
+.badge-prev { background: rgba(251,146,60,0.12); color: var(--accent3); border: 1px solid rgba(251,146,60,0.2); }
+
+/* Mode pills table */
+.mode-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 10px; margin: 16px 0; }
+.mode-card {
+  padding: 14px 16px; background: var(--surface); border: 1px solid var(--border);
+  border-radius: 10px;
+}
+.mode-card-top { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+.mode-name { font-size: 12px; font-weight: 700; }
+.mode-desc { font-size: 11px; color: var(--text3); line-height: 1.5; }
+
+/* Divider */
+.doc-divider { height: 1px; background: var(--border); margin: 48px 0; }
+
+/* ── INSPIRATION SECTION ── */
+.inspiration {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 48px 44px;
+  position: relative;
+  overflow: hidden;
+  margin-top: 60px;
+}
+.inspiration::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--accent), var(--accent2), var(--pink), var(--accent3));
+}
+.inspiration::after {
+  content: '"';
+  position: absolute; right: 32px; top: 20px;
+  font-size: 160px; font-weight: 800;
+  color: var(--accent); opacity: 0.04;
+  font-family: 'Syne', sans-serif; line-height: 1;
+}
+.insp-tag {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 9px; font-family: 'Space Mono', monospace;
+  color: var(--pink); background: rgba(244,114,182,0.08);
+  border: 1px solid rgba(244,114,182,0.2); border-radius: 20px;
+  padding: 4px 10px; margin-bottom: 22px; letter-spacing: 1px; text-transform: uppercase;
+}
+.insp-tag::before { content: '✦'; }
+.inspiration h2 {
+  font-size: 32px; font-weight: 800; letter-spacing: -1px;
+  line-height: 1.2; margin-bottom: 20px;
+}
+.inspiration h2 em { font-style: normal; color: var(--accent); }
+.inspiration h2 span { color: var(--accent2); }
+.insp-body {
+  font-size: 15px; color: var(--text2); line-height: 2;
+  max-width: 640px; position: relative; z-index: 1;
+}
+.insp-body p { margin-bottom: 18px; }
+.insp-body strong { color: var(--text); }
+.insp-body .highlight { color: var(--accent); font-weight: 700; }
+.insp-body .highlight2 { color: var(--accent2); font-weight: 700; }
+.insp-body .highlight3 { color: var(--pink); font-weight: 700; }
+
+.age-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  margin-top: 28px; padding: 14px 20px;
+  background: linear-gradient(135deg, rgba(168,85,247,0.1), rgba(34,211,238,0.06));
+  border: 1px solid rgba(168,85,247,0.25); border-radius: 14px;
+  font-size: 13px; color: var(--text);
+}
+.age-num {
+  font-size: 28px; font-weight: 800; color: var(--accent);
+  line-height: 1; font-family: 'Space Mono', monospace;
+}
+.age-label { font-size: 11px; color: var(--text2); line-height: 1.4; }
+.age-label strong { color: var(--text); display: block; font-size: 13px; }
+
+.dream-list {
+  margin: 24px 0; display: flex; flex-direction: column; gap: 10px;
+}
+.dream-item {
+  display: flex; align-items: flex-start; gap: 10px;
+  font-size: 14px; color: var(--text2); line-height: 1.6;
+}
+.dream-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--accent); flex-shrink: 0; margin-top: 8px;
+}
+
+.insp-sign {
+  margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--border);
+  display: flex; align-items: center; gap: 14px;
+}
+.sign-avatar {
+  width: 44px; height: 44px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; font-weight: 800;
+}
+.sign-name { font-size: 14px; font-weight: 700; }
+.sign-title { font-size: 11px; color: var(--text3); font-family: 'Space Mono', monospace; margin-top: 2px; }
+
+/* Footer */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 28px 48px;
+  display: flex; align-items: center; justify-content: space-between;
+  font-size: 11px; color: var(--text3); font-family: 'Space Mono', monospace;
+  margin-top: 60px;
+}
+footer a { color: var(--accent2); text-decoration: none; }
+footer a:hover { text-decoration: underline; }
+
+/* Responsive */
+@media (max-width: 900px) {
+  .toc { display: none; }
+  .content { padding: 32px 24px 80px; }
+  .card-grid { grid-template-columns: 1fr; }
+  .mode-grid { grid-template-columns: 1fr; }
+  .doc-hero h1 { font-size: 32px; }
+}
+</style>
+</head>
+<body>
+
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+<div class="orb orb-3"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="/" class="nav-logo">
+    <div class="nav-mark">🌑</div>
+    <div class="nav-name"><em>Drk</em>Chat</div>
+  </a>
+  <span class="nav-badge">DOCS</span>
+  <div class="nav-links">
+    <a href="#quickstart" class="nav-link">Quickstart</a>
+    <a href="#features" class="nav-link">Features</a>
+    <a href="#models" class="nav-link">Models</a>
+    <a href="#setup" class="nav-link">Setup</a>
+    <a href="#inspiration" class="nav-link">About</a>
+  </div>
+  <a href="/" class="nav-cta">→ Open App</a>
+</nav>
+
+<div class="layout">
+  <!-- TOC -->
+  <aside class="toc">
+    <div class="toc-section">
+      <div class="toc-label">Getting Started</div>
+      <a href="#intro" class="toc-item">Introduction</a>
+      <a href="#quickstart" class="toc-item">Quick Start</a>
+      <a href="#auth" class="toc-item">Authentication</a>
+    </div>
+    <div class="toc-section">
+      <div class="toc-label">Features</div>
+      <a href="#features" class="toc-item">Chat Modes</a>
+      <a href="#models" class="toc-item">AI Models</a>
+      <a href="#history" class="toc-item">Chat History</a>
+      <a href="#apikey" class="toc-item">API Keys</a>
+    </div>
+    <div class="toc-section">
+      <div class="toc-label">Self-Hosting</div>
+      <a href="#setup" class="toc-item">Overview</a>
+      <a href="#firebase" class="toc-item">Firebase Setup</a>
+      <a href="#worker" class="toc-item">Cloudflare Worker</a>
+      <a href="#deploy" class="toc-item">Deploy</a>
+    </div>
+    <div class="toc-section">
+      <div class="toc-label">About</div>
+      <a href="#inspiration" class="toc-item">✦ Inspiration</a>
+    </div>
+  </aside>
+
+  <!-- CONTENT -->
+  <main class="content">
+
+    <!-- HERO -->
+    <div class="doc-hero" id="intro">
+      <div class="doc-hero-tag">📖 Documentation v1.0</div>
+      <h1><em>Drk</em>Chat<br>Docs & Guide</h1>
+      <p>Everything you need to know about DrkChat — from signing in for the first time to self-hosting your own instance with Firebase and Cloudflare Workers.</p>
+      <div class="hero-pills">
+        <span class="hero-pill hp-purple">⚡ Groq-powered</span>
+        <span class="hero-pill hp-cyan">🔐 Firebase Auth</span>
+        <span class="hero-pill hp-green">☁️ Cloudflare Workers</span>
+        <span class="hero-pill hp-orange">🆓 Free to use</span>
+      </div>
+    </div>
+
+    <!-- QUICKSTART -->
+    <div class="doc-section" id="quickstart">
+      <span class="section-tag">01 — Getting Started</span>
+      <h2>🚀 Quick Start</h2>
+      <p>DrkChat is ready to use out of the box — no downloads, no installs. Just open the app and start chatting. Your first <strong>15 messages are completely free</strong> every day, no account required.</p>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-line"></div>
+          <div class="step-body">
+            <div class="step-title">Open the App</div>
+            <div class="step-desc">Head to <strong>ltnproject.qzz.io</strong> — the app loads instantly in your browser. No installation needed.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-line"></div>
+          <div class="step-body">
+            <div class="step-title">Sign In or Try it Free</div>
+            <div class="step-desc">Sign in with Google, GitHub, or email to sync your chat history. Or skip — you get 15 free messages per day without an account.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-line"></div>
+          <div class="step-body">
+            <div class="step-title">Pick a Mode & Model</div>
+            <div class="step-desc">Choose a chat mode from the bottom bar (Chat, Code, Translate, etc.) and pick your AI model from the sidebar.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-line"></div>
+          <div class="step-body">
+            <div class="step-title">Start Chatting</div>
+            <div class="step-desc">Type your message and hit <strong>Enter</strong> to send. Use <strong>Shift+Enter</strong> for a new line. Press <strong>↑</strong> to recall your last message.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout callout-info">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body"><strong>Pro tip:</strong> Once your 15 free messages run out, grab a free Groq API key at <strong>console.groq.com</strong> — it's completely free and takes under a minute. Paste it in the sidebar to get unlimited messages.</div>
+      </div>
+    </div>
+
+    <!-- AUTH -->
+    <div class="doc-section" id="auth">
+      <span class="section-tag">02 — Authentication</span>
+      <h2>🔐 Signing In</h2>
+      <p>DrkChat uses <strong>Firebase Authentication</strong> to keep your chat history synced across all your devices. You have three ways to sign in:</p>
+
+      <div class="card-grid">
+        <div class="card">
+          <div class="card-icon">🔵</div>
+          <div class="card-title">Google</div>
+          <div class="card-desc">One click — uses your existing Google account. Fastest way to get started. Your profile photo appears in the chat.</div>
+        </div>
+        <div class="card">
+          <div class="card-icon">⚫</div>
+          <div class="card-title">GitHub</div>
+          <div class="card-desc">Perfect for developers. Authenticate with your GitHub account in one click.</div>
+        </div>
+        <div class="card">
+          <div class="card-icon">📧</div>
+          <div class="card-title">Email & Password</div>
+          <div class="card-desc">Create an account with your email. Use "Forgot password?" to reset it anytime via email link.</div>
+        </div>
+        <div class="card">
+          <div class="card-icon">👤</div>
+          <div class="card-title">Guest Mode</div>
+          <div class="card-desc">Skip sign-in entirely. Get 15 free messages per day. History isn't saved across sessions.</div>
+        </div>
+      </div>
+
+      <div class="callout callout-ok">
+        <div class="callout-icon">✅</div>
+        <div class="callout-body"><strong>Privacy:</strong> Your chat history is private — only you can see it. Each user's sessions are stored separately in Firestore with security rules that prevent anyone else from accessing your data.</div>
+      </div>
+    </div>
+
+    <!-- FEATURES / MODES -->
+    <div class="doc-section" id="features">
+      <span class="section-tag">03 — Features</span>
+      <h2>💬 Chat Modes</h2>
+      <p>DrkChat has 8 built-in modes that automatically reframe your prompt for the best AI response. Switch modes from the bar above the input box.</p>
+
+      <div class="mode-grid">
+        <div class="mode-card">
+          <div class="mode-card-top"><span>💬</span><div class="mode-name">Chat</div></div>
+          <div class="mode-desc">Standard conversation. Ask anything — no prompt modification.</div>
+        </div>
+        <div class="mode-card">
+          <div class="mode-card-top"><span>🌐</span><div class="mode-name">Translate</div></div>
+          <div class="mode-desc">Translates your text into the target language (set in Settings) with cultural context.</div>
+        </div>
+        <div class="mode-card">
+          <div class="mode-card-top"><span>📝</span><div class="mode-name">Summarize</div></div>
+          <div class="mode-desc">Condenses long text into key points and structured takeaways.</div>
+        </div>
+        <div class="mode-card">
+          <div class="mode-card-top"><span>💻</span><div class="mode-name">Code</div></div>
+          <div class="mode-desc">Activates senior-developer mode — clean, commented, production-ready code.</div>
+        </div>
+        <div class="mode-card">
+          <div class="mode-card-top"><span>⚖️</span><div class="mode-name">Debate</div></div>
+          <div class="mode-desc">Presents balanced FOR and AGAINST arguments on any topic.</div>
+        </div>
+        <div class="mode-card">
+          <div class="mode-card-top"><span>🧒</span><div class="mode-name">ELI5</div></div>
+          <div class="mode-desc">Explains anything as if you're 5 years old. Great for learning complex topics.</div>
+        </div>
+        <div class="mode-card">
+          <div class="mode-card-top"><span>✨</span><div class="mode-name">Improve</div></div>
+          <div class="mode-desc">Takes your text and rewrites it to be more clear, effective, and engaging.</div>
+        </div>
+        <div class="mode-card">
+          <div class="mode-card-top"><span>🔍</span><div class="mode-name">Critique</div></div>
+          <div class="mode-desc">Gives honest, detailed, actionable feedback with specific improvements.</div>
+        </div>
+      </div>
+
+      <h3>Message Actions</h3>
+      <p>Hover over any message to reveal action buttons:</p>
+      <div class="callout callout-info">
+        <div class="callout-icon">ℹ️</div>
+        <div class="callout-body">
+          <strong>📋 Copy</strong> — copies the full message text<br>
+          <strong>🔄 Regen</strong> — regenerates the AI response<br>
+          <strong>🔊 Speak</strong> — reads the message aloud (TTS)<br>
+          <strong>🌐 Translate</strong> — translates inline into your target language<br>
+          <strong>✏️ Edit</strong> — (on your messages) puts text back in the input box
+        </div>
+      </div>
+    </div>
+
+    <!-- MODELS -->
+    <div class="doc-section" id="models">
+      <span class="section-tag">04 — AI Models</span>
+      <h2>🤖 Available Models</h2>
+      <p>DrkChat runs on <strong>Groq's ultra-fast inference API</strong>. All models run at hundreds of tokens per second. Pick the model that fits your task from the sidebar dropdown.</p>
+
+      <table class="model-table">
+        <thead>
+          <tr>
+            <th>Model</th>
+            <th>Speed</th>
+            <th>Best For</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>llama-3.3-70b-versatile</strong></td>
+            <td>280 t/s</td>
+            <td>General use, reasoning, writing</td>
+            <td><span class="badge badge-prod">Production</span></td>
+          </tr>
+          <tr>
+            <td><strong>llama-3.1-8b-instant</strong></td>
+            <td>560 t/s</td>
+            <td>Fast responses, simple tasks</td>
+            <td><span class="badge badge-prod">Production</span></td>
+          </tr>
+          <tr>
+            <td><strong>gpt-oss-120b</strong></td>
+            <td>500 t/s</td>
+            <td>Complex reasoning, best quality</td>
+            <td><span class="badge badge-prod">Production</span></td>
+          </tr>
+          <tr>
+            <td><strong>gpt-oss-20b</strong></td>
+            <td>1000 t/s</td>
+            <td>Fastest possible responses</td>
+            <td><span class="badge badge-prod">Production</span></td>
+          </tr>
+          <tr>
+            <td><strong>llama-4-scout-17b</strong></td>
+            <td>750 t/s</td>
+            <td>Image understanding + chat 🖼️</td>
+            <td><span class="badge badge-prev">Preview</span></td>
+          </tr>
+          <tr>
+            <td><strong>qwen3-32b</strong></td>
+            <td>400 t/s</td>
+            <td>Multilingual, coding, reasoning</td>
+            <td><span class="badge badge-prev">Preview</span></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="callout callout-warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body"><strong>Image uploads</strong> only work with <strong>llama-4-scout-17b</strong>. If you attach an image with another model selected, the app will remind you to switch.</div>
+      </div>
+    </div>
+
+    <!-- HISTORY & SETTINGS -->
+    <div class="doc-section" id="history">
+      <span class="section-tag">05 — History & Settings</span>
+      <h2>📚 Chat History & Settings</h2>
+
+      <h3>Chat History</h3>
+      <p>When signed in, all your conversations are automatically saved to Firebase Firestore and synced across devices. Your history appears in the left sidebar, sorted by most recent.</p>
+      <p>Click any session to load it. Hover and click <strong>✕</strong> to delete it permanently. Click <strong>✦ New Chat</strong> to start fresh.</p>
+
+      <h3>Settings Panel</h3>
+      <p>Click the <strong>⚙️</strong> button in the top bar to open Settings:</p>
+      <div class="callout callout-info">
+        <div class="callout-icon">⚙️</div>
+        <div class="callout-body">
+          <strong>Temperature</strong> — controls creativity. 0 = focused, 2 = very random<br>
+          <strong>Max Tokens</strong> — maximum response length (512 to 8192)<br>
+          <strong>Translate To</strong> — default target language for translate mode<br>
+          <strong>Response Style</strong> — Balanced, Concise, Detailed, Academic, Casual, Technical<br>
+          <strong>Streaming</strong> — toggle real-time token streaming on/off
+        </div>
+      </div>
+
+      <h3>System Prompt / Persona</h3>
+      <p>Click <strong>🧠</strong> to set a custom system prompt or pick a preset persona (Expert, Coder, Tutor, Dark Writer, Analyst, Critic, Translator). The system prompt shapes how the AI behaves for your entire session.</p>
+    </div>
+
+    <!-- API KEYS -->
+    <div class="doc-section" id="apikey">
+      <span class="section-tag">06 — API Keys</span>
+      <h2>🔑 Using Your Own API Key</h2>
+      <p>DrkChat gives you <strong>15 free messages per day</strong> using a shared Groq key via Cloudflare Worker proxy. Once you hit the limit, you need your own key.</p>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-line"></div>
+          <div class="step-body">
+            <div class="step-title">Go to console.groq.com</div>
+            <div class="step-desc">Create a free Groq account. It takes under 60 seconds.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-line"></div>
+          <div class="step-body">
+            <div class="step-title">Create an API Key</div>
+            <div class="step-desc">In the Groq Console, go to <strong>API Keys → Create API Key</strong>. Copy the key — it starts with <code style="color:var(--accent2);font-family:'Space Mono',monospace">gsk_</code>.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-line"></div>
+          <div class="step-body">
+            <div class="step-title">Paste it in DrkChat</div>
+            <div class="step-desc">In the sidebar at the bottom, paste your key into the <strong>Your API Key</strong> field. It's saved in your browser — never sent to any server except Groq directly.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout callout-ok">
+        <div class="callout-icon">🔒</div>
+        <div class="callout-body"><strong>Your key is secure.</strong> When you use your own key, requests go directly from your browser to Groq — bypassing the proxy entirely. The key is stored in localStorage and never leaves your device.</div>
+      </div>
+    </div>
+
+    <div class="doc-divider"></div>
+
+    <!-- SELF HOSTING -->
+    <div class="doc-section" id="setup">
+      <span class="section-tag">07 — Self Hosting</span>
+      <h2>🛠️ Self-Hosting Overview</h2>
+      <p>Want to run your own DrkChat instance? You need three things: a <strong>Firebase project</strong> (auth + database), a <strong>Cloudflare Worker</strong> (API proxy), and somewhere to host the HTML file.</p>
+
+      <div class="card-grid">
+        <div class="card">
+          <div class="card-icon">🔥</div>
+          <div class="card-title">Firebase</div>
+          <div class="card-desc">Authentication (Google, GitHub, Email) + Firestore for chat history storage. Free tier is very generous.</div>
+        </div>
+        <div class="card">
+          <div class="card-icon">☁️</div>
+          <div class="card-title">Cloudflare Worker</div>
+          <div class="card-desc">Proxies API requests to Groq so your API key stays secret. Free tier handles 100k requests/day.</div>
+        </div>
+        <div class="card">
+          <div class="card-icon">⚡</div>
+          <div class="card-title">Groq API</div>
+          <div class="card-desc">The actual AI engine. Create a free account at console.groq.com and get an API key.</div>
+        </div>
+        <div class="card">
+          <div class="card-icon">🌐</div>
+          <div class="card-title">Any Hosting</div>
+          <div class="card-desc">The app is a single HTML file. Host it anywhere — GitHub Pages, Netlify, your own server, Firebase Hosting.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FIREBASE SETUP -->
+    <div class="doc-section" id="firebase">
+      <span class="section-tag">08 — Firebase Setup</span>
+      <h2>🔥 Firebase Setup</h2>
+
+      <h3>Create a Project</h3>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-line"></div>
+          <div class="step-body">
+            <div class="step-title">Go to console.firebase.google.com</div>
+            <div class="step-desc">Click <strong>Add Project</strong>, give it a name, and follow the setup wizard.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-line"></div>
+          <div class="step-body">
+            <div class="step-title">Enable Authentication</div>
+            <div class="step-desc">Go to <strong>Authentication → Sign-in method</strong> and enable Google, GitHub, and Email/Password. For GitHub you'll need a GitHub OAuth App.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-line"></div>
+          <div class="step-body">
+            <div class="step-title">Add Your Domain</div>
+            <div class="step-desc">Go to <strong>Authentication → Settings → Authorized domains</strong> and add your custom domain (e.g. <code style="color:var(--accent2);font-family:'Space Mono',monospace">yourdomain.com</code>). Do NOT include https://.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-line"></div>
+          <div class="step-body">
+            <div class="step-title">Create Firestore Database</div>
+            <div class="step-desc">Go to <strong>Firestore Database → Create database</strong>. Start in production mode. Set these security rules:</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="code-block">
+        <span class="cb-label">firestore.rules</span>
+        <span class="kw">rules_version</span> = <span class="str">'2'</span>;<br>
+        <span class="kw">service</span> cloud.firestore {<br>
+        &nbsp;&nbsp;<span class="kw">match</span> /databases/{database}/documents {<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">match</span> /drkchat_sessions/{sessionId} {<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm">// Only owner can read/write/delete</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">allow</span> read, write, delete: <span class="kw">if</span> request.auth != <span class="kw">null</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&amp;&amp; request.auth.uid == resource.data.ownerId;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm">// Only allow creating with your own ownerId</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">allow</span> create: <span class="kw">if</span> request.auth != <span class="kw">null</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&amp;&amp; request.resource.data.ownerId == request.auth.uid;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+        &nbsp;&nbsp;}<br>
+        }
+      </div>
+
+      <h3>Update authDomain for Custom Domains</h3>
+      <p>If you host on a custom domain, set <code style="color:var(--accent2);font-family:'Space Mono',monospace">authDomain</code> to your domain in the Firebase config inside the HTML file:</p>
+      <div class="code-block">
+        <span class="cb-label">drkchat.html</span>
+        <span class="kw">const</span> FB = initializeApp({<br>
+        &nbsp;&nbsp;apiKey: <span class="str">"your-api-key"</span>,<br>
+        &nbsp;&nbsp;authDomain: <span class="str">"yourdomain.com"</span>, <span class="cm">// ← your custom domain</span><br>
+        &nbsp;&nbsp;projectId: <span class="str">"your-project-id"</span>,<br>
+        &nbsp;&nbsp;<span class="cm">// ... rest of config</span><br>
+        });
+      </div>
+    </div>
+
+    <!-- CLOUDFLARE WORKER -->
+    <div class="doc-section" id="worker">
+      <span class="section-tag">09 — Cloudflare Worker</span>
+      <h2>☁️ Cloudflare Worker</h2>
+      <p>The Worker acts as a secure proxy between your app and the Groq API — hiding your API key from users while enabling the shared 15-message free tier.</p>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-line"></div>
+          <div class="step-body">
+            <div class="step-title">Go to workers.cloudflare.com</div>
+            <div class="step-desc">Create a free account, click <strong>Create Application → Create Worker</strong>.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-line"></div>
+          <div class="step-body">
+            <div class="step-title">Paste the Worker Code</div>
+            <div class="step-desc">Replace the default code with the worker script below and click Deploy.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-line"></div>
+          <div class="step-body">
+            <div class="step-title">Add Secret</div>
+            <div class="step-desc">Go to <strong>Settings → Variables → Secrets</strong> and add <code style="color:var(--accent2);font-family:'Space Mono',monospace">GROQ_API_KEY</code> with your Groq key.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-line"></div>
+          <div class="step-body">
+            <div class="step-title">Update PROXY_URL in HTML</div>
+            <div class="step-desc">Copy your Worker URL (e.g. <code style="color:var(--accent2);font-family:'Space Mono',monospace">https://my-worker.name.workers.dev</code>) and paste it as <code style="color:var(--accent2);font-family:'Space Mono',monospace">PROXY_URL</code> in the HTML.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="code-block">
+        <span class="cb-label">worker.js</span>
+        <span class="kw">export default</span> {<br>
+        &nbsp;&nbsp;<span class="kw">async</span> fetch(request, env) {<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">const</span> cors = {<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="str">'Access-Control-Allow-Origin'</span>: <span class="str">'*'</span>,<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="str">'Access-Control-Allow-Methods'</span>: <span class="str">'POST, OPTIONS'</span>,<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="str">'Access-Control-Allow-Headers'</span>: <span class="str">'Content-Type'</span>,<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;};<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">if</span> (request.method === <span class="str">'OPTIONS'</span>)<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">return new</span> Response(<span class="kw">null</span>, { headers: cors });<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">if</span> (request.method !== <span class="str">'POST'</span>)<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">return new</span> Response(<span class="str">'Not allowed'</span>, { status: <span class="str">405</span> });<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">const</span> body = <span class="kw">await</span> request.json();<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">const</span> res = <span class="kw">await</span> fetch(<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="str">'https://api.groq.com/openai/v1/chat/completions'</span>,<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ method: <span class="str">'POST'</span>, headers: { <span class="str">'Authorization'</span>: `Bearer ${env.GROQ_API_KEY}`, <span class="str">'Content-Type'</span>: <span class="str">'application/json'</span> }, body: JSON.stringify(body) }<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;);<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">const</span> data = <span class="kw">await</span> res.text();<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">return new</span> Response(data, { status: res.status, headers: { ...cors, <span class="str">'Content-Type'</span>: <span class="str">'application/json'</span> } });<br>
+        &nbsp;&nbsp;},<br>
+        };
+      </div>
+    </div>
+
+    <!-- DEPLOY -->
+    <div class="doc-section" id="deploy">
+      <span class="section-tag">10 — Deploy</span>
+      <h2>🌐 Deploying</h2>
+      <p>DrkChat is a <strong>single HTML file</strong> — just drop it anywhere that serves static files. Here are the most popular options:</p>
+
+      <div class="card-grid">
+        <div class="card">
+          <div class="card-icon">🔥</div>
+          <div class="card-title">Firebase Hosting</div>
+          <div class="card-desc">Run <code style="font-family:'Space Mono',monospace;font-size:11px;color:var(--accent2)">firebase deploy</code> after setting up Firebase CLI. Custom domain support built in.</div>
+        </div>
+        <div class="card">
+          <div class="card-icon">🌿</div>
+          <div class="card-title">Netlify</div>
+          <div class="card-desc">Drag and drop your HTML file at netlify.com/drop. Instant deploy with a free subdomain.</div>
+        </div>
+        <div class="card">
+          <div class="card-icon">▲</div>
+          <div class="card-title">Vercel</div>
+          <div class="card-desc">Push to GitHub and connect to Vercel for automatic deploys on every commit.</div>
+        </div>
+        <div class="card">
+          <div class="card-icon">📄</div>
+          <div class="card-title">GitHub Pages</div>
+          <div class="card-desc">Rename to <code style="font-family:'Space Mono',monospace;font-size:11px;color:var(--accent2)">index.html</code>, push to a repo, enable Pages in Settings. Free forever.</div>
+        </div>
+      </div>
+
+      <div class="callout callout-warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body"><strong>Remember:</strong> After deploying to a new domain, always add that domain to Firebase's <strong>Authorized Domains</strong> list and update <code style="font-family:'Space Mono',monospace">authDomain</code> in the HTML config.</div>
+      </div>
+    </div>
+
+    <div class="doc-divider"></div>
+
+    <!-- INSPIRATION -->
+    <div class="inspiration" id="inspiration">
+      <div class="insp-tag">From the creator</div>
+      <h2>Dream it.<br><em>Build it.</em><br><span>Ship it.</span></h2>
+
+      <div class="insp-body">
+        <p>
+          If you've made it to the end of this documentation — thank you. But before you close this tab, I want to say something that I really mean.
+        </p>
+        <p>
+          <strong>If you love building things, if you dream about making your own app, your own tool, your own little corner of the internet — just start.</strong> Don't wait until you think you're "ready." Don't wait until you're older, or until you know more, or until someone gives you permission.
+        </p>
+        <p>
+          The world is full of people who <span class="highlight">talk</span> about building things. Be the kind of person who actually <span class="highlight2">builds</span> them. It doesn't have to be perfect. It doesn't have to be big. It just has to be <span class="highlight3">yours</span>.
+        </p>
+
+        <div class="dream-list">
+          <div class="dream-item">
+            <div class="dream-dot"></div>
+            <span>Every expert was once a beginner who refused to give up.</span>
+          </div>
+          <div class="dream-item">
+            <div class="dream-dot"></div>
+            <span>Google it. Break it. Fix it. That's how you actually learn.</span>
+          </div>
+          <div class="dream-item">
+            <div class="dream-dot"></div>
+            <span>Your age, your background, your resources — none of that decides what you can build.</span>
+          </div>
+          <div class="dream-item">
+            <div class="dream-dot"></div>
+            <span>The best time to start was yesterday. The second best time is right now.</span>
+          </div>
+        </div>
+
+        <p>
+          I'm not saying this as some inspirational quote from a poster. I'm saying it because I know what it's like to have a big idea and wonder if someone like you is allowed to build it.
+        </p>
+        <p>
+          <strong>You are. You really are.</strong>
+        </p>
+
+        <div class="age-badge">
+          <div class="age-num">11</div>
+          <div class="age-label">
+            <strong>Built by an 11-year-old</strong>
+            DrkChat was made by a real kid who just really loves building things.
+          </div>
+        </div>
+
+        <p style="margin-top:24px">
+          If an 11-year-old can build an AI chat app with Firebase authentication, Cloudflare Workers, streaming responses, and a full documentation site — then whatever you're dreaming about building? <span class="highlight">You can build it too.</span>
+        </p>
+        <p>
+          Keep dreaming. Keep building. The internet needs more people brave enough to actually ship their ideas.
+        </p>
+      </div>
+
+      <div class="insp-sign">
+        <div class="sign-avatar">🌑</div>
+        <div>
+          <div class="sign-name">The DrkChat Creator</div>
+          <div class="sign-title">Age 11 · Builder · Dreamer · ltnproject.qzz.io</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+      <div>© 2025 DrkChat · Built by an 11-year-old 🌑</div>
+      <div style="display:flex;gap:16px">
+        <a href="/">App</a>
+        <a href="https://console.groq.com" target="_blank">Groq</a>
+        <a href="https://firebase.google.com" target="_blank">Firebase</a>
+        <a href="https://workers.cloudflare.com" target="_blank">Cloudflare</a>
+      </div>
+    </footer>
+
+  </main>
+</div>
+
+<script>
+// Highlight active TOC item on scroll
+const sections = document.querySelectorAll('.doc-section, .doc-hero, .inspiration');
+const tocItems = document.querySelectorAll('.toc-item');
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      tocItems.forEach(item => item.classList.remove('active'));
+      const id = entry.target.id;
+      const active = document.querySelector(`.toc-item[href="#${id}"]`);
+      if (active) active.classList.add('active');
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+
+sections.forEach(s => s.id && observer.observe(s));
+</script>
+</body>
+</html>
