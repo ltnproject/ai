@@ -1254,6 +1254,7 @@ const sk = localStorage.getItem('drk_own_key') || '';
 if (sk) { document.getElementById('ownKeyInput').value = sk; document.getElementById('ownKeyStatus').textContent = sk.startsWith('gsk_') ? '🟢' : '—'; }
 const ss = localStorage.getItem('drk_settings'); if (ss) settings = { ...settings, ...JSON.parse(ss) };
 sysPrompt = localStorage.getItem('drk_sys') || ''; updateSysBtn(); updateApiPill();
+alert(window.location.origin);
 </script>
 </body>
 </html>
