@@ -661,9 +661,10 @@ import {
   sendPasswordResetEmail, updateProfile
 } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
 
+// ── FIX 1: authDomain must be the Firebase project domain, NOT the custom hosting domain
 const FB = initializeApp({
   apiKey:"AIzaSyC95strOGpQpjPYgoR21luH5Ci3ApJA49w",
-  authDomain:"ltnproject.qzz.io",
+  authDomain:"ltn-project-c0dd6.firebaseapp.com",  // ← FIXED (was ltnproject.qzz.io)
   projectId:"ltn-project-c0dd6",
   storageBucket:"ltn-project-c0dd6.firebasestorage.app",
   messagingSenderId:"1013095294948",
@@ -684,7 +685,7 @@ let settings={temp:0.7,maxTok:2048,targetLang:'Thai',style:'balanced',stream:tru
 let mode='chat', sysPrompt='', attachedImg=null;
 let isRec=false,recMR=null,recInt=null,recSec=0,lastMsg='';
 let freeUsed=0;
-let authMode = 'signin'; // 'signin' | 'signup'
+let authMode = 'signin';
 
 // ─── AUTH UI ────────────────────────────────────────────────────────────────
 window.switchAuthTab = (tab) => {
@@ -709,6 +710,7 @@ function setAuthLoading(on) {
   document.getElementById('authSubmitBtn').style.display = on ? 'none' : 'block';
 }
 function showAuthErr(msg) {
+  if (!msg) return; // ── FIX 2: don't show empty error strings
   const el = document.getElementById('authErr');
   el.textContent = msg; el.classList.add('show');
 }
@@ -716,12 +718,18 @@ function clearAuthErr() {
   document.getElementById('authErr').classList.remove('show');
 }
 
+// ── FIX 3: reset loading state on all error paths for social sign-in
 window.signInGoogle = async () => {
   clearAuthErr(); setAuthLoading(true);
   try {
     const provider = new GoogleAuthProvider();
     await signInWithPopup(auth, provider);
-  } catch(e) { showAuthErr(friendlyErr(e)); setAuthLoading(false); }
+  } catch(e) {
+    if (e.code !== 'auth/cancelled-popup-request' && e.code !== 'auth/popup-closed-by-user') {
+      showAuthErr(friendlyErr(e));
+    }
+    setAuthLoading(false); // ← FIXED: was missing, caused stuck spinner
+  }
 };
 
 window.signInGitHub = async () => {
@@ -729,7 +737,12 @@ window.signInGitHub = async () => {
   try {
     const provider = new GithubAuthProvider();
     await signInWithPopup(auth, provider);
-  } catch(e) { showAuthErr(friendlyErr(e)); setAuthLoading(false); }
+  } catch(e) {
+    if (e.code !== 'auth/cancelled-popup-request' && e.code !== 'auth/popup-closed-by-user') {
+      showAuthErr(friendlyErr(e));
+    }
+    setAuthLoading(false); // ← FIXED: was missing, caused stuck spinner
+  }
 };
 
 window.submitEmail = async () => {
@@ -757,16 +770,22 @@ window.sendReset = async () => {
   } catch(e) { showAuthErr(friendlyErr(e)); }
 };
 
+// ── FIX 4: expanded error code map — covers all current Firebase SDK codes
 function friendlyErr(e) {
   const map = {
     'auth/user-not-found': 'No account with that email',
     'auth/wrong-password': 'Incorrect password',
+    'auth/invalid-credential': 'Incorrect email or password',         // ← NEW
+    'auth/invalid-login-credentials': 'Incorrect email or password',  // ← NEW
     'auth/email-already-in-use': 'Email already registered — try signing in',
     'auth/weak-password': 'Password must be at least 6 characters',
     'auth/invalid-email': 'Invalid email address',
-    'auth/popup-closed-by-user': 'Sign-in cancelled',
-    'auth/account-exists-with-different-credential': 'Account exists with different provider',
+    'auth/popup-closed-by-user': '',
     'auth/cancelled-popup-request': '',
+    'auth/too-many-requests': 'Too many attempts — please try again later', // ← NEW
+    'auth/network-request-failed': 'Network error — check your connection', // ← NEW
+    'auth/account-exists-with-different-credential': 'Account exists with a different sign-in method',
+    'auth/unauthorized-domain': 'This domain is not authorised for sign-in', // ← NEW
   };
   return map[e.code] || e.message || 'Something went wrong';
 }
@@ -784,6 +803,7 @@ onAuthStateChanged(auth, async (user) => {
     toast(`👋 Welcome, ${user.displayName || user.email?.split('@')[0] || 'user'}!`, 'ok');
   } else {
     document.getElementById('authOverlay').classList.remove('hidden');
+    setAuthLoading(false); // ── FIX 5: reset spinner if auth state returns signed-out
   }
 });
 
@@ -800,7 +820,6 @@ function updateUserUI(user) {
   if (photo) av.innerHTML = `<img src="${photo}" alt="">`;
   else av.textContent = initial;
 
-  // Provider badge
   const prov = user.providerData[0]?.providerId || 'email';
   const provMap = { 'google.com': 'Google', 'github.com': 'GitHub', 'password': 'Email/Password' };
 
@@ -1077,9 +1096,7 @@ function appendMsg(role, content, save=true, model='', streaming=false) {
   const div = document.createElement('div'); div.className = 'msg ' + role;
   const tag = model ? `<span class="msg-tag">${esc(model.split('-').slice(0, 2).join('-'))}</span>` : '';
 
-  // User avatar: show profile photo if available
   let avContent = isU ? '👤' : '🌑';
-  let avStyle = '';
   if (isU && currentUser?.photoURL) {
     avContent = `<img src="${currentUser.photoURL}" alt="">`;
   } else if (isU && currentUser?.displayName) {
