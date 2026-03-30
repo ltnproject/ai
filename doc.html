@@ -3,12 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DrkChat Playground</title>
+<title>DrkChat — Docs & Guide</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
 <style>
 :root {
   --bg: #08080e;
@@ -26,262 +23,352 @@
   --green: #34d399;
   --red: #f87171;
   --pink: #f472b6;
-  --radius: 12px;
-  --radius-sm: 8px;
-  --radius-lg: 16px;
+  --yellow: #fbbf24;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
-html, body { height: 100%; }
-body { font-family: 'Syne', sans-serif; background: var(--bg); color: var(--text); height: 100vh; overflow: hidden; display: flex; position: relative; }
-body::before { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E"); pointer-events: none; z-index: 1000; opacity: 0.4; }
-.orb { position: fixed; border-radius: 50%; pointer-events: none; z-index: 0; filter: blur(80px); opacity: 0.1; }
-.orb-1 { width: 500px; height: 500px; background: var(--accent); top: -150px; left: -150px; animation: d1 22s ease-in-out infinite; }
-.orb-2 { width: 400px; height: 400px; background: var(--accent2); bottom: -120px; right: -100px; animation: d2 28s ease-in-out infinite; }
-.orb-3 { width: 280px; height: 280px; background: var(--pink); top: 40%; left: 40%; animation: d3 18s ease-in-out infinite; }
-@keyframes d1{0%,100%{transform:translate(0,0)}50%{transform:translate(60px,80px)}}
-@keyframes d2{0%,100%{transform:translate(0,0)}50%{transform:translate(-80px,-60px)}}
-@keyframes d3{0%,100%{transform:translate(0,0)}33%{transform:translate(40px,-60px)}66%{transform:translate(-40px,40px)}}
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Syne', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
 
-/* ── NAME MODAL ── */
-.name-overlay { position: fixed; inset: 0; z-index: 800; background: rgba(8,8,14,0.97); display: flex; align-items: center; justify-content: center; backdrop-filter: blur(12px); }
-.name-overlay.hidden { display: none; }
-.name-card { background: var(--surface); border: 1px solid var(--border); border-radius: 24px; padding: 40px 36px; width: 90%; max-width: 400px; animation: slideUp 0.35s cubic-bezier(0.4,0,0.2,1); position: relative; overflow: hidden; }
-.name-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--accent), var(--accent2), var(--pink)); }
-@keyframes slideUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
-.name-logo { display: flex; align-items: center; gap: 12px; margin-bottom: 28px; }
-.name-logo-mark { width: 44px; height: 44px; background: linear-gradient(135deg,var(--accent),var(--accent2)); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 22px; box-shadow: 0 0 24px var(--accent-glow); }
-.name-logo-text { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; }
-.name-logo-text em { font-style: normal; color: var(--accent); }
-.name-title { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 6px; }
-.name-sub { font-size: 12px; color: var(--text2); margin-bottom: 24px; font-family: 'Space Mono', monospace; line-height: 1.6; }
-.name-field { margin-bottom: 14px; }
-.name-lbl { display: block; font-size: 10px; color: var(--text2); font-weight: 700; margin-bottom: 5px; letter-spacing: 0.5px; }
-.name-input { width: 100%; padding: 10px 14px; background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text); font-family: 'Space Mono', monospace; font-size: 13px; outline: none; transition: all 0.2s; }
-.name-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); }
-.name-input::placeholder { color: var(--text3); }
-.name-submit { width: 100%; padding: 11px; background: linear-gradient(135deg, var(--accent), #7c3aed); border: none; border-radius: var(--radius-sm); color: #fff; font-family: 'Syne', sans-serif; font-weight: 800; font-size: 13px; cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 20px var(--accent-glow); }
-.name-submit:hover { transform: translateY(-1px); box-shadow: 0 6px 28px var(--accent-glow); }
+/* Grain */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: 1000; opacity: 0.4;
+}
 
-/* ── SIDEBAR ── */
-.sidebar { width: 270px; flex-shrink: 0; background: rgba(15,15,26,0.96); border-right: 1px solid var(--border); display: flex; flex-direction: column; position: relative; z-index: 10; backdrop-filter: blur(20px); transition: transform 0.3s cubic-bezier(0.4,0,0.2,1); }
-.sb-header { padding: 18px 18px 14px; border-bottom: 1px solid var(--border); }
-.logo { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
-.logo-mark { width: 38px; height: 38px; background: linear-gradient(135deg, var(--accent), var(--accent2)); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; box-shadow: 0 0 20px var(--accent-glow); }
-.logo-name { font-size: 19px; font-weight: 800; letter-spacing: -0.5px; }
-.logo-name em { font-style: normal; color: var(--accent); }
-.user-profile { display: flex; align-items: center; gap: 9px; padding: 9px 12px; background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius-sm); margin-bottom: 12px; cursor: pointer; transition: all 0.2s; position: relative; }
-.user-profile:hover { border-color: var(--accent); }
-.user-avatar { width: 30px; height: 30px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), var(--accent2)); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 800; flex-shrink: 0; }
-.user-info { flex: 1; min-width: 0; }
-.user-name { font-size: 12px; font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.user-sub { font-size: 9px; color: var(--text3); font-family: 'Space Mono', monospace; }
-.user-menu-arrow { font-size: 10px; color: var(--text3); }
-.user-dropdown { position: absolute; top: calc(100% + 5px); left: 0; right: 0; background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius-sm); z-index: 100; overflow: hidden; display: none; box-shadow: 0 8px 32px rgba(0,0,0,0.4); }
-.user-dropdown.open { display: block; animation: slideUp 0.15s ease; }
-.ud-item { padding: 9px 13px; font-size: 11px; cursor: pointer; display: flex; align-items: center; gap: 8px; color: var(--text2); font-family: 'Space Mono', monospace; transition: background 0.15s; }
-.ud-item:hover { background: var(--surface3); color: var(--text); }
-.ud-sep { height: 1px; background: var(--border); }
-.usage-meter { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 10px 12px; margin-bottom: 12px; }
-.usage-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
-.usage-label { font-size: 10px; color: var(--text2); font-family: 'Space Mono', monospace; text-transform: uppercase; letter-spacing: 1px; }
-.usage-count { font-size: 11px; font-family: 'Space Mono', monospace; color: var(--text); }
-.usage-count .used { color: var(--accent); font-weight: 700; }
-.usage-bar-bg { height: 4px; background: var(--surface3); border-radius: 2px; overflow: hidden; }
-.usage-bar-fill { height: 100%; border-radius: 2px; background: linear-gradient(90deg, var(--accent), var(--accent2)); transition: width 0.4s ease; }
-.usage-note { font-size: 10px; color: var(--text3); margin-top: 6px; font-family: 'Space Mono', monospace; line-height: 1.5; }
-.new-chat-btn { width: 100%; padding: 10px 14px; background: linear-gradient(135deg, var(--accent), #7c3aed); border: none; border-radius: var(--radius-sm); color: #fff; font-family: 'Syne', sans-serif; font-weight: 700; font-size: 13px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.2s; box-shadow: 0 2px 12px var(--accent-glow); }
-.new-chat-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 20px var(--accent-glow); }
-.sb-section { padding: 10px 18px; border-bottom: 1px solid var(--border); }
-.sb-label { font-size: 9px; color: var(--text3); text-transform: uppercase; letter-spacing: 1.8px; margin-bottom: 7px; font-family: 'Space Mono', monospace; }
-.model-select { width: 100%; padding: 7px 10px; background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text); font-family: 'Space Mono', monospace; font-size: 10px; cursor: pointer; outline: none; transition: border-color 0.2s; }
-.model-select:focus { border-color: var(--accent); }
-.chip-grid { display: flex; flex-wrap: wrap; gap: 5px; }
-.chip { padding: 4px 9px; border-radius: 20px; font-size: 10px; font-weight: 700; cursor: pointer; border: 1px solid transparent; transition: all 0.18s; font-family: 'Space Mono', monospace; }
-.c-translate { color: var(--accent2); background: rgba(34,211,238,0.08); border-color: rgba(34,211,238,0.15); }
-.c-translate:hover { background: rgba(34,211,238,0.18); border-color: var(--accent2); }
-.c-code { color: var(--accent3); background: rgba(251,146,60,0.08); border-color: rgba(251,146,60,0.15); }
-.c-code:hover { background: rgba(251,146,60,0.18); border-color: var(--accent3); }
-.c-sum { color: var(--green); background: rgba(52,211,153,0.08); border-color: rgba(52,211,153,0.15); }
-.c-sum:hover { background: rgba(52,211,153,0.18); border-color: var(--green); }
-.c-eli5 { color: var(--pink); background: rgba(244,114,182,0.08); border-color: rgba(244,114,182,0.15); }
-.c-eli5:hover { background: rgba(244,114,182,0.18); border-color: var(--pink); }
-.history-wrap { flex: 1; overflow-y: auto; padding: 10px 10px; }
-.history-wrap::-webkit-scrollbar { width: 2px; }
-.history-wrap::-webkit-scrollbar-thumb { background: var(--border); }
-.hist-day { font-size: 9px; color: var(--text3); text-transform: uppercase; letter-spacing: 1.5px; padding: 6px 8px 4px; font-family: 'Space Mono', monospace; }
-.hist-item { padding: 7px 10px; border-radius: var(--radius-sm); cursor: pointer; margin-bottom: 2px; transition: background 0.15s; display: flex; align-items: center; gap: 8px; position: relative; }
-.hist-item:hover { background: var(--surface2); }
-.hist-item.cur { background: var(--surface3); border: 1px solid var(--border); }
-.hist-icon { font-size: 11px; flex-shrink: 0; }
-.hist-text { font-size: 11px; color: var(--text2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; }
-.hist-del { display: none; background: none; border: none; cursor: pointer; color: var(--red); font-size: 11px; padding: 2px 4px; border-radius: 3px; }
-.hist-item:hover .hist-del { display: block; }
-.hist-del:hover { background: rgba(248,113,113,0.1); }
-.own-key-wrap { padding: 12px 18px; border-top: 1px solid var(--border); }
-.key-input-row { position: relative; }
-.key-input { width: 100%; padding: 8px 30px 8px 10px; background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text); font-family: 'Space Mono', monospace; font-size: 10px; outline: none; transition: border-color 0.2s; }
-.key-input:focus { border-color: var(--accent); }
-.key-indicator { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); font-size: 11px; }
-.key-hint { font-size: 9px; color: var(--text3); margin-top: 5px; font-family: 'Space Mono', monospace; }
-.key-hint a { color: var(--accent2); }
+/* Orbs */
+.orb { position: fixed; border-radius: 50%; pointer-events: none; z-index: 0; filter: blur(100px); opacity: 0.07; }
+.orb-1 { width: 600px; height: 600px; background: var(--accent); top: -200px; left: -200px; animation: d1 25s ease-in-out infinite; }
+.orb-2 { width: 500px; height: 500px; background: var(--accent2); bottom: 10%; right: -150px; animation: d2 30s ease-in-out infinite; }
+.orb-3 { width: 350px; height: 350px; background: var(--pink); top: 50%; left: 30%; animation: d3 20s ease-in-out infinite; }
+@keyframes d1{0%,100%{transform:translate(0,0)}50%{transform:translate(80px,100px)}}
+@keyframes d2{0%,100%{transform:translate(0,0)}50%{transform:translate(-80px,-80px)}}
+@keyframes d3{0%,100%{transform:translate(0,0)}33%{transform:translate(60px,-80px)}66%{transform:translate(-60px,60px)}}
 
-/* ── MAIN ── */
-.main { flex: 1; display: flex; flex-direction: column; position: relative; z-index: 5; overflow: hidden; }
-.topbar { padding: 13px 22px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 12px; background: rgba(8,8,14,0.85); backdrop-filter: blur(16px); }
-.mobile-toggle { display: none; background: none; border: none; color: var(--text2); cursor: pointer; font-size: 18px; }
-.topbar-title { flex: 1; font-size: 14px; font-weight: 700; color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.topbar-pills { display: flex; gap: 6px; align-items: center; }
-.pill { display: flex; align-items: center; gap: 5px; padding: 4px 10px; background: var(--surface2); border: 1px solid var(--border); border-radius: 20px; font-size: 9px; color: var(--text2); font-family: 'Space Mono', monospace; }
-.status-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--green); animation: pdot 2s infinite; }
-.status-dot.warn { background: var(--accent3); }
-.status-dot.off { background: var(--red); animation: none; }
-@keyframes pdot{0%,100%{opacity:1}50%{opacity:0.3}}
-.topbar-actions { display: flex; gap: 6px; }
-.icon-btn { width: 30px; height: 30px; background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text2); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 13px; transition: all 0.2s; }
-.icon-btn:hover { border-color: var(--accent); color: var(--accent); background: rgba(168,85,247,0.1); }
-.icon-btn.active-sys { border-color: var(--accent3); color: var(--accent3); }
-.mode-banner { padding: 7px 22px; border-bottom: 1px solid transparent; font-size: 10px; font-family: 'Space Mono', monospace; display: none; align-items: center; gap: 8px; }
-.mode-banner.show { display: flex; }
-.mode-banner.translate { background: rgba(34,211,238,0.06); border-color: rgba(34,211,238,0.15); color: var(--accent2); }
-.mode-banner.code { background: rgba(251,146,60,0.06); border-color: rgba(251,146,60,0.15); color: var(--accent3); }
-.mode-banner.summarize { background: rgba(52,211,153,0.06); border-color: rgba(52,211,153,0.15); color: var(--green); }
-.mode-banner.eli5,.mode-banner.improve { background: rgba(244,114,182,0.06); border-color: rgba(244,114,182,0.15); color: var(--pink); }
-.mode-banner.debate,.mode-banner.critique { background: rgba(168,85,247,0.06); border-color: rgba(168,85,247,0.15); color: var(--accent); }
-.mode-x { background: none; border: none; color: inherit; cursor: pointer; margin-left: auto; opacity: 0.6; }
-.mode-x:hover { opacity: 1; }
-.messages { flex: 1; overflow-y: auto; padding: 24px; display: flex; flex-direction: column; gap: 18px; }
-.messages::-webkit-scrollbar { width: 3px; }
-.messages::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
-.welcome { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 28px; padding: 40px; text-align: center; }
-.welcome-orb { width: 72px; height: 72px; background: linear-gradient(135deg, var(--accent), var(--accent2)); border-radius: 22px; display: flex; align-items: center; justify-content: center; font-size: 36px; animation: float 3.5s ease-in-out infinite; box-shadow: 0 0 40px var(--accent-glow), 0 0 80px rgba(34,211,238,0.08); }
-@keyframes float{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-10px) rotate(2deg)}}
-.welcome h1 { font-size: 28px; font-weight: 800; letter-spacing: -1px; }
-.welcome h1 em { font-style: normal; color: var(--accent); }
-.wl-sub { font-size: 13px; color: var(--text2); max-width: 380px; line-height: 1.7; margin-top: 6px; }
-.suggest-pills { display: flex; flex-wrap: wrap; gap: 7px; justify-content: center; max-width: 560px; }
-.suggest-pill { padding: 6px 13px; background: var(--surface); border: 1px solid var(--border); border-radius: 20px; font-size: 11px; cursor: pointer; transition: all 0.2s; color: var(--text2); font-family: 'Space Mono', monospace; }
-.suggest-pill:hover { border-color: var(--accent); color: var(--accent); background: rgba(168,85,247,0.06); transform: translateY(-1px); }
-.starter-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 8px; width: 100%; max-width: 580px; }
-.starter { padding: 13px 15px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); cursor: pointer; text-align: left; transition: all 0.2s; }
-.starter:hover { border-color: var(--accent); background: rgba(168,85,247,0.05); transform: translateY(-2px); box-shadow: 0 4px 20px rgba(168,85,247,0.1); }
-.starter-icon { font-size: 18px; margin-bottom: 7px; }
-.starter-title { font-size: 12px; font-weight: 700; margin-bottom: 3px; }
-.starter-desc { font-size: 11px; color: var(--text2); line-height: 1.5; }
-.msg { display: flex; gap: 10px; max-width: 820px; animation: min 0.28s ease; }
-@keyframes min{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-.msg.user { flex-direction: row-reverse; align-self: flex-end; }
-.msg.assistant { align-self: flex-start; }
-.msg-av { width: 32px; height: 32px; border-radius: 10px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 15px; overflow: hidden; }
-.msg.user .msg-av { background: var(--surface3); border: 1px solid var(--border); }
-.msg.assistant .msg-av { background: linear-gradient(135deg, var(--accent), var(--accent2)); }
-.msg-body { flex: 1; min-width: 0; }
-.msg-meta { display: flex; align-items: center; gap: 7px; margin-bottom: 5px; }
-.msg.user .msg-meta { flex-direction: row-reverse; }
-.msg-name { font-size: 11px; font-weight: 700; color: var(--text2); }
-.msg-time { font-size: 9px; color: var(--text3); font-family: 'Space Mono', monospace; }
-.msg-tag { font-size: 8px; padding: 2px 5px; background: rgba(168,85,247,0.12); color: var(--accent); border-radius: 3px; font-family: 'Space Mono', monospace; }
-.msg-bubble { padding: 13px 15px; border-radius: var(--radius); line-height: 1.75; font-size: 14px; position: relative; }
-.msg.user .msg-bubble { background: linear-gradient(135deg, var(--accent), #7c3aed); color: #fff; border-bottom-right-radius: 4px; }
-.msg.assistant .msg-bubble { background: var(--surface); border: 1px solid var(--border); color: var(--text); border-bottom-left-radius: 4px; }
-.msg-bubble h1,.msg-bubble h2,.msg-bubble h3 { margin: 12px 0 7px; }
-.msg-bubble h1{font-size:17px}.msg-bubble h2{font-size:15px}.msg-bubble h3{font-size:13px;color:var(--accent2)}
-.msg-bubble p{margin-bottom:8px}.msg-bubble p:last-child{margin-bottom:0}
-.msg-bubble ul,.msg-bubble ol{padding-left:18px;margin-bottom:8px}.msg-bubble li{margin-bottom:3px}
-.msg-bubble code{background:rgba(0,0,0,0.35);padding:2px 5px;border-radius:4px;font-family:'Space Mono',monospace;font-size:11px;color:var(--accent2)}
-.msg-bubble pre{background:#0a0a12;border:1px solid var(--border);border-radius:8px;padding:14px;overflow-x:auto;margin:10px 0;position:relative}
-.msg-bubble pre code{background:none;padding:0;color:inherit;font-size:11px;line-height:1.65}
-.msg-bubble blockquote{border-left:3px solid var(--accent);padding-left:12px;color:var(--text2);font-style:italic;margin:8px 0}
-.msg-bubble table{width:100%;border-collapse:collapse;margin:10px 0;font-size:12px}
-.msg-bubble th{background:var(--surface2);padding:6px 10px;border:1px solid var(--border);font-weight:700;text-align:left}
-.msg-bubble td{padding:6px 10px;border:1px solid var(--border)}
-.msg-bubble strong{color:var(--accent3)}.msg-bubble a{color:var(--accent2)}
-.copy-pre-btn{position:absolute;top:8px;right:8px;padding:3px 8px;background:var(--surface2);border:1px solid var(--border);border-radius:4px;color:var(--text2);font-size:9px;cursor:pointer;font-family:'Space Mono',monospace;transition:all 0.2s}
-.copy-pre-btn:hover{border-color:var(--accent2);color:var(--accent2)}
-.msg-acts{display:flex;gap:5px;margin-top:7px;opacity:0;transition:opacity 0.2s}
-.msg:hover .msg-acts{opacity:1}
-.msg.user .msg-acts{justify-content:flex-end}
-.act-btn{padding:3px 7px;background:var(--surface2);border:1px solid var(--border);border-radius:4px;color:var(--text3);font-size:9px;cursor:pointer;font-family:'Space Mono',monospace;transition:all 0.18s;display:flex;align-items:center;gap:3px}
-.act-btn:hover{color:var(--text);border-color:var(--text2)}
-.typing{display:flex;gap:10px;align-self:flex-start;animation:min 0.28s ease}
-.typing-bub{padding:14px 18px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);border-bottom-left-radius:4px;display:flex;gap:4px;align-items:center}
-.td{width:5px;height:5px;border-radius:50%;background:var(--text3);animation:blink 1.4s infinite}
-.td:nth-child(2){animation-delay:.2s}.td:nth-child(3){animation-delay:.4s}
-@keyframes blink{0%,80%,100%{opacity:0.25}40%{opacity:1}}
-.sc{display:inline-block;width:2px;height:15px;background:var(--accent2);margin-left:2px;animation:bc 0.75s infinite;vertical-align:middle}
-@keyframes bc{0%,50%{opacity:1}51%,100%{opacity:0}}
-.tok-bar{padding:5px 22px;background:var(--surface);border-top:1px solid var(--border);display:flex;align-items:center;gap:14px;font-size:9px;color:var(--text3);font-family:'Space Mono',monospace}
-.tok-stat span{color:var(--text2)}
-.input-area{padding:14px 22px 18px;border-top:1px solid var(--border);background:rgba(8,8,14,0.9);backdrop-filter:blur(16px)}
-.mode-bar{display:flex;gap:5px;margin-bottom:9px;flex-wrap:wrap}
-.mode-btn{padding:4px 11px;border-radius:20px;border:1px solid var(--border);background:transparent;color:var(--text3);font-size:10px;cursor:pointer;font-family:'Space Mono',monospace;transition:all 0.18s;display:flex;align-items:center;gap:4px}
-.mode-btn:hover{color:var(--text2);border-color:var(--text2)}
-.mode-btn.on{background:rgba(168,85,247,0.12);border-color:var(--accent);color:var(--accent)}
-.img-preview-wrap{margin-bottom:8px;display:none;position:relative}
-.img-preview-wrap.show{display:inline-block}
-.img-preview-wrap img{max-height:100px;border-radius:8px;border:1px solid var(--border)}
-.img-rm{position:absolute;top:-6px;right:-6px;width:18px;height:18px;background:var(--red);border:none;border-radius:50%;color:#fff;cursor:pointer;font-size:10px;display:flex;align-items:center;justify-content:center}
-.input-box{display:flex;gap:8px;align-items:flex-end;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:9px 9px 9px 14px;transition:border-color 0.2s}
-.input-box:focus-within{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-glow)}
-.tool-col{display:flex;flex-direction:column;gap:3px}
-.tool-btn{width:26px;height:26px;background:transparent;border:1px solid transparent;border-radius:6px;color:var(--text3);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:12px;transition:all 0.15s}
-.tool-btn:hover{color:var(--text);background:var(--surface2);border-color:var(--border)}
-textarea#msgInput{flex:1;background:transparent;border:none;outline:none;color:var(--text);font-family:'Syne',sans-serif;font-size:14px;line-height:1.6;resize:none;max-height:180px;min-height:38px;overflow-y:auto;padding-top:3px}
-textarea#msgInput::placeholder{color:var(--text3)}
-textarea#msgInput::-webkit-scrollbar{width:2px}
-textarea#msgInput::-webkit-scrollbar-thumb{background:var(--border)}
-.send-btn{width:38px;height:38px;background:linear-gradient(135deg,var(--accent),#7c3aed);border:none;border-radius:10px;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:15px;transition:all 0.2s;flex-shrink:0;box-shadow:0 2px 10px var(--accent-glow)}
-.send-btn:hover{transform:scale(1.06);box-shadow:0 4px 18px var(--accent-glow)}
-.send-btn:disabled{opacity:0.35;cursor:not-allowed;transform:none;box-shadow:none}
-.input-hint{margin-top:7px;font-size:9px;color:var(--text3);font-family:'Space Mono',monospace;text-align:center}
-.input-hint kbd{padding:1px 5px;background:var(--surface2);border:1px solid var(--border);border-radius:3px;font-family:'Space Mono',monospace}
-.gate-overlay{position:fixed;inset:0;z-index:500;background:rgba(0,0,0,0.85);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center}
-.gate-overlay.open{display:flex;animation:fadeIn 0.3s ease}
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
-.gate-box{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:36px;max-width:460px;width:90%;text-align:center;animation:slideUp 0.3s ease}
-.gate-glyph{font-size:48px;margin-bottom:14px}
-.gate-box h2{font-size:22px;font-weight:800;margin-bottom:8px}
-.gate-box h2 em{font-style:normal;color:var(--accent)}
-.gate-desc{font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:24px}
-.gate-input{width:100%;padding:12px 16px;background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-family:'Space Mono',monospace;font-size:12px;outline:none;transition:border-color 0.2s;margin-bottom:12px;text-align:center}
-.gate-input:focus{border-color:var(--accent)}
-.gate-btn{width:100%;padding:12px;background:linear-gradient(135deg,var(--accent),#7c3aed);border:none;border-radius:var(--radius-sm);color:#fff;font-family:'Syne',sans-serif;font-weight:800;font-size:14px;cursor:pointer;transition:all 0.2s;box-shadow:0 4px 20px var(--accent-glow)}
-.gate-btn:hover{transform:translateY(-1px);box-shadow:0 6px 28px var(--accent-glow)}
-.gate-link{display:block;margin-top:12px;font-size:11px;color:var(--text3);font-family:'Space Mono',monospace}
-.gate-link a{color:var(--accent2);text-decoration:none}
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);backdrop-filter:blur(4px);z-index:200;display:none;align-items:center;justify-content:center}
-.modal-overlay.open{display:flex}
-.modal{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:26px;width:90%;max-width:500px;max-height:80vh;overflow-y:auto;animation:slideUp 0.2s ease}
-.modal h2{font-size:19px;font-weight:800;margin-bottom:4px}
-.modal .sub{font-size:11px;color:var(--text2);margin-bottom:18px;font-family:'Space Mono',monospace}
-.m-close{float:right;background:none;border:none;color:var(--text2);cursor:pointer;font-size:18px}
-.m-close:hover{color:var(--red)}
-.fg{margin-bottom:14px}
-.fl{font-size:10px;font-weight:700;color:var(--text2);margin-bottom:5px;display:block;letter-spacing:0.5px}
-.fi,.fs,.fta{width:100%;padding:9px 13px;background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-family:'Syne',sans-serif;font-size:13px;outline:none;transition:border-color 0.2s}
-.fi:focus,.fs:focus,.fta:focus{border-color:var(--accent)}
-.fs{font-family:'Space Mono',monospace;font-size:11px;cursor:pointer}
-.fta{resize:vertical;min-height:80px}
-.slider-row{display:flex;align-items:center;gap:10px}
-input[type=range]{flex:1;accent-color:var(--accent);-webkit-appearance:none;height:3px;background:var(--surface3);border-radius:2px;cursor:pointer}
-input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:13px;height:13px;background:var(--accent);border-radius:50%}
-.mf{display:flex;gap:8px;justify-content:flex-end;margin-top:18px}
-.btn-p{padding:9px 18px;background:linear-gradient(135deg,var(--accent),#7c3aed);border:none;border-radius:var(--radius-sm);color:#fff;font-family:'Syne',sans-serif;font-weight:700;font-size:12px;cursor:pointer;transition:all 0.2s}
-.btn-p:hover{transform:translateY(-1px);box-shadow:0 4px 14px var(--accent-glow)}
-.btn-s{padding:9px 18px;background:transparent;border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text2);font-family:'Syne',sans-serif;font-weight:600;font-size:12px;cursor:pointer;transition:all 0.2s}
-.btn-s:hover{border-color:var(--text2);color:var(--text)}
-.toast-wrap{position:fixed;top:18px;right:18px;z-index:999;display:flex;flex-direction:column;gap:7px}
-.toast{padding:9px 14px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);font-size:11px;font-family:'Space Mono',monospace;display:flex;align-items:center;gap:8px;box-shadow:0 4px 20px rgba(0,0,0,0.4);animation:ti 0.25s ease,to 0.25s ease 2.8s forwards}
-@keyframes ti{from{opacity:0;transform:translateX(16px)}to{opacity:1;transform:translateX(0)}}
-@keyframes to{from{opacity:1;transform:translateX(0)}to{opacity:0;transform:translateX(16px)}}
-.toast.ok{border-left:3px solid var(--green)}.toast.err{border-left:3px solid var(--red)}.toast.info{border-left:3px solid var(--accent2)}.toast.warn{border-left:3px solid var(--accent3)}
-.voice-rec{display:none;align-items:center;gap:7px;padding:5px 11px;background:rgba(248,113,113,0.08);border:1px solid rgba(248,113,113,0.2);border-radius:20px;font-size:10px;color:var(--red);font-family:'Space Mono',monospace;margin-bottom:8px}
-.voice-rec.on{display:flex}
-.rec-dot{width:7px;height:7px;border-radius:50%;background:var(--red);animation:pdot 1s infinite}
-@media(max-width:768px){
-  .sidebar{position:fixed;left:0;top:0;bottom:0;transform:translateX(-100%);z-index:50}
-  .sidebar.open{transform:translateX(0)}
-  .mobile-toggle{display:flex;align-items:center}
-  .starter-grid{grid-template-columns:1fr}
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(8,8,14,0.9); backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 32px;
+  display: flex; align-items: center; height: 58px; gap: 16px;
+}
+.nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+.nav-mark {
+  width: 34px; height: 34px;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  border-radius: 10px; display: flex; align-items: center; justify-content: center;
+  font-size: 17px; box-shadow: 0 0 16px var(--accent-glow);
+}
+.nav-name { font-size: 17px; font-weight: 800; letter-spacing: -0.5px; color: var(--text); }
+.nav-name em { font-style: normal; color: var(--accent); }
+.nav-badge {
+  font-size: 9px; padding: 2px 7px;
+  background: rgba(168,85,247,0.12); border: 1px solid rgba(168,85,247,0.3);
+  border-radius: 20px; color: var(--accent); font-family: 'Space Mono', monospace;
+  letter-spacing: 1px;
+}
+.nav-links { display: flex; gap: 4px; margin-left: auto; }
+.nav-link {
+  padding: 6px 12px; border-radius: 8px;
+  font-size: 12px; color: var(--text2); text-decoration: none;
+  font-family: 'Space Mono', monospace; transition: all 0.2s;
+}
+.nav-link:hover { color: var(--text); background: var(--surface2); }
+.nav-cta {
+  padding: 7px 16px;
+  background: linear-gradient(135deg, var(--accent), #7c3aed);
+  border-radius: 8px; color: #fff; text-decoration: none;
+  font-size: 12px; font-weight: 700; font-family: 'Space Mono', monospace;
+  box-shadow: 0 2px 12px var(--accent-glow); transition: all 0.2s;
+}
+.nav-cta:hover { transform: translateY(-1px); box-shadow: 0 4px 20px var(--accent-glow); }
+
+/* ── LAYOUT ── */
+.layout { display: flex; padding-top: 58px; min-height: 100vh; }
+
+/* Sidebar TOC */
+.toc {
+  width: 240px; flex-shrink: 0;
+  position: sticky; top: 58px; height: calc(100vh - 58px);
+  overflow-y: auto; padding: 28px 16px;
+  border-right: 1px solid var(--border);
+  background: rgba(15,15,26,0.6);
+}
+.toc::-webkit-scrollbar { width: 2px; }
+.toc::-webkit-scrollbar-thumb { background: var(--border); }
+.toc-section { margin-bottom: 20px; }
+.toc-label {
+  font-size: 9px; color: var(--text3); text-transform: uppercase;
+  letter-spacing: 2px; font-family: 'Space Mono', monospace;
+  padding: 0 8px; margin-bottom: 6px;
+}
+.toc-item {
+  display: block; padding: 6px 10px; border-radius: 7px;
+  font-size: 12px; color: var(--text2); text-decoration: none;
+  font-family: 'Space Mono', monospace; transition: all 0.15s;
+  margin-bottom: 1px;
+}
+.toc-item:hover { color: var(--text); background: var(--surface2); }
+.toc-item.active { color: var(--accent); background: rgba(168,85,247,0.08); }
+
+/* ── CONTENT ── */
+.content { flex: 1; max-width: 820px; padding: 48px 48px 120px; }
+
+/* Hero */
+.doc-hero {
+  margin-bottom: 56px; padding-bottom: 48px;
+  border-bottom: 1px solid var(--border);
+}
+.doc-hero-tag {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 10px; font-family: 'Space Mono', monospace;
+  color: var(--accent2); background: rgba(34,211,238,0.08);
+  border: 1px solid rgba(34,211,238,0.2); border-radius: 20px;
+  padding: 4px 10px; margin-bottom: 18px;
+}
+.doc-hero h1 {
+  font-size: 44px; font-weight: 800; letter-spacing: -2px;
+  line-height: 1.1; margin-bottom: 14px;
+}
+.doc-hero h1 em { font-style: normal; color: var(--accent); }
+.doc-hero p {
+  font-size: 15px; color: var(--text2); line-height: 1.8;
+  max-width: 560px; margin-bottom: 24px;
+}
+.hero-pills { display: flex; gap: 8px; flex-wrap: wrap; }
+.hero-pill {
+  padding: 5px 12px; border-radius: 20px; font-size: 11px;
+  font-family: 'Space Mono', monospace; border: 1px solid var(--border);
+  color: var(--text2);
+}
+.hp-purple { border-color: rgba(168,85,247,0.3); color: var(--accent); background: rgba(168,85,247,0.06); }
+.hp-cyan { border-color: rgba(34,211,238,0.3); color: var(--accent2); background: rgba(34,211,238,0.06); }
+.hp-green { border-color: rgba(52,211,153,0.3); color: var(--green); background: rgba(52,211,153,0.06); }
+.hp-orange { border-color: rgba(251,146,60,0.3); color: var(--accent3); background: rgba(251,146,60,0.06); }
+
+/* Sections */
+.doc-section { margin-bottom: 56px; scroll-margin-top: 80px; }
+.section-tag {
+  display: inline-block; font-size: 9px; font-family: 'Space Mono', monospace;
+  color: var(--text3); text-transform: uppercase; letter-spacing: 2px;
+  margin-bottom: 10px;
+}
+.doc-section h2 {
+  font-size: 26px; font-weight: 800; letter-spacing: -0.5px;
+  margin-bottom: 16px; display: flex; align-items: center; gap: 10px;
+}
+.doc-section h3 {
+  font-size: 17px; font-weight: 700; margin: 28px 0 12px;
+  color: var(--accent2);
+}
+.doc-section p {
+  font-size: 14px; color: var(--text2); line-height: 1.85;
+  margin-bottom: 14px;
+}
+.doc-section p strong { color: var(--text); }
+
+/* Cards */
+.card-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin: 20px 0; }
+.card {
+  padding: 18px 20px; background: var(--surface);
+  border: 1px solid var(--border); border-radius: 14px;
+  transition: all 0.2s;
+}
+.card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 4px 20px rgba(168,85,247,0.1); }
+.card-icon { font-size: 22px; margin-bottom: 10px; }
+.card-title { font-size: 13px; font-weight: 700; margin-bottom: 6px; }
+.card-desc { font-size: 12px; color: var(--text2); line-height: 1.6; }
+
+/* Steps */
+.steps { display: flex; flex-direction: column; gap: 0; margin: 20px 0; }
+.step { display: flex; gap: 16px; position: relative; padding-bottom: 28px; }
+.step:last-child { padding-bottom: 0; }
+.step:last-child .step-line { display: none; }
+.step-num {
+  width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 800; position: relative; z-index: 1;
+}
+.step-line {
+  position: absolute; left: 15px; top: 32px; bottom: 0;
+  width: 2px; background: var(--border);
+}
+.step-body { flex: 1; padding-top: 5px; }
+.step-title { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+.step-desc { font-size: 13px; color: var(--text2); line-height: 1.7; }
+
+/* Code blocks */
+.code-block {
+  background: #080810; border: 1px solid var(--border);
+  border-radius: 12px; padding: 18px 20px; margin: 16px 0;
+  font-family: 'Space Mono', monospace; font-size: 12px;
+  line-height: 1.7; color: var(--accent2); overflow-x: auto;
+  position: relative;
+}
+.code-block .cb-label {
+  position: absolute; top: 10px; right: 12px;
+  font-size: 9px; color: var(--text3); letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.code-block .kw { color: var(--accent); }
+.code-block .str { color: var(--green); }
+.code-block .cm { color: var(--text3); font-style: italic; }
+
+/* Callouts */
+.callout {
+  padding: 14px 18px; border-radius: 10px; margin: 16px 0;
+  display: flex; gap: 12px; align-items: flex-start;
+  font-size: 13px; line-height: 1.7;
+}
+.callout-info { background: rgba(34,211,238,0.06); border: 1px solid rgba(34,211,238,0.2); color: var(--accent2); }
+.callout-warn { background: rgba(251,146,60,0.06); border: 1px solid rgba(251,146,60,0.2); color: var(--accent3); }
+.callout-ok { background: rgba(52,211,153,0.06); border: 1px solid rgba(52,211,153,0.2); color: var(--green); }
+.callout-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+.callout-body { color: var(--text2); }
+.callout-body strong { color: inherit; }
+
+/* Model table */
+.model-table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 12px; }
+.model-table th {
+  background: var(--surface2); padding: 9px 14px;
+  border: 1px solid var(--border); font-weight: 700;
+  text-align: left; font-family: 'Space Mono', monospace;
+  font-size: 10px; color: var(--text2); text-transform: uppercase; letter-spacing: 0.5px;
+}
+.model-table td { padding: 9px 14px; border: 1px solid var(--border); color: var(--text2); }
+.model-table tr:hover td { background: var(--surface2); }
+.badge {
+  display: inline-block; padding: 2px 7px; border-radius: 4px;
+  font-size: 9px; font-family: 'Space Mono', monospace; font-weight: 700;
+}
+.badge-prod { background: rgba(52,211,153,0.12); color: var(--green); border: 1px solid rgba(52,211,153,0.2); }
+.badge-prev { background: rgba(251,146,60,0.12); color: var(--accent3); border: 1px solid rgba(251,146,60,0.2); }
+
+/* Mode pills table */
+.mode-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 10px; margin: 16px 0; }
+.mode-card {
+  padding: 14px 16px; background: var(--surface); border: 1px solid var(--border);
+  border-radius: 10px;
+}
+.mode-card-top { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+.mode-name { font-size: 12px; font-weight: 700; }
+.mode-desc { font-size: 11px; color: var(--text3); line-height: 1.5; }
+
+/* Divider */
+.doc-divider { height: 1px; background: var(--border); margin: 48px 0; }
+
+/* ── INSPIRATION SECTION ── */
+.inspiration {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 48px 44px;
+  position: relative;
+  overflow: hidden;
+  margin-top: 60px;
+}
+.inspiration::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--accent), var(--accent2), var(--pink), var(--accent3));
+}
+.inspiration::after {
+  content: '"';
+  position: absolute; right: 32px; top: 20px;
+  font-size: 160px; font-weight: 800;
+  color: var(--accent); opacity: 0.04;
+  font-family: 'Syne', sans-serif; line-height: 1;
+}
+.insp-tag {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 9px; font-family: 'Space Mono', monospace;
+  color: var(--pink); background: rgba(244,114,182,0.08);
+  border: 1px solid rgba(244,114,182,0.2); border-radius: 20px;
+  padding: 4px 10px; margin-bottom: 22px; letter-spacing: 1px; text-transform: uppercase;
+}
+.insp-tag::before { content: '✦'; }
+.inspiration h2 {
+  font-size: 32px; font-weight: 800; letter-spacing: -1px;
+  line-height: 1.2; margin-bottom: 20px;
+}
+.inspiration h2 em { font-style: normal; color: var(--accent); }
+.inspiration h2 span { color: var(--accent2); }
+.insp-body {
+  font-size: 15px; color: var(--text2); line-height: 2;
+  max-width: 640px; position: relative; z-index: 1;
+}
+.insp-body p { margin-bottom: 18px; }
+.insp-body strong { color: var(--text); }
+.insp-body .highlight { color: var(--accent); font-weight: 700; }
+.insp-body .highlight2 { color: var(--accent2); font-weight: 700; }
+.insp-body .highlight3 { color: var(--pink); font-weight: 700; }
+
+.age-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  margin-top: 28px; padding: 14px 20px;
+  background: linear-gradient(135deg, rgba(168,85,247,0.1), rgba(34,211,238,0.06));
+  border: 1px solid rgba(168,85,247,0.25); border-radius: 14px;
+  font-size: 13px; color: var(--text);
+}
+.age-num {
+  font-size: 28px; font-weight: 800; color: var(--accent);
+  line-height: 1; font-family: 'Space Mono', monospace;
+}
+.age-label { font-size: 11px; color: var(--text2); line-height: 1.4; }
+.age-label strong { color: var(--text); display: block; font-size: 13px; }
+
+.dream-list {
+  margin: 24px 0; display: flex; flex-direction: column; gap: 10px;
+}
+.dream-item {
+  display: flex; align-items: flex-start; gap: 10px;
+  font-size: 14px; color: var(--text2); line-height: 1.6;
+}
+.dream-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--accent); flex-shrink: 0; margin-top: 8px;
+}
+
+.insp-sign {
+  margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--border);
+  display: flex; align-items: center; gap: 14px;
+}
+.sign-avatar {
+  width: 44px; height: 44px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; font-weight: 800;
+}
+.sign-name { font-size: 14px; font-weight: 700; }
+.sign-title { font-size: 11px; color: var(--text3); font-family: 'Space Mono', monospace; margin-top: 2px; }
+
+/* Footer */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 28px 48px;
+  display: flex; align-items: center; justify-content: space-between;
+  font-size: 11px; color: var(--text3); font-family: 'Space Mono', monospace;
+  margin-top: 60px;
+}
+footer a { color: var(--accent2); text-decoration: none; }
+footer a:hover { text-decoration: underline; }
+
+/* Responsive */
+@media (max-width: 900px) {
+  .toc { display: none; }
+  .content { padding: 32px 24px 80px; }
+  .card-grid { grid-template-columns: 1fr; }
+  .mode-grid { grid-template-columns: 1fr; }
+  .doc-hero h1 { font-size: 32px; }
 }
 </style>
 </head>
@@ -291,708 +378,635 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:13px;heigh
 <div class="orb orb-2"></div>
 <div class="orb orb-3"></div>
 
-<!-- ══ NAME PROMPT (first visit only) ══ -->
-<div class="name-overlay hidden" id="nameOverlay">
-  <div class="name-card">
-    <div class="name-logo">
-      <div class="name-logo-mark">🌑</div>
-      <div class="name-logo-text"><em>Drk</em>Chat</div>
-    </div>
-    <div class="name-title">What should we call you?</div>
-    <div class="name-sub">Stored only on this device. No account needed.</div>
-    <div class="name-field">
-      <label class="name-lbl">Display Name</label>
-      <input type="text" class="name-input" id="nameInput" placeholder="e.g. Alex" maxlength="32"
-        onkeydown="if(event.key==='Enter')saveName()">
-    </div>
-    <button class="name-submit" onclick="saveName()">Start Chatting →</button>
+<!-- NAV -->
+<nav>
+  <a href="/" class="nav-logo">
+    <div class="nav-mark">🌑</div>
+    <div class="nav-name"><em>Drk</em>Chat</div>
+  </a>
+  <span class="nav-badge">DOCS</span>
+  <div class="nav-links">
+    <a href="#quickstart" class="nav-link">Quickstart</a>
+    <a href="#features" class="nav-link">Features</a>
+    <a href="#models" class="nav-link">Models</a>
+    <a href="#setup" class="nav-link">Setup</a>
+    <a href="#inspiration" class="nav-link">About</a>
   </div>
-</div>
+  <a href="/" class="nav-cta">→ Open App</a>
+</nav>
 
-<!-- SIDEBAR -->
-<aside class="sidebar" id="sidebar">
-  <div class="sb-header">
-    <div class="logo">
-      <div class="logo-mark">🌑</div>
-      <div class="logo-name"><em>Drk</em>Chat</div>
+<div class="layout">
+  <!-- TOC -->
+  <aside class="toc">
+    <div class="toc-section">
+      <div class="toc-label">Getting Started</div>
+      <a href="#intro" class="toc-item">Introduction</a>
+      <a href="#quickstart" class="toc-item">Quick Start</a>
+      <a href="#auth" class="toc-item">Authentication</a>
     </div>
+    <div class="toc-section">
+      <div class="toc-label">Features</div>
+      <a href="#features" class="toc-item">Chat Modes</a>
+      <a href="#models" class="toc-item">AI Models</a>
+      <a href="#history" class="toc-item">Chat History</a>
+      <a href="#apikey" class="toc-item">API Keys</a>
+    </div>
+    <div class="toc-section">
+      <div class="toc-label">Self-Hosting</div>
+      <a href="#setup" class="toc-item">Overview</a>
+      <a href="#firebase" class="toc-item">Firebase Setup</a>
+      <a href="#worker" class="toc-item">Cloudflare Worker</a>
+      <a href="#deploy" class="toc-item">Deploy</a>
+    </div>
+    <div class="toc-section">
+      <div class="toc-label">About</div>
+      <a href="#inspiration" class="toc-item">✦ Inspiration</a>
+    </div>
+  </aside>
 
-    <div class="user-profile" id="userProfile" onclick="toggleUserMenu()">
-      <div class="user-avatar" id="userAvatar">?</div>
-      <div class="user-info">
-        <div class="user-name" id="userName">—</div>
-        <div class="user-sub">This device only</div>
+  <!-- CONTENT -->
+  <main class="content">
+
+    <!-- HERO -->
+    <div class="doc-hero" id="intro">
+      <div class="doc-hero-tag">📖 Documentation v1.0</div>
+      <h1><em>Drk</em>Chat<br>Docs & Guide</h1>
+      <p>Everything you need to know about DrkChat — from signing in for the first time to self-hosting your own instance with Firebase and Cloudflare Workers.</p>
+      <div class="hero-pills">
+        <span class="hero-pill hp-purple">⚡ Groq-powered</span>
+        <span class="hero-pill hp-cyan">🔐 Firebase Auth</span>
+        <span class="hero-pill hp-green">☁️ Cloudflare Workers</span>
+        <span class="hero-pill hp-orange">🆓 Free to use</span>
       </div>
-      <span class="user-menu-arrow">⌄</span>
-      <div class="user-dropdown" id="userDropdown">
-        <div class="ud-item" onclick="openRenameModal()">✏️ Rename</div>
-        <div class="ud-sep"></div>
-        <div class="ud-item" onclick="clearAllData()">🗑️ Clear All Data</div>
+    </div>
+
+    <!-- QUICKSTART -->
+    <div class="doc-section" id="quickstart">
+      <span class="section-tag">01 — Getting Started</span>
+      <h2>🚀 Quick Start</h2>
+      <p>DrkChat is ready to use out of the box — no downloads, no installs. Just open the app and start chatting. Your first <strong>15 messages are completely free</strong> every day, no account required.</p>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-line"></div>
+          <div class="step-body">
+            <div class="step-title">Open the App</div>
+            <div class="step-desc">Head to <strong>ltnproject.qzz.io</strong> — the app loads instantly in your browser. No installation needed.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-line"></div>
+          <div class="step-body">
+            <div class="step-title">Sign In or Try it Free</div>
+            <div class="step-desc">Sign in with Google, GitHub, or email to sync your chat history. Or skip — you get 15 free messages per day without an account.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-line"></div>
+          <div class="step-body">
+            <div class="step-title">Pick a Mode & Model</div>
+            <div class="step-desc">Choose a chat mode from the bottom bar (Chat, Code, Translate, etc.) and pick your AI model from the sidebar.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-line"></div>
+          <div class="step-body">
+            <div class="step-title">Start Chatting</div>
+            <div class="step-desc">Type your message and hit <strong>Enter</strong> to send. Use <strong>Shift+Enter</strong> for a new line. Press <strong>↑</strong> to recall your last message.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout callout-info">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body"><strong>Pro tip:</strong> Once your 15 free messages run out, grab a free Groq API key at <strong>console.groq.com</strong> — it's completely free and takes under a minute. Paste it in the sidebar to get unlimited messages.</div>
       </div>
     </div>
 
-    <div class="usage-meter">
-      <div class="usage-header">
-        <span class="usage-label">Free Usage</span>
-        <span class="usage-count"><span class="used" id="usedCount">0</span> / 15 msgs</span>
+    <!-- AUTH -->
+    <div class="doc-section" id="auth">
+      <span class="section-tag">02 — Authentication</span>
+      <h2>🔐 Signing In</h2>
+      <p>DrkChat uses <strong>Firebase Authentication</strong> to keep your chat history synced across all your devices. You have three ways to sign in:</p>
+
+      <div class="card-grid">
+        <div class="card">
+          <div class="card-icon">🔵</div>
+          <div class="card-title">Google</div>
+          <div class="card-desc">One click — uses your existing Google account. Fastest way to get started. Your profile photo appears in the chat.</div>
+        </div>
+        <div class="card">
+          <div class="card-icon">⚫</div>
+          <div class="card-title">GitHub</div>
+          <div class="card-desc">Perfect for developers. Authenticate with your GitHub account in one click.</div>
+        </div>
+        <div class="card">
+          <div class="card-icon">📧</div>
+          <div class="card-title">Email & Password</div>
+          <div class="card-desc">Create an account with your email. Use "Forgot password?" to reset it anytime via email link.</div>
+        </div>
+        <div class="card">
+          <div class="card-icon">👤</div>
+          <div class="card-title">Guest Mode</div>
+          <div class="card-desc">Skip sign-in entirely. Get 15 free messages per day. History isn't saved across sessions.</div>
+        </div>
       </div>
-      <div class="usage-bar-bg"><div class="usage-bar-fill" id="usageBar" style="width:0%"></div></div>
-      <div class="usage-note" id="usageNote">Using shared API · Free for everyone</div>
-    </div>
-    <button class="new-chat-btn" onclick="newSession()">✦ New Chat</button>
-  </div>
 
-  <div class="sb-section">
-    <div class="sb-label">Model</div>
-    <select class="model-select" id="modelSelect">
-      <optgroup label="⚡ Production">
-        <option value="llama-3.3-70b-versatile" selected>llama-3.3-70b-versatile</option>
-        <option value="llama-3.1-8b-instant">llama-3.1-8b-instant (fast)</option>
-        <option value="openai/gpt-oss-120b">gpt-oss-120b (OpenAI)</option>
-        <option value="openai/gpt-oss-20b">gpt-oss-20b (fastest)</option>
-      </optgroup>
-      <optgroup label="🔬 Preview">
-        <option value="meta-llama/llama-4-scout-17b-16e-instruct">llama-4-scout-17b 🖼️</option>
-        <option value="qwen/qwen3-32b">qwen3-32b</option>
-      </optgroup>
-    </select>
-  </div>
-
-  <div class="sb-section">
-    <div class="sb-label">Quick Mode</div>
-    <div class="chip-grid">
-      <span class="chip c-translate" onclick="setMode('translate')">🌐 Translate</span>
-      <span class="chip c-sum" onclick="setMode('summarize')">📝 Summarize</span>
-      <span class="chip c-code" onclick="setMode('code')">💻 Code</span>
-      <span class="chip c-eli5" onclick="setMode('eli5')">🧒 ELI5</span>
-    </div>
-  </div>
-
-  <div class="history-wrap">
-    <div class="hist-day">Recent</div>
-    <div id="histItems"></div>
-  </div>
-
-  <div class="own-key-wrap">
-    <div class="sb-label">Your API Key <span style="color:var(--text3);text-transform:none;letter-spacing:0">(optional after 15 msgs)</span></div>
-    <div class="key-input-row">
-      <input type="password" class="key-input" id="ownKeyInput" placeholder="gsk_..." oninput="saveOwnKey(this.value)">
-      <span class="key-indicator" id="ownKeyStatus">—</span>
-    </div>
-    <div class="key-hint">Get free key at <a href="https://console.groq.com" target="_blank">console.groq.com</a></div>
-  </div>
-</aside>
-
-<!-- MAIN -->
-<main class="main">
-  <div class="topbar">
-    <button class="mobile-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
-    <div class="topbar-title" id="sessTitle">Playground</div>
-    <div class="topbar-pills">
-      <div class="pill"><div class="status-dot" id="apiDot"></div><span id="apiPillTxt">shared key</span></div>
-      <div class="pill"><span id="modelBadge">llama-3.3</span></div>
-    </div>
-    <div class="topbar-actions">
-      <a href="https://ltnproject.qzz.io/doc.html" target="_blank" class="icon-btn" title="Docs" style="text-decoration:none">📖</a>
-      <button class="icon-btn" onclick="openSettings()" title="Settings">⚙️</button>
-      <button class="icon-btn" onclick="openSysPrompt()" title="System Prompt" id="sysBtn">🧠</button>
-      <button class="icon-btn" onclick="exportChat()" title="Export">📤</button>
-      <button class="icon-btn" onclick="clearChat()" title="Clear">🗑️</button>
-    </div>
-  </div>
-
-  <div class="mode-banner" id="modeBanner">
-    <span id="modeBannerTxt"></span>
-    <button class="mode-x" onclick="setMode('chat')">✕</button>
-  </div>
-
-  <div class="messages" id="messages"></div>
-
-  <div class="tok-bar" id="tokBar" style="display:none">
-    <div class="tok-stat">⚡ <span id="totTok">0</span> tokens</div>
-    <div class="tok-stat">💬 <span id="msgCnt">0</span> messages</div>
-    <div class="tok-stat">🚀 <span id="spd">—</span></div>
-    <div style="flex:1"></div>
-    <div class="tok-stat" id="ctxStat">🟢 Context OK</div>
-  </div>
-
-  <div class="input-area">
-    <div class="mode-bar">
-      <button class="mode-btn on" id="mb-chat" onclick="setMode('chat')">💬 Chat</button>
-      <button class="mode-btn" id="mb-translate" onclick="setMode('translate')">🌐 Translate</button>
-      <button class="mode-btn" id="mb-summarize" onclick="setMode('summarize')">📝 Summarize</button>
-      <button class="mode-btn" id="mb-code" onclick="setMode('code')">💻 Code</button>
-      <button class="mode-btn" id="mb-debate" onclick="setMode('debate')">⚖️ Debate</button>
-      <button class="mode-btn" id="mb-eli5" onclick="setMode('eli5')">🧒 ELI5</button>
-      <button class="mode-btn" id="mb-improve" onclick="setMode('improve')">✨ Improve</button>
-      <button class="mode-btn" id="mb-critique" onclick="setMode('critique')">🔍 Critique</button>
-    </div>
-    <div class="img-preview-wrap" id="imgWrap">
-      <img id="previewImg" src="" alt="">
-      <button class="img-rm" onclick="removeImg()">✕</button>
-    </div>
-    <div class="voice-rec" id="voiceRec">
-      <div class="rec-dot"></div> Recording… <span id="recTime">0s</span>
-    </div>
-    <div class="input-box">
-      <div class="tool-col">
-        <button class="tool-btn" onclick="document.getElementById('imgFile').click()" title="Attach image">📎</button>
-        <button class="tool-btn" onclick="toggleVoice()" id="voiceBtn" title="Voice">🎤</button>
+      <div class="callout callout-ok">
+        <div class="callout-icon">✅</div>
+        <div class="callout-body"><strong>Privacy:</strong> Your chat history is private — only you can see it. Each user's sessions are stored separately in Firestore with security rules that prevent anyone else from accessing your data.</div>
       </div>
-      <textarea id="msgInput" placeholder="Ask anything…" rows="1" onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
-      <button class="send-btn" id="sendBtn" onclick="sendMsg()">➤</button>
     </div>
-    <div class="input-hint"><kbd>Enter</kbd> send · <kbd>Shift+Enter</kbd> new line · <kbd>↑</kbd> recall last</div>
-    <input type="file" id="imgFile" accept="image/*" style="display:none" onchange="handleImg(event)">
-  </div>
-</main>
 
-<!-- GATE WALL -->
-<div class="gate-overlay" id="gate">
-  <div class="gate-box">
-    <div class="gate-glyph">🔑</div>
-    <h2>Free limit <em>reached</em></h2>
-    <p class="gate-desc">You've used all <strong>15 free messages</strong>. To keep chatting, paste your own Groq API key — it's <strong>completely free</strong> to get one in under 30 seconds.</p>
-    <input type="password" class="gate-input" id="gateKey" placeholder="gsk_your_groq_api_key_here" onkeydown="if(event.key==='Enter')submitGateKey()">
-    <button class="gate-btn" onclick="submitGateKey()">🚀 Unlock with my key</button>
-    <span class="gate-link">Get your free key → <a href="https://console.groq.com" target="_blank">console.groq.com</a></span>
-  </div>
-</div>
+    <!-- FEATURES / MODES -->
+    <div class="doc-section" id="features">
+      <span class="section-tag">03 — Features</span>
+      <h2>💬 Chat Modes</h2>
+      <p>DrkChat has 8 built-in modes that automatically reframe your prompt for the best AI response. Switch modes from the bar above the input box.</p>
 
-<!-- Settings Modal -->
-<div class="modal-overlay" id="settingsModal">
-  <div class="modal">
-    <button class="m-close" onclick="closeModal('settingsModal')">✕</button>
-    <h2>⚙️ Settings</h2><p class="sub">Configure DrkChat behavior</p>
-    <div class="fg"><label class="fl">Temperature</label><div class="slider-row"><input type="range" id="tempSlider" min="0" max="2" step="0.1" value="0.7" oninput="document.getElementById('tempVal').textContent=parseFloat(this.value).toFixed(1)"><span id="tempVal" style="font-family:'Space Mono',monospace;font-size:11px;min-width:28px">0.7</span></div></div>
-    <div class="fg"><label class="fl">Max Tokens</label><select class="fs" id="maxTok"><option value="512">512 — Fast</option><option value="1024">1024</option><option value="2048" selected>2048 — Default</option><option value="4096">4096</option><option value="8192">8192 — Max</option></select></div>
-    <div class="fg"><label class="fl">Translate To</label><select class="fs" id="targetLang"><option value="Thai">🇹🇭 Thai</option><option value="English">🇺🇸 English</option><option value="Japanese">🇯🇵 Japanese</option><option value="Chinese (Simplified)">🇨🇳 Chinese</option><option value="Spanish">🇪🇸 Spanish</option><option value="French">🇫🇷 French</option><option value="German">🇩🇪 German</option><option value="Korean">🇰🇷 Korean</option><option value="Arabic">🇸🇦 Arabic</option></select></div>
-    <div class="fg"><label class="fl">Response Style</label><select class="fs" id="respStyle"><option value="balanced">Balanced</option><option value="concise">Concise</option><option value="detailed">Detailed</option><option value="academic">Academic</option><option value="casual">Casual</option><option value="technical">Technical Expert</option></select></div>
-    <div class="fg"><label class="fl">Streaming</label><select class="fs" id="streamSel"><option value="true" selected>✓ Enabled</option><option value="false">✗ Disabled</option></select></div>
-    <div class="mf"><button class="btn-s" onclick="closeModal('settingsModal')">Cancel</button><button class="btn-p" onclick="saveSettings()">Save</button></div>
-  </div>
-</div>
+      <div class="mode-grid">
+        <div class="mode-card">
+          <div class="mode-card-top"><span>💬</span><div class="mode-name">Chat</div></div>
+          <div class="mode-desc">Standard conversation. Ask anything — no prompt modification.</div>
+        </div>
+        <div class="mode-card">
+          <div class="mode-card-top"><span>🌐</span><div class="mode-name">Translate</div></div>
+          <div class="mode-desc">Translates your text into the target language (set in Settings) with cultural context.</div>
+        </div>
+        <div class="mode-card">
+          <div class="mode-card-top"><span>📝</span><div class="mode-name">Summarize</div></div>
+          <div class="mode-desc">Condenses long text into key points and structured takeaways.</div>
+        </div>
+        <div class="mode-card">
+          <div class="mode-card-top"><span>💻</span><div class="mode-name">Code</div></div>
+          <div class="mode-desc">Activates senior-developer mode — clean, commented, production-ready code.</div>
+        </div>
+        <div class="mode-card">
+          <div class="mode-card-top"><span>⚖️</span><div class="mode-name">Debate</div></div>
+          <div class="mode-desc">Presents balanced FOR and AGAINST arguments on any topic.</div>
+        </div>
+        <div class="mode-card">
+          <div class="mode-card-top"><span>🧒</span><div class="mode-name">ELI5</div></div>
+          <div class="mode-desc">Explains anything as if you're 5 years old. Great for learning complex topics.</div>
+        </div>
+        <div class="mode-card">
+          <div class="mode-card-top"><span>✨</span><div class="mode-name">Improve</div></div>
+          <div class="mode-desc">Takes your text and rewrites it to be more clear, effective, and engaging.</div>
+        </div>
+        <div class="mode-card">
+          <div class="mode-card-top"><span>🔍</span><div class="mode-name">Critique</div></div>
+          <div class="mode-desc">Gives honest, detailed, actionable feedback with specific improvements.</div>
+        </div>
+      </div>
 
-<!-- System Prompt Modal -->
-<div class="modal-overlay" id="sysModal">
-  <div class="modal">
-    <button class="m-close" onclick="closeModal('sysModal')">✕</button>
-    <h2>🧠 System Prompt</h2><p class="sub">Define the AI persona</p>
-    <div class="fg"><label class="fl">Preset Personas</label>
-      <select class="fs" id="personaSel" onchange="loadPersona(this.value)">
-        <option value="">— Select preset —</option>
-        <option value="expert">🎓 Expert Assistant</option>
-        <option value="coder">💻 Senior Developer</option>
-        <option value="tutor">📚 Patient Tutor</option>
-        <option value="writer">🖤 Dark Creative Writer</option>
-        <option value="analyst">📊 Data Analyst</option>
-        <option value="critic">🔍 Constructive Critic</option>
-        <option value="translator">🌐 Professional Translator</option>
-      </select>
+      <h3>Message Actions</h3>
+      <p>Hover over any message to reveal action buttons:</p>
+      <div class="callout callout-info">
+        <div class="callout-icon">ℹ️</div>
+        <div class="callout-body">
+          <strong>📋 Copy</strong> — copies the full message text<br>
+          <strong>🔄 Regen</strong> — regenerates the AI response<br>
+          <strong>🔊 Speak</strong> — reads the message aloud (TTS)<br>
+          <strong>🌐 Translate</strong> — translates inline into your target language<br>
+          <strong>✏️ Edit</strong> — (on your messages) puts text back in the input box
+        </div>
+      </div>
     </div>
-    <div class="fg"><label class="fl">Custom Prompt</label><textarea class="fta" id="sysInput" rows="6" placeholder="You are DrkChat, a powerful AI…"></textarea></div>
-    <div class="mf"><button class="btn-s" onclick="clearSys()">Clear</button><button class="btn-p" onclick="saveSys()">Apply</button></div>
-  </div>
-</div>
 
-<!-- Rename Modal -->
-<div class="modal-overlay" id="renameModal">
-  <div class="modal">
-    <button class="m-close" onclick="closeModal('renameModal')">✕</button>
-    <h2>✏️ Rename</h2><p class="sub">Change your display name on this device</p>
-    <div class="fg">
-      <label class="fl">Display Name</label>
-      <input type="text" class="fi" id="renameInput" placeholder="Your name" maxlength="32"
-        onkeydown="if(event.key==='Enter')saveRename()">
-    </div>
-    <div class="mf">
-      <button class="btn-s" onclick="closeModal('renameModal')">Cancel</button>
-      <button class="btn-p" onclick="saveRename()">Save</button>
-    </div>
-  </div>
-</div>
+    <!-- MODELS -->
+    <div class="doc-section" id="models">
+      <span class="section-tag">04 — AI Models</span>
+      <h2>🤖 Available Models</h2>
+      <p>DrkChat runs on <strong>Groq's ultra-fast inference API</strong>. All models run at hundreds of tokens per second. Pick the model that fits your task from the sidebar dropdown.</p>
 
-<div class="toast-wrap" id="toasts"></div>
+      <table class="model-table">
+        <thead>
+          <tr>
+            <th>Model</th>
+            <th>Speed</th>
+            <th>Best For</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>llama-3.3-70b-versatile</strong></td>
+            <td>280 t/s</td>
+            <td>General use, reasoning, writing</td>
+            <td><span class="badge badge-prod">Production</span></td>
+          </tr>
+          <tr>
+            <td><strong>llama-3.1-8b-instant</strong></td>
+            <td>560 t/s</td>
+            <td>Fast responses, simple tasks</td>
+            <td><span class="badge badge-prod">Production</span></td>
+          </tr>
+          <tr>
+            <td><strong>gpt-oss-120b</strong></td>
+            <td>500 t/s</td>
+            <td>Complex reasoning, best quality</td>
+            <td><span class="badge badge-prod">Production</span></td>
+          </tr>
+          <tr>
+            <td><strong>gpt-oss-20b</strong></td>
+            <td>1000 t/s</td>
+            <td>Fastest possible responses</td>
+            <td><span class="badge badge-prod">Production</span></td>
+          </tr>
+          <tr>
+            <td><strong>llama-4-scout-17b</strong></td>
+            <td>750 t/s</td>
+            <td>Image understanding + chat 🖼️</td>
+            <td><span class="badge badge-prev">Preview</span></td>
+          </tr>
+          <tr>
+            <td><strong>qwen3-32b</strong></td>
+            <td>400 t/s</td>
+            <td>Multilingual, coding, reasoning</td>
+            <td><span class="badge badge-prev">Preview</span></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="callout callout-warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body"><strong>Image uploads</strong> only work with <strong>llama-4-scout-17b</strong>. If you attach an image with another model selected, the app will remind you to switch.</div>
+      </div>
+    </div>
+
+    <!-- HISTORY & SETTINGS -->
+    <div class="doc-section" id="history">
+      <span class="section-tag">05 — History & Settings</span>
+      <h2>📚 Chat History & Settings</h2>
+
+      <h3>Chat History</h3>
+      <p>When signed in, all your conversations are automatically saved to Firebase Firestore and synced across devices. Your history appears in the left sidebar, sorted by most recent.</p>
+      <p>Click any session to load it. Hover and click <strong>✕</strong> to delete it permanently. Click <strong>✦ New Chat</strong> to start fresh.</p>
+
+      <h3>Settings Panel</h3>
+      <p>Click the <strong>⚙️</strong> button in the top bar to open Settings:</p>
+      <div class="callout callout-info">
+        <div class="callout-icon">⚙️</div>
+        <div class="callout-body">
+          <strong>Temperature</strong> — controls creativity. 0 = focused, 2 = very random<br>
+          <strong>Max Tokens</strong> — maximum response length (512 to 8192)<br>
+          <strong>Translate To</strong> — default target language for translate mode<br>
+          <strong>Response Style</strong> — Balanced, Concise, Detailed, Academic, Casual, Technical<br>
+          <strong>Streaming</strong> — toggle real-time token streaming on/off
+        </div>
+      </div>
+
+      <h3>System Prompt / Persona</h3>
+      <p>Click <strong>🧠</strong> to set a custom system prompt or pick a preset persona (Expert, Coder, Tutor, Dark Writer, Analyst, Critic, Translator). The system prompt shapes how the AI behaves for your entire session.</p>
+    </div>
+
+    <!-- API KEYS -->
+    <div class="doc-section" id="apikey">
+      <span class="section-tag">06 — API Keys</span>
+      <h2>🔑 Using Your Own API Key</h2>
+      <p>DrkChat gives you <strong>15 free messages per day</strong> using a shared Groq key via Cloudflare Worker proxy. Once you hit the limit, you need your own key.</p>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-line"></div>
+          <div class="step-body">
+            <div class="step-title">Go to console.groq.com</div>
+            <div class="step-desc">Create a free Groq account. It takes under 60 seconds.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-line"></div>
+          <div class="step-body">
+            <div class="step-title">Create an API Key</div>
+            <div class="step-desc">In the Groq Console, go to <strong>API Keys → Create API Key</strong>. Copy the key — it starts with <code style="color:var(--accent2);font-family:'Space Mono',monospace">gsk_</code>.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-line"></div>
+          <div class="step-body">
+            <div class="step-title">Paste it in DrkChat</div>
+            <div class="step-desc">In the sidebar at the bottom, paste your key into the <strong>Your API Key</strong> field. It's saved in your browser — never sent to any server except Groq directly.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout callout-ok">
+        <div class="callout-icon">🔒</div>
+        <div class="callout-body"><strong>Your key is secure.</strong> When you use your own key, requests go directly from your browser to Groq — bypassing the proxy entirely. The key is stored in localStorage and never leaves your device.</div>
+      </div>
+    </div>
+
+    <div class="doc-divider"></div>
+
+    <!-- SELF HOSTING -->
+    <div class="doc-section" id="setup">
+      <span class="section-tag">07 — Self Hosting</span>
+      <h2>🛠️ Self-Hosting Overview</h2>
+      <p>Want to run your own DrkChat instance? You need three things: a <strong>Firebase project</strong> (auth + database), a <strong>Cloudflare Worker</strong> (API proxy), and somewhere to host the HTML file.</p>
+
+      <div class="card-grid">
+        <div class="card">
+          <div class="card-icon">🔥</div>
+          <div class="card-title">Firebase</div>
+          <div class="card-desc">Authentication (Google, GitHub, Email) + Firestore for chat history storage. Free tier is very generous.</div>
+        </div>
+        <div class="card">
+          <div class="card-icon">☁️</div>
+          <div class="card-title">Cloudflare Worker</div>
+          <div class="card-desc">Proxies API requests to Groq so your API key stays secret. Free tier handles 100k requests/day.</div>
+        </div>
+        <div class="card">
+          <div class="card-icon">⚡</div>
+          <div class="card-title">Groq API</div>
+          <div class="card-desc">The actual AI engine. Create a free account at console.groq.com and get an API key.</div>
+        </div>
+        <div class="card">
+          <div class="card-icon">🌐</div>
+          <div class="card-title">Any Hosting</div>
+          <div class="card-desc">The app is a single HTML file. Host it anywhere — GitHub Pages, Netlify, your own server, Firebase Hosting.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FIREBASE SETUP -->
+    <div class="doc-section" id="firebase">
+      <span class="section-tag">08 — Firebase Setup</span>
+      <h2>🔥 Firebase Setup</h2>
+
+      <h3>Create a Project</h3>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-line"></div>
+          <div class="step-body">
+            <div class="step-title">Go to console.firebase.google.com</div>
+            <div class="step-desc">Click <strong>Add Project</strong>, give it a name, and follow the setup wizard.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-line"></div>
+          <div class="step-body">
+            <div class="step-title">Enable Authentication</div>
+            <div class="step-desc">Go to <strong>Authentication → Sign-in method</strong> and enable Google, GitHub, and Email/Password. For GitHub you'll need a GitHub OAuth App.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-line"></div>
+          <div class="step-body">
+            <div class="step-title">Add Your Domain</div>
+            <div class="step-desc">Go to <strong>Authentication → Settings → Authorized domains</strong> and add your custom domain (e.g. <code style="color:var(--accent2);font-family:'Space Mono',monospace">yourdomain.com</code>). Do NOT include https://.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-line"></div>
+          <div class="step-body">
+            <div class="step-title">Create Firestore Database</div>
+            <div class="step-desc">Go to <strong>Firestore Database → Create database</strong>. Start in production mode. Set these security rules:</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="code-block">
+        <span class="cb-label">firestore.rules</span>
+        <span class="kw">rules_version</span> = <span class="str">'2'</span>;<br>
+        <span class="kw">service</span> cloud.firestore {<br>
+        &nbsp;&nbsp;<span class="kw">match</span> /databases/{database}/documents {<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">match</span> /drkchat_sessions/{sessionId} {<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm">// Only owner can read/write/delete</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">allow</span> read, write, delete: <span class="kw">if</span> request.auth != <span class="kw">null</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&amp;&amp; request.auth.uid == resource.data.ownerId;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm">// Only allow creating with your own ownerId</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">allow</span> create: <span class="kw">if</span> request.auth != <span class="kw">null</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&amp;&amp; request.resource.data.ownerId == request.auth.uid;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+        &nbsp;&nbsp;}<br>
+        }
+      </div>
+
+      <h3>Update authDomain for Custom Domains</h3>
+      <p>If you host on a custom domain, set <code style="color:var(--accent2);font-family:'Space Mono',monospace">authDomain</code> to your domain in the Firebase config inside the HTML file:</p>
+      <div class="code-block">
+        <span class="cb-label">drkchat.html</span>
+        <span class="kw">const</span> FB = initializeApp({<br>
+        &nbsp;&nbsp;apiKey: <span class="str">"your-api-key"</span>,<br>
+        &nbsp;&nbsp;authDomain: <span class="str">"yourdomain.com"</span>, <span class="cm">// ← your custom domain</span><br>
+        &nbsp;&nbsp;projectId: <span class="str">"your-project-id"</span>,<br>
+        &nbsp;&nbsp;<span class="cm">// ... rest of config</span><br>
+        });
+      </div>
+    </div>
+
+    <!-- CLOUDFLARE WORKER -->
+    <div class="doc-section" id="worker">
+      <span class="section-tag">09 — Cloudflare Worker</span>
+      <h2>☁️ Cloudflare Worker</h2>
+      <p>The Worker acts as a secure proxy between your app and the Groq API — hiding your API key from users while enabling the shared 15-message free tier.</p>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-line"></div>
+          <div class="step-body">
+            <div class="step-title">Go to workers.cloudflare.com</div>
+            <div class="step-desc">Create a free account, click <strong>Create Application → Create Worker</strong>.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-line"></div>
+          <div class="step-body">
+            <div class="step-title">Paste the Worker Code</div>
+            <div class="step-desc">Replace the default code with the worker script below and click Deploy.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-line"></div>
+          <div class="step-body">
+            <div class="step-title">Add Secret</div>
+            <div class="step-desc">Go to <strong>Settings → Variables → Secrets</strong> and add <code style="color:var(--accent2);font-family:'Space Mono',monospace">GROQ_API_KEY</code> with your Groq key.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-line"></div>
+          <div class="step-body">
+            <div class="step-title">Update PROXY_URL in HTML</div>
+            <div class="step-desc">Copy your Worker URL (e.g. <code style="color:var(--accent2);font-family:'Space Mono',monospace">https://my-worker.name.workers.dev</code>) and paste it as <code style="color:var(--accent2);font-family:'Space Mono',monospace">PROXY_URL</code> in the HTML.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="code-block">
+        <span class="cb-label">worker.js</span>
+        <span class="kw">export default</span> {<br>
+        &nbsp;&nbsp;<span class="kw">async</span> fetch(request, env) {<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">const</span> cors = {<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="str">'Access-Control-Allow-Origin'</span>: <span class="str">'*'</span>,<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="str">'Access-Control-Allow-Methods'</span>: <span class="str">'POST, OPTIONS'</span>,<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="str">'Access-Control-Allow-Headers'</span>: <span class="str">'Content-Type'</span>,<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;};<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">if</span> (request.method === <span class="str">'OPTIONS'</span>)<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">return new</span> Response(<span class="kw">null</span>, { headers: cors });<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">if</span> (request.method !== <span class="str">'POST'</span>)<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">return new</span> Response(<span class="str">'Not allowed'</span>, { status: <span class="str">405</span> });<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">const</span> body = <span class="kw">await</span> request.json();<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">const</span> res = <span class="kw">await</span> fetch(<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="str">'https://api.groq.com/openai/v1/chat/completions'</span>,<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ method: <span class="str">'POST'</span>, headers: { <span class="str">'Authorization'</span>: `Bearer ${env.GROQ_API_KEY}`, <span class="str">'Content-Type'</span>: <span class="str">'application/json'</span> }, body: JSON.stringify(body) }<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;);<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">const</span> data = <span class="kw">await</span> res.text();<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">return new</span> Response(data, { status: res.status, headers: { ...cors, <span class="str">'Content-Type'</span>: <span class="str">'application/json'</span> } });<br>
+        &nbsp;&nbsp;},<br>
+        };
+      </div>
+    </div>
+
+    <!-- DEPLOY -->
+    <div class="doc-section" id="deploy">
+      <span class="section-tag">10 — Deploy</span>
+      <h2>🌐 Deploying</h2>
+      <p>DrkChat is a <strong>single HTML file</strong> — just drop it anywhere that serves static files. Here are the most popular options:</p>
+
+      <div class="card-grid">
+        <div class="card">
+          <div class="card-icon">🔥</div>
+          <div class="card-title">Firebase Hosting</div>
+          <div class="card-desc">Run <code style="font-family:'Space Mono',monospace;font-size:11px;color:var(--accent2)">firebase deploy</code> after setting up Firebase CLI. Custom domain support built in.</div>
+        </div>
+        <div class="card">
+          <div class="card-icon">🌿</div>
+          <div class="card-title">Netlify</div>
+          <div class="card-desc">Drag and drop your HTML file at netlify.com/drop. Instant deploy with a free subdomain.</div>
+        </div>
+        <div class="card">
+          <div class="card-icon">▲</div>
+          <div class="card-title">Vercel</div>
+          <div class="card-desc">Push to GitHub and connect to Vercel for automatic deploys on every commit.</div>
+        </div>
+        <div class="card">
+          <div class="card-icon">📄</div>
+          <div class="card-title">GitHub Pages</div>
+          <div class="card-desc">Rename to <code style="font-family:'Space Mono',monospace;font-size:11px;color:var(--accent2)">index.html</code>, push to a repo, enable Pages in Settings. Free forever.</div>
+        </div>
+      </div>
+
+      <div class="callout callout-warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body"><strong>Remember:</strong> After deploying to a new domain, always add that domain to Firebase's <strong>Authorized Domains</strong> list and update <code style="font-family:'Space Mono',monospace">authDomain</code> in the HTML config.</div>
+      </div>
+    </div>
+
+    <div class="doc-divider"></div>
+
+    <!-- INSPIRATION -->
+    <div class="inspiration" id="inspiration">
+      <div class="insp-tag">From the creator</div>
+      <h2>Dream it.<br><em>Build it.</em><br><span>Ship it.</span></h2>
+
+      <div class="insp-body">
+        <p>
+          If you've made it to the end of this documentation — thank you. But before you close this tab, I want to say something that I really mean.
+        </p>
+        <p>
+          <strong>If you love building things, if you dream about making your own app, your own tool, your own little corner of the internet — just start.</strong> Don't wait until you think you're "ready." Don't wait until you're older, or until you know more, or until someone gives you permission.
+        </p>
+        <p>
+          The world is full of people who <span class="highlight">talk</span> about building things. Be the kind of person who actually <span class="highlight2">builds</span> them. It doesn't have to be perfect. It doesn't have to be big. It just has to be <span class="highlight3">yours</span>.
+        </p>
+
+        <div class="dream-list">
+          <div class="dream-item">
+            <div class="dream-dot"></div>
+            <span>Every expert was once a beginner who refused to give up.</span>
+          </div>
+          <div class="dream-item">
+            <div class="dream-dot"></div>
+            <span>Google it. Break it. Fix it. That's how you actually learn.</span>
+          </div>
+          <div class="dream-item">
+            <div class="dream-dot"></div>
+            <span>Your age, your background, your resources — none of that decides what you can build.</span>
+          </div>
+          <div class="dream-item">
+            <div class="dream-dot"></div>
+            <span>The best time to start was yesterday. The second best time is right now.</span>
+          </div>
+        </div>
+
+        <p>
+          I'm not saying this as some inspirational quote from a poster. I'm saying it because I know what it's like to have a big idea and wonder if someone like you is allowed to build it.
+        </p>
+        <p>
+          <strong>You are. You really are.</strong>
+        </p>
+
+        <div class="age-badge">
+          <div class="age-num">11</div>
+          <div class="age-label">
+            <strong>Built by an 11-year-old</strong>
+            DrkChat was made by a real kid who just really loves building things.
+          </div>
+        </div>
+
+        <p style="margin-top:24px">
+          If an 11-year-old can build an AI chat app with Firebase authentication, Cloudflare Workers, streaming responses, and a full documentation site — then whatever you're dreaming about building? <span class="highlight">You can build it too.</span>
+        </p>
+        <p>
+          Keep dreaming. Keep building. The internet needs more people brave enough to actually ship their ideas.
+        </p>
+      </div>
+
+      <div class="insp-sign">
+        <div class="sign-avatar">🌑</div>
+        <div>
+          <div class="sign-name">The DrkChat Creator</div>
+          <div class="sign-title">Age 11 · Builder · Dreamer · ltnproject.qzz.io</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+      <div>© 2025 DrkChat · Built by an 11-year-old 🌑</div>
+      <div style="display:flex;gap:16px">
+        <a href="/">App</a>
+        <a href="https://console.groq.com" target="_blank">Groq</a>
+        <a href="https://firebase.google.com" target="_blank">Firebase</a>
+        <a href="https://workers.cloudflare.com" target="_blank">Cloudflare</a>
+      </div>
+    </footer>
+
+  </main>
+</div>
 
 <script>
-// ─── CONFIG ────────────────────────────────────────────────────────────────
-const SALTING_URL = 'https://api.salting.io/r/0a1e9173-ea1f-48d0-bdf4-13b0ca29378e';
-const SALTING_KEY = '9229bfbaae9c6186f35c86b00f6a620aa7cd9e7c5b7cb61d6b445fe594d33f83';
-const GROQ_BASE   = 'https://api.groq.com/openai/v1/chat/completions';
-const FREE_LIMIT  = 15;
-const TEST_KEY    = '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'; // ⚠️ TEST ONLY
+// Highlight active TOC item on scroll
+const sections = document.querySelectorAll('.doc-section, .doc-hero, .inspiration');
+const tocItems = document.querySelectorAll('.toc-item');
 
-// ─── STATE ─────────────────────────────────────────────────────────────────
-let sessId = null, sessions = {}, history = [], totalTok = 0;
-let settings = { temp: 0.7, maxTok: 2048, targetLang: 'Thai', style: 'balanced', stream: true };
-let mode = 'chat', sysPrompt = '', attachedImg = null;
-let isRec = false, recMR = null, recInt = null, recSec = 0, lastMsg = '';
-let freeUsed = 0;
-let localName = '';
-
-// ─── LOCAL NAME ─────────────────────────────────────────────────────────────
-function loadLocalName() {
-  localName = localStorage.getItem('drk_name') || '';
-  if (!localName) {
-    document.getElementById('nameOverlay').classList.remove('hidden');
-  } else {
-    applyName(localName);
-    initApp();
-  }
-}
-
-window.saveName = () => {
-  const v = document.getElementById('nameInput').value.trim();
-  if (!v) { document.getElementById('nameInput').focus(); return; }
-  localName = v;
-  localStorage.setItem('drk_name', v);
-  document.getElementById('nameOverlay').classList.add('hidden');
-  applyName(v);
-  initApp();
-  toast(`👋 Welcome, ${esc(v)}!`, 'ok');
-};
-
-function applyName(name) {
-  localName = name;
-  document.getElementById('userName').textContent = name;
-  document.getElementById('userAvatar').textContent = name.charAt(0).toUpperCase();
-}
-
-window.openRenameModal = () => {
-  document.getElementById('userDropdown').classList.remove('open');
-  document.getElementById('renameInput').value = localName;
-  openModal('renameModal');
-};
-
-window.saveRename = () => {
-  const v = document.getElementById('renameInput').value.trim();
-  if (!v) return;
-  localStorage.setItem('drk_name', v);
-  applyName(v);
-  closeModal('renameModal');
-  toast('✅ Name updated', 'ok');
-};
-
-window.clearAllData = () => {
-  if (!confirm('Delete all chats and settings on this device?')) return;
-  localStorage.clear();
-  location.reload();
-};
-
-window.toggleUserMenu = () => {
-  document.getElementById('userDropdown').classList.toggle('open');
-};
-document.addEventListener('click', e => {
-  if (!e.target.closest('#userProfile'))
-    document.getElementById('userDropdown').classList.remove('open');
-});
-
-// ─── FREE USAGE ──────────────────────────────────────────────────────────────
-function loadFreeUsage() {
-  const today = new Date().toDateString();
-  if (localStorage.getItem('drk_day') !== today) {
-    localStorage.setItem('drk_day', today);
-    localStorage.setItem('drk_free', '0');
-  }
-  freeUsed = parseInt(localStorage.getItem('drk_free') || '0', 10);
-  updateMeter();
-}
-function bumpFree() { freeUsed++; localStorage.setItem('drk_free', freeUsed); updateMeter(); }
-function updateMeter() {
-  const pct = Math.min((freeUsed / FREE_LIMIT) * 100, 100);
-  document.getElementById('usedCount').textContent = Math.min(freeUsed, FREE_LIMIT);
-  document.getElementById('usageBar').style.width = pct + '%';
-  const bar = document.getElementById('usageBar');
-  const note = document.getElementById('usageNote');
-  if (freeUsed >= FREE_LIMIT) {
-    bar.style.background = 'linear-gradient(90deg,var(--red),var(--accent3))';
-    note.textContent = '⚠️ Limit reached — enter your API key';
-  } else if (freeUsed >= 10) {
-    bar.style.background = 'linear-gradient(90deg,var(--accent3),var(--red))';
-    note.textContent = `${FREE_LIMIT - freeUsed} free messages left today`;
-  } else {
-    bar.style.background = '';
-    note.textContent = 'Using shared API · Free for everyone';
-  }
-  updateApiPill();
-}
-function overLimit() { return freeUsed >= FREE_LIMIT; }
-function hasOwnKey() { return (localStorage.getItem('drk_own_key') || '').startsWith('gsk_'); }
-function getKey() {
-  // ⚠️ TEST KEY — remove before production
-  return { key: TEST_KEY, own: true };
-  const own = localStorage.getItem('drk_own_key') || '';
-  if (own.startsWith('gsk_')) return { key: own, own: true };
-  if (!overLimit()) return { key: null, own: false };
-  return null;
-}
-function updateApiPill() {
-  const dot = document.getElementById('apiDot');
-  const txt = document.getElementById('apiPillTxt');
-  if (hasOwnKey()) { dot.className = 'status-dot'; txt.textContent = 'your key'; }
-  else if (!overLimit()) { dot.className = 'status-dot warn'; txt.textContent = `shared (${FREE_LIMIT - freeUsed} left)`; }
-  else { dot.className = 'status-dot off'; txt.textContent = 'key required'; }
-}
-window.saveOwnKey = val => {
-  localStorage.setItem('drk_own_key', val);
-  document.getElementById('ownKeyStatus').textContent = val.startsWith('gsk_') ? '🟢' : (val ? '🔴' : '—');
-  updateApiPill();
-};
-window.submitGateKey = () => {
-  const v = document.getElementById('gateKey').value.trim();
-  if (!v.startsWith('gsk_')) { toast('Must start with gsk_', 'err'); return; }
-  localStorage.setItem('drk_own_key', v);
-  document.getElementById('ownKeyInput').value = v;
-  document.getElementById('ownKeyStatus').textContent = '🟢';
-  updateApiPill();
-  document.getElementById('gate').classList.remove('open');
-  toast('✅ Key saved — continue chatting!', 'ok');
-};
-
-// ─── LOCAL STORAGE SESSIONS ──────────────────────────────────────────────────
-function lsSave() {
-  try { localStorage.setItem('drk_sessions', JSON.stringify(sessions)); } catch(e) {}
-}
-function lsLoad() {
-  try {
-    const raw = localStorage.getItem('drk_sessions');
-    sessions = raw ? JSON.parse(raw) : {};
-  } catch(e) { sessions = {}; }
-}
-
-// ─── SESSIONS ────────────────────────────────────────────────────────────────
-window.newSession = () => {
-  sessId = 'drk_' + Date.now(); history = []; totalTok = 0;
-  sessions[sessId] = { sessionId: sessId, title: 'New Chat', messages: [], createdAt: Date.now() };
-  document.getElementById('messages').innerHTML = welcomeHTML();
-  document.getElementById('sessTitle').textContent = 'Playground';
-  document.getElementById('tokBar').style.display = 'none';
-  renderHist();
-};
-window.loadSess = id => {
-  if (!sessions[id]) return;
-  sessId = id;
-  history = (sessions[id].messages || []).map(m => ({ role: m.role, content: m.content }));
-  totalTok = sessions[id].totalTok || 0;
-  document.getElementById('sessTitle').textContent = sessions[id].title || 'Chat';
-  const msgs = document.getElementById('messages'); msgs.innerHTML = '';
-  if (!history.length) msgs.innerHTML = welcomeHTML();
-  else { history.forEach(m => appendMsg(m.role, m.content, false, sessions[id].model)); updateTokBar(true); }
-  renderHist();
-};
-window.delSess = id => {
-  delete sessions[id];
-  lsSave();
-  if (id === sessId) newSession(); else renderHist();
-};
-function renderHist() {
-  document.getElementById('histItems').innerHTML = Object.values(sessions)
-    .sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0))
-    .map(s => `<div class="hist-item ${s.sessionId === sessId ? 'cur' : ''}" onclick="loadSess('${s.sessionId}')">
-      <span class="hist-icon">💬</span>
-      <span class="hist-text">${esc(s.title || 'Chat')}</span>
-      <button class="hist-del" onclick="event.stopPropagation();delSess('${s.sessionId}')">✕</button>
-    </div>`).join('');
-}
-function welcomeHTML() {
-  const name = localName || 'there';
-  return `<div class="welcome" id="welcomeScreen">
-  <div class="welcome-orb">🌑</div>
-  <div><h1>Hey, <em>${esc(name)}</em> 👋</h1><p class="wl-sub">Lightning-fast AI. First 15 messages free — no key needed.</p></div>
-  <div class="suggest-pills">
-    <span class="suggest-pill" onclick="fillPrompt('Explain quantum computing simply')">⚛️ Quantum</span>
-    <span class="suggest-pill" onclick="fillPrompt('Write a Python web scraper with BeautifulSoup')">🐍 Python</span>
-    <span class="suggest-pill" onclick="fillPrompt('Translate to Thai: The moon is beautiful tonight')">🌐 Translate</span>
-    <span class="suggest-pill" onclick="fillPrompt('Write a dark poem about the void')">🖤 Dark poetry</span>
-    <span class="suggest-pill" onclick="fillPrompt('Debug this code: ')">🐛 Debug</span>
-    <span class="suggest-pill" onclick="fillPrompt('Summarize and extract key points: ')">📋 Summarize</span>
-  </div>
-  <div class="starter-grid">
-    <div class="starter" onclick="fillPrompt('Build a React todo app with TypeScript and Tailwind')"><div class="starter-icon">💻</div><div class="starter-title">Code Generation</div><div class="starter-desc">Production-ready code in any language</div></div>
-    <div class="starter" onclick="fillPrompt('Translate and explain cultural context: Mono no aware')"><div class="starter-icon">🌐</div><div class="starter-title">Translation</div><div class="starter-desc">With cultural nuance</div></div>
-    <div class="starter" onclick="fillPrompt('Explain entropy like I am five years old')"><div class="starter-icon">🧒</div><div class="starter-title">ELI5</div><div class="starter-desc">Any concept, simply explained</div></div>
-    <div class="starter" onclick="fillPrompt('Debate both sides: Is AI sentience possible?')"><div class="starter-icon">⚖️</div><div class="starter-title">Debate</div><div class="starter-desc">Balanced multi-perspective thinking</div></div>
-  </div>
-</div>`;
-}
-
-// ─── API CALLS ───────────────────────────────────────────────────────────────
-async function callDirect(key, model, messages) {
-  const r = await fetch(GROQ_BASE, {
-    method: 'POST',
-    headers: { 'Authorization': 'Bearer ' + key, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ model, messages, temperature: settings.temp, max_tokens: settings.maxTok, stream: settings.stream })
-  });
-  if (!r.ok) { const e = await r.json().catch(() => ({})); throw new Error(e.error?.message || 'HTTP ' + r.status); }
-  return r;
-}
-async function callSalting(model, messages) {
-  const r = await fetch(SALTING_URL, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + SALTING_KEY },
-    body: JSON.stringify({ model, messages, temperature: settings.temp, max_tokens: settings.maxTok, stream: settings.stream })
-  });
-  if (!r.ok) {
-    const e = await r.json().catch(() => ({}));
-    if (r.status === 429) throw new Error('Shared quota reached. Please use your own API key.');
-    throw new Error(e.error?.message || e.message || 'HTTP ' + r.status);
-  }
-  return r;
-}
-
-// ─── SEND ────────────────────────────────────────────────────────────────────
-window.sendMsg = async () => {
-  const inp = document.getElementById('msgInput');
-  const text = inp.value.trim();
-  if (!text && !attachedImg) return;
-  if (overLimit() && !hasOwnKey()) { document.getElementById('gate').classList.add('open'); return; }
-
-  const ki = getKey();
-  const model = document.getElementById('modelSelect').value;
-  lastMsg = text;
-
-  let userContent = attachedImg && model.includes('scout')
-    ? [{ type: 'image_url', image_url: { url: attachedImg } }, { type: 'text', text: text || 'Describe this image.' }]
-    : applyMode(text);
-
-  inp.value = ''; autoResize(inp);
-  document.getElementById('welcomeScreen')?.remove();
-  removeImg();
-  appendMsg('user', text || '🖼️ Image', true, model);
-  history.push({ role: 'user', content: userContent });
-
-  const tid = showTyping();
-  document.getElementById('sendBtn').disabled = true;
-  const t0 = Date.now();
-
-  try {
-    let res;
-    if (ki?.own) res = await callDirect(ki.key, model, buildMsgs());
-    else res = await callSalting(model, buildMsgs());
-    bumpFree();
-
-    removeTyping(tid);
-    if (settings.stream) await handleStream(res, model, t0);
-    else {
-      const d = await res.json();
-      const c = d.choices[0]?.message?.content || '';
-      appendMsg('assistant', c, true, model);
-      history.push({ role: 'assistant', content: c });
-      totalTok += d.usage?.total_tokens || 0;
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      tocItems.forEach(item => item.classList.remove('active'));
+      const id = entry.target.id;
+      const active = document.querySelector(`.toc-item[href="#${id}"]`);
+      if (active) active.classList.add('active');
     }
-    updateTokBar(true);
-    persist(model);
-  } catch(e) {
-    removeTyping(tid);
-    toast('Error: ' + e.message, 'err');
-    appendMsg('assistant', '❌ ' + e.message, true, model);
-  }
-  document.getElementById('sendBtn').disabled = false;
-};
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
 
-function applyMode(text) {
-  const tl = settings.targetLang;
-  const map = {
-    chat: text,
-    translate: `Translate to ${tl}. Provide translation then explain cultural nuances:\n\n${text}`,
-    summarize: `Summarize this. Extract key points and main ideas in a structured format:\n\n${text}`,
-    code: `As a senior software engineer, help with this. Write clean, well-commented code:\n\n${text}`,
-    debate: `Present balanced arguments FOR and AGAINST:\n\n${text}`,
-    eli5: `Explain like I'm 5. Use simple words and fun analogies:\n\n${text}`,
-    improve: `Improve this text. Make it more effective, clear, and engaging:\n\n${text}`,
-    critique: `Give thorough constructive critique with specific actionable improvements:\n\n${text}`,
-  };
-  return map[mode] || text;
-}
-function buildMsgs() {
-  const styleMap = { balanced: '', concise: 'Be concise and direct.', detailed: 'Be thorough with examples.', academic: 'Use formal academic tone.', casual: 'Be friendly and conversational.', technical: 'Use expert technical terminology.' };
-  const sp = sysPrompt || 'You are DrkChat, a powerful and sharp AI assistant. You are direct, creative, and highly capable.';
-  const full = [sp, styleMap[settings.style]].filter(Boolean).join('\n\n');
-  return [{ role: 'system', content: full }, ...history.slice(-20)];
-}
-async function handleStream(res, model, t0) {
-  const reader = res.body.getReader(); const dec = new TextDecoder();
-  let full = '', el = null, toks = 0;
-  while (true) {
-    const { done, value } = await reader.read(); if (done) break;
-    const lines = dec.decode(value).split('\n').filter(l => l.startsWith('data: '));
-    for (const ln of lines) {
-      const d = ln.replace('data: ', ''); if (d === '[DONE]') break;
-      try { const p = JSON.parse(d); const delta = p.choices?.[0]?.delta?.content || ''; if (delta) { full += delta; toks++; if (!el) el = appendMsg('assistant', '', true, model, true); updateStream(el, full); } } catch(e) {}
-    }
-  }
-  if (el) finalStream(el, full);
-  history.push({ role: 'assistant', content: full }); totalTok += toks;
-  const secs = (Date.now() - t0) / 1000;
-  document.getElementById('spd').textContent = secs > 0 ? Math.round(toks / secs) + ' tok/s' : '—';
-}
-
-// ─── RENDERING ───────────────────────────────────────────────────────────────
-function appendMsg(role, content, save = true, model = '', streaming = false) {
-  const msgs = document.getElementById('messages');
-  const time = new Date().toLocaleTimeString('en', { hour: '2-digit', minute: '2-digit' });
-  const isU = role === 'user';
-  const div = document.createElement('div'); div.className = 'msg ' + role;
-  const tag = model ? `<span class="msg-tag">${esc(model.split('-').slice(0, 2).join('-'))}</span>` : '';
-  const avContent = isU ? (localName.charAt(0).toUpperCase() || '👤') : '🌑';
-  div.innerHTML = `<div class="msg-av">${avContent}</div>
-  <div class="msg-body">
-    <div class="msg-meta"><span class="msg-name">${isU ? esc(localName.split(' ')[0] || 'You') : 'DrkChat'}</span><span class="msg-time">${time}</span>${!isU ? tag : ''}</div>
-    <div class="msg-bubble">${streaming && !isU ? '<span class="sc"></span>' : renderMd(content, isU)}</div>
-    <div class="msg-acts">${!isU ? `<button class="act-btn" onclick="copyMsg(this)">📋 Copy</button><button class="act-btn" onclick="regenMsg(this)">🔄 Regen</button><button class="act-btn" onclick="speakMsg(this)">🔊 Speak</button><button class="act-btn" onclick="translateMsg(this)">🌐 Translate</button>` : `<button class="act-btn" onclick="editMsg(this)">✏️ Edit</button>`}</div>
-  </div>`;
-  msgs.appendChild(div); msgs.scrollTop = 99999; return div;
-}
-function updateStream(el, content) { const b = el.querySelector('.msg-bubble'); b.innerHTML = renderMd(content, false) + '<span class="sc"></span>'; document.getElementById('messages').scrollTop = 99999; hljs.highlightAll(); }
-function finalStream(el, content) { const b = el.querySelector('.msg-bubble'); b.innerHTML = renderMd(content, false); hljs.highlightAll(); addCopyBtns(b); }
-function renderMd(content, isUser) { if (isUser) return `<span style="white-space:pre-wrap">${esc(content)}</span>`; try { return marked.parse(content); } catch { return esc(content); } }
-function addCopyBtns(el) { el.querySelectorAll('pre').forEach(pre => { if (pre.querySelector('.copy-pre-btn')) return; const btn = document.createElement('button'); btn.className = 'copy-pre-btn'; btn.textContent = 'copy'; btn.onclick = () => { navigator.clipboard.writeText(pre.querySelector('code')?.textContent || ''); btn.textContent = '✓'; setTimeout(() => btn.textContent = 'copy', 2000); }; pre.style.position = 'relative'; pre.appendChild(btn); }); }
-function showTyping() { const id = 't' + Date.now(); const msgs = document.getElementById('messages'); const d = document.createElement('div'); d.className = 'typing'; d.id = id; d.innerHTML = `<div class="msg-av" style="background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:15px">🌑</div><div class="typing-bub"><div class="td"></div><div class="td"></div><div class="td"></div></div>`; msgs.appendChild(d); msgs.scrollTop = 99999; return id; }
-function removeTyping(id) { document.getElementById(id)?.remove(); }
-
-function persist(model) {
-  if (!sessions[sessId]) return;
-  const s = sessions[sessId];
-  if (!s.messages?.length) {
-    const f = history.find(m => m.role === 'user');
-    if (f) { const t = typeof f.content === 'string' ? f.content.substring(0, 50) : '🖼️ Image'; s.title = t + (t.length >= 50 ? '…' : ''); document.getElementById('sessTitle').textContent = s.title; }
-  }
-  s.messages = history.map(m => ({ role: m.role, content: typeof m.content === 'string' ? m.content : JSON.stringify(m.content) }));
-  s.model = model; s.totalTok = totalTok; s.updatedAt = Date.now();
-  lsSave(); renderHist();
-}
-function updateTokBar(show) {
-  document.getElementById('tokBar').style.display = show ? 'flex' : 'none';
-  document.getElementById('totTok').textContent = totalTok;
-  document.getElementById('msgCnt').textContent = history.length;
-  document.getElementById('ctxStat').textContent = history.length * 200 > 6000 ? '🟡 Context near limit' : '🟢 Context OK';
-}
-
-// ─── ACTIONS ─────────────────────────────────────────────────────────────────
-window.fillPrompt = t => { const i = document.getElementById('msgInput'); i.value = t; autoResize(i); i.focus(); };
-window.handleKey = e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMsg(); } if (e.key === 'ArrowUp' && !document.getElementById('msgInput').value) { document.getElementById('msgInput').value = lastMsg; autoResize(document.getElementById('msgInput')); } };
-window.autoResize = el => { el.style.height = 'auto'; el.style.height = Math.min(el.scrollHeight, 180) + 'px'; };
-window.removeImg = () => { attachedImg = null; document.getElementById('imgWrap').classList.remove('show'); document.getElementById('imgFile').value = ''; };
-window.handleImg = e => { const f = e.target.files[0]; if (!f) return; const r = new FileReader(); r.onload = ev => { attachedImg = ev.target.result; document.getElementById('previewImg').src = attachedImg; document.getElementById('imgWrap').classList.add('show'); if (!document.getElementById('modelSelect').value.includes('scout')) toast('Switch to llama-4-scout-17b for images 🖼️', 'info'); }; r.readAsDataURL(f); };
-
-window.setMode = m => {
-  mode = m;
-  document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('on'));
-  document.getElementById('mb-' + m)?.classList.add('on');
-  const banner = document.getElementById('modeBanner');
-  const labels = { translate: `🌐 Translate → ${settings.targetLang}`, summarize: '📝 Summarize Mode', code: '💻 Code Helper', debate: '⚖️ Debate Mode', eli5: '🧒 ELI5 Mode', improve: '✨ Improve Mode', critique: '🔍 Critique Mode' };
-  if (m === 'chat') banner.className = 'mode-banner';
-  else { banner.className = 'mode-banner show ' + m; document.getElementById('modeBannerTxt').textContent = labels[m] || m; }
-};
-
-window.copyMsg = btn => { navigator.clipboard.writeText(btn.closest('.msg-body').querySelector('.msg-bubble').innerText); const o = btn.innerHTML; btn.innerHTML = '✓ Copied'; setTimeout(() => btn.innerHTML = o, 2000); };
-window.speakMsg = btn => { const t = btn.closest('.msg-body').querySelector('.msg-bubble').innerText.substring(0, 500); if ('speechSynthesis' in window) { speechSynthesis.cancel(); speechSynthesis.speak(new SpeechSynthesisUtterance(t)); } else toast('TTS not supported', 'err'); };
-window.editMsg = btn => { const t = btn.closest('.msg-body').querySelector('.msg-bubble').innerText; const i = document.getElementById('msgInput'); i.value = t; autoResize(i); i.focus(); };
-
-window.translateMsg = async btn => {
-  const bubble = btn.closest('.msg-body').querySelector('.msg-bubble'); const text = bubble.innerText;
-  const ki = getKey(); if (!ki && overLimit() && !hasOwnKey()) { document.getElementById('gate').classList.add('open'); return; }
-  btn.innerHTML = '⏳';
-  try {
-    const model = document.getElementById('modelSelect').value;
-    const msgs = [{ role: 'user', content: `Translate to ${settings.targetLang}:\n\n${text.substring(0, 2000)}` }];
-    let r; if (ki?.own) r = await callDirect(ki.key, model, msgs); else { r = await callSalting(model, msgs); bumpFree(); }
-    const d = await r.json(); const tr = d.choices?.[0]?.message?.content || 'Failed';
-    const el = document.createElement('div');
-    el.style.cssText = 'margin-top:10px;padding:10px 13px;background:rgba(34,211,238,0.07);border:1px solid rgba(34,211,238,0.2);border-radius:8px;font-size:13px;line-height:1.65';
-    el.innerHTML = `<span style="font-size:9px;color:var(--accent2);font-family:'Space Mono',monospace;display:block;margin-bottom:4px">🌐 ${settings.targetLang.toUpperCase()}</span>${esc(tr)}`;
-    bubble.appendChild(el); btn.innerHTML = '✓';
-  } catch(e) { toast('Translate: ' + e.message, 'err'); btn.innerHTML = '🌐 Translate'; }
-};
-
-window.regenMsg = async btn => {
-  const lastA = history.map((m, i) => ({ ...m, i })).filter(m => m.role === 'assistant').pop();
-  if (!lastA) return; history = history.filter((_, i) => i !== lastA.i); btn.closest('.msg').remove();
-  const ki = getKey(); if (!ki) { document.getElementById('gate').classList.add('open'); return; }
-  const model = document.getElementById('modelSelect').value;
-  const tid = showTyping(); document.getElementById('sendBtn').disabled = true;
-  try {
-    let r; if (ki.own) r = await callDirect(ki.key, model, buildMsgs()); else r = await callSalting(model, buildMsgs());
-    bumpFree();
-    removeTyping(tid);
-    if (settings.stream) await handleStream(r, model, Date.now());
-    else { const d = await r.json(); const c = d.choices[0]?.message?.content || ''; appendMsg('assistant', c, true, model); history.push({ role: 'assistant', content: c }); }
-    persist(model);
-  } catch(e) { removeTyping(tid); toast('Regen: ' + e.message, 'err'); }
-  document.getElementById('sendBtn').disabled = false;
-};
-
-window.toggleVoice = async () => {
-  if (isRec) { if (recMR) recMR.stop(); clearInterval(recInt); isRec = false; document.getElementById('voiceRec').classList.remove('on'); document.getElementById('voiceBtn').textContent = '🎤'; return; }
-  try { const stream = await navigator.mediaDevices.getUserMedia({ audio: true }); recMR = new MediaRecorder(stream); recMR.onstop = () => { stream.getTracks().forEach(t => t.stop()); toast('🎤 Recorded (add Whisper for transcription)', 'info'); }; recMR.start(); isRec = true; recSec = 0; document.getElementById('voiceRec').classList.add('on'); document.getElementById('voiceBtn').textContent = '⏹️'; recInt = setInterval(() => { recSec++; document.getElementById('recTime').textContent = recSec + 's'; if (recSec >= 60) window.toggleVoice(); }, 1000); } catch { toast('Mic access denied', 'err'); }
-};
-
-window.openSettings = () => {
-  document.getElementById('tempSlider').value = settings.temp;
-  document.getElementById('tempVal').textContent = settings.temp;
-  document.getElementById('maxTok').value = settings.maxTok;
-  document.getElementById('targetLang').value = settings.targetLang;
-  document.getElementById('respStyle').value = settings.style;
-  document.getElementById('streamSel').value = String(settings.stream);
-  openModal('settingsModal');
-};
-window.saveSettings = () => {
-  settings = { temp: parseFloat(document.getElementById('tempSlider').value), maxTok: parseInt(document.getElementById('maxTok').value), targetLang: document.getElementById('targetLang').value, style: document.getElementById('respStyle').value, stream: document.getElementById('streamSel').value === 'true' };
-  localStorage.setItem('drk_settings', JSON.stringify(settings)); closeModal('settingsModal'); toast('✅ Settings saved', 'ok');
-};
-
-const PERSONAS = {
-  expert: 'You are an expert-level AI with deep knowledge across all domains. Provide accurate, well-reasoned responses.',
-  coder: 'You are a senior software engineer with 15+ years experience. Write clean, efficient, well-documented code.',
-  tutor: 'You are a patient, encouraging tutor who adapts to the learner level. Use analogies and examples.',
-  writer: 'You are DrkChat, a dark creative writer. You craft compelling narratives with depth, atmosphere, and edge.',
-  analyst: 'You are a strategic data analyst. Break down complex problems with evidence-based insights.',
-  critic: 'You provide honest, specific, actionable constructive feedback. Identify strengths and weaknesses.',
-  translator: 'You are a professional translator with expertise in linguistics and cultural context.',
-};
-window.openSysPrompt = () => { document.getElementById('sysInput').value = sysPrompt; openModal('sysModal'); };
-window.loadPersona = k => { if (k && PERSONAS[k]) document.getElementById('sysInput').value = PERSONAS[k]; };
-window.saveSys = () => { sysPrompt = document.getElementById('sysInput').value; localStorage.setItem('drk_sys', sysPrompt); updateSysBtn(); closeModal('sysModal'); toast('🧠 Applied', 'ok'); };
-window.clearSys = () => { sysPrompt = ''; localStorage.removeItem('drk_sys'); document.getElementById('sysInput').value = ''; updateSysBtn(); closeModal('sysModal'); };
-function updateSysBtn() { document.getElementById('sysBtn').classList.toggle('active-sys', !!sysPrompt); }
-
-window.exportChat = () => {
-  if (!history.length) { toast('No messages', 'info'); return; }
-  const txt = history.map(m => `[${m.role.toUpperCase()}]\n${typeof m.content === 'string' ? m.content : JSON.stringify(m.content)}`).join('\n\n---\n\n');
-  const a = Object.assign(document.createElement('a'), { href: URL.createObjectURL(new Blob([txt], { type: 'text/plain' })), download: `drkchat-${Date.now()}.txt` }); a.click(); toast('📤 Exported', 'ok');
-};
-window.clearChat = () => { history = []; totalTok = 0; document.getElementById('messages').innerHTML = welcomeHTML(); updateTokBar(false); toast('🗑️ Cleared', 'info'); };
-
-window.openModal = id => document.getElementById(id).classList.add('open');
-window.closeModal = id => document.getElementById(id).classList.remove('open');
-document.querySelectorAll('.modal-overlay').forEach(o => o.addEventListener('click', e => { if (e.target === o) o.classList.remove('open'); }));
-
-window.toast = (msg, type = 'info') => {
-  const c = document.getElementById('toasts'); const icons = { ok: '✓', err: '✕', info: 'ℹ', warn: '⚠' };
-  const el = document.createElement('div'); el.className = 'toast ' + type; el.innerHTML = `<span>${icons[type] || 'ℹ'}</span><span>${esc(msg)}</span>`;
-  c.appendChild(el); setTimeout(() => el.remove(), 3100);
-};
-function esc(t) { return String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
-
-document.getElementById('modelSelect').addEventListener('change', e => {
-  document.getElementById('modelBadge').textContent = e.target.value.split('-').slice(0, 2).join('-');
-});
-marked.setOptions({ breaks: true, gfm: true });
-
-// ─── INIT ─────────────────────────────────────────────────────────────────────
-function initApp() {
-  lsLoad();
-  loadFreeUsage();
-  const sk = localStorage.getItem('drk_own_key') || '';
-  if (sk) { document.getElementById('ownKeyInput').value = sk; document.getElementById('ownKeyStatus').textContent = sk.startsWith('gsk_') ? '🟢' : '—'; }
-  const ss = localStorage.getItem('drk_settings'); if (ss) settings = { ...settings, ...JSON.parse(ss) };
-  sysPrompt = localStorage.getItem('drk_sys') || ''; updateSysBtn(); updateApiPill();
-  newSession();
-  setMode('chat');
-}
-
-// ─── BOOT ─────────────────────────────────────────────────────────────────────
-loadLocalName(); // shows name prompt or goes straight to initApp()
+sections.forEach(s => s.id && observer.observe(s));
 </script>
 </body>
 </html>
