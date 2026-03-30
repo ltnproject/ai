@@ -4,6 +4,56 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>DrkChat Playground</title>
+<meta name="theme-color" content="#08080e">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="DrkChat">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="manifest" id="pwa-manifest">
+<link rel="apple-touch-icon" id="apple-icon">
+<script>
+(function(){
+  function makeIcon(size) {
+    const c = document.createElement('canvas');
+    c.width = c.height = size;
+    const ctx = c.getContext('2d');
+    const r = size * 0.22;
+    // Rounded rect bg
+    ctx.beginPath();
+    ctx.roundRect(0, 0, size, size, size * 0.22);
+    ctx.fillStyle = '#0f0f1a'; ctx.fill();
+    // Gradient circle (moon base)
+    const g = ctx.createLinearGradient(0, 0, size, size);
+    g.addColorStop(0, '#a855f7'); g.addColorStop(1, '#22d3ee');
+    ctx.beginPath();
+    ctx.arc(size*0.5, size*0.5, size*0.31, 0, Math.PI*2);
+    ctx.fillStyle = g; ctx.fill();
+    // Dark cutout to make crescent
+    ctx.beginPath();
+    ctx.arc(size*0.62, size*0.38, size*0.23, 0, Math.PI*2);
+    ctx.fillStyle = '#0f0f1a'; ctx.fill();
+    return c.toDataURL('image/png');
+  }
+  const icon192 = makeIcon(192);
+  const icon512 = makeIcon(512);
+  const manifest = {
+    name: 'DrkChat',
+    short_name: 'DrkChat',
+    description: 'Lightning-fast AI chat powered by Groq',
+    start_url: './',
+    display: 'standalone',
+    background_color: '#08080e',
+    theme_color: '#08080e',
+    icons: [
+      { src: icon192, sizes: '192x192', type: 'image/png', purpose: 'any maskable' },
+      { src: icon512, sizes: '512x512', type: 'image/png', purpose: 'any maskable' }
+    ]
+  };
+  const blob = new Blob([JSON.stringify(manifest)], {type:'application/json'});
+  document.getElementById('pwa-manifest').href = URL.createObjectURL(blob);
+  document.getElementById('apple-icon').href = icon192;
+})();
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
@@ -726,20 +776,22 @@ function welcomeHTML() {
 }
 
 // ─── API CALLS ───────────────────────────────────────────────────────────────
-async function callDirect(key, model, messages) {
+async function callDirect(key, model, messages, forceStream) {
+  const useStream = forceStream !== undefined ? forceStream : settings.stream;
   const r = await fetch(GROQ_BASE, {
     method: 'POST',
     headers: { 'Authorization': 'Bearer ' + key, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ model, messages, temperature: settings.temp, max_tokens: settings.maxTok, stream: settings.stream })
+    body: JSON.stringify({ model, messages, temperature: settings.temp, max_tokens: settings.maxTok, stream: useStream })
   });
   if (!r.ok) { const e = await r.json().catch(() => ({})); throw new Error(e.error?.message || 'HTTP ' + r.status); }
   return r;
 }
-async function callSalting(model, messages) {
+async function callSalting(model, messages, forceStream) {
+  const useStream = forceStream !== undefined ? forceStream : settings.stream;
   const r = await fetch(SALTING_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + SALTING_KEY },
-    body: JSON.stringify({ model, messages, temperature: settings.temp, max_tokens: settings.maxTok, stream: settings.stream })
+    body: JSON.stringify({ model, messages, temperature: settings.temp, max_tokens: settings.maxTok, stream: useStream })
   });
   if (!r.ok) {
     const e = await r.json().catch(() => ({}));
@@ -905,7 +957,7 @@ window.translateMsg = async btn => {
   try {
     const model = document.getElementById('modelSelect').value;
     const msgs = [{ role: 'user', content: `Translate to ${settings.targetLang}:\n\n${text.substring(0, 2000)}` }];
-    let r; if (ki?.own) r = await callDirect(ki.key, model, msgs); else { r = await callSalting(model, msgs); bumpFree(); }
+    let r; if (ki?.own) r = await callDirect(ki.key, model, msgs, false); else { r = await callSalting(model, msgs, false); bumpFree(); }
     const d = await r.json(); const tr = d.choices?.[0]?.message?.content || 'Failed';
     const el = document.createElement('div');
     el.style.cssText = 'margin-top:10px;padding:10px 13px;background:rgba(34,211,238,0.07);border:1px solid rgba(34,211,238,0.2);border-radius:8px;font-size:13px;line-height:1.65';
@@ -947,7 +999,7 @@ window.openSettings = () => {
 };
 window.saveSettings = () => {
   settings = { temp: parseFloat(document.getElementById('tempSlider').value), maxTok: parseInt(document.getElementById('maxTok').value), targetLang: document.getElementById('targetLang').value, style: document.getElementById('respStyle').value, stream: document.getElementById('streamSel').value === 'true' };
-  localStorage.setItem('drk_settings', JSON.stringify(settings)); closeModal('settingsModal'); toast('✅ Settings saved', 'ok');
+  localStorage.setItem('drk_settings', JSON.stringify(settings)); closeModal('settingsModal'); toast('✅ Settings saved', 'ok'); setMode(mode);
 };
 
 const PERSONAS = {
