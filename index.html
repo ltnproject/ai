@@ -393,6 +393,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:13px;heigh
       <div class="pill"><span id="modelBadge">llama-3.3</span></div>
     </div>
     <div class="topbar-actions">
+      <a href="https://ltnproject.qzz.io/doc.html" target="_blank" class="icon-btn" title="Docs" style="text-decoration:none">📖</a>
       <button class="icon-btn" onclick="openSettings()" title="Settings">⚙️</button>
       <button class="icon-btn" onclick="openSysPrompt()" title="System Prompt" id="sysBtn">🧠</button>
       <button class="icon-btn" onclick="exportChat()" title="Export">📤</button>
@@ -767,7 +768,8 @@ window.sendMsg = async () => {
   try {
     let res;
     if (ki?.own) res = await callDirect(ki.key, model, buildMsgs());
-    else { res = await callSalting(model, buildMsgs()); bumpFree(); }
+    else res = await callSalting(model, buildMsgs());
+    bumpFree();
 
     removeTyping(tid);
     if (settings.stream) await handleStream(res, model, t0);
@@ -910,7 +912,8 @@ window.regenMsg = async btn => {
   const model = document.getElementById('modelSelect').value;
   const tid = showTyping(); document.getElementById('sendBtn').disabled = true;
   try {
-    let r; if (ki.own) r = await callDirect(ki.key, model, buildMsgs()); else { r = await callSalting(model, buildMsgs()); bumpFree(); }
+    let r; if (ki.own) r = await callDirect(ki.key, model, buildMsgs()); else r = await callSalting(model, buildMsgs());
+    bumpFree();
     removeTyping(tid);
     if (settings.stream) await handleStream(r, model, Date.now());
     else { const d = await r.json(); const c = d.choices[0]?.message?.content || ''; appendMsg('assistant', c, true, model); history.push({ role: 'assistant', content: c }); }
