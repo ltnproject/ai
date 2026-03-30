@@ -519,6 +519,7 @@ const SALTING_URL = 'https://api.salting.io/r/0a1e9173-ea1f-48d0-bdf4-13b0ca2937
 const SALTING_KEY = '9229bfbaae9c6186f35c86b00f6a620aa7cd9e7c5b7cb61d6b445fe594d33f83';
 const GROQ_BASE   = 'https://api.groq.com/openai/v1/chat/completions';
 const FREE_LIMIT  = 15;
+const TEST_KEY    = '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'; // ⚠️ TEST ONLY
 
 // ─── STATE ─────────────────────────────────────────────────────────────────
 let sessId = null, sessions = {}, history = [], totalTok = 0;
@@ -617,6 +618,8 @@ function updateMeter() {
 function overLimit() { return freeUsed >= FREE_LIMIT; }
 function hasOwnKey() { return (localStorage.getItem('drk_own_key') || '').startsWith('gsk_'); }
 function getKey() {
+  // ⚠️ TEST KEY — remove before production
+  return { key: TEST_KEY, own: true };
   const own = localStorage.getItem('drk_own_key') || '';
   if (own.startsWith('gsk_')) return { key: own, own: true };
   if (!overLimit()) return { key: null, own: false };
