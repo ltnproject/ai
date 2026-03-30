@@ -197,6 +197,7 @@ body::before { content: ''; position: fixed; inset: 0; background-image: url("da
 .mode-banner.summarize { background: rgba(52,211,153,0.06); border-color: rgba(52,211,153,0.15); color: var(--green); }
 .mode-banner.eli5,.mode-banner.improve { background: rgba(244,114,182,0.06); border-color: rgba(244,114,182,0.15); color: var(--pink); }
 .mode-banner.debate,.mode-banner.critique { background: rgba(168,85,247,0.06); border-color: rgba(168,85,247,0.15); color: var(--accent); }
+.mode-banner.image { background: rgba(244,114,182,0.06); border-color: rgba(244,114,182,0.3); color: var(--pink); }
 .mode-x { background: none; border: none; color: inherit; cursor: pointer; margin-left: auto; opacity: 0.6; }
 .mode-x:hover { opacity: 1; }
 .messages { flex: 1; overflow-y: auto; padding: 24px; display: flex; flex-direction: column; gap: 18px; }
@@ -476,6 +477,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:13px;heigh
       <button class="mode-btn" id="mb-eli5" onclick="setMode('eli5')">🧒 ELI5</button>
       <button class="mode-btn" id="mb-improve" onclick="setMode('improve')">✨ Improve</button>
       <button class="mode-btn" id="mb-critique" onclick="setMode('critique')">🔍 Critique</button>
+      <button class="mode-btn" id="mb-image" onclick="setMode('image')" style="border-color:rgba(244,114,182,0.3);color:var(--pink)">🎨 Image</button>
     </div>
     <div class="img-preview-wrap" id="imgWrap">
       <img id="previewImg" src="" alt="">
@@ -806,6 +808,49 @@ window.sendMsg = async () => {
   const inp = document.getElementById('msgInput');
   const text = inp.value.trim();
   if (!text && !attachedImg) return;
+
+  // ── IMAGE GENERATION MODE ──
+  if (mode === 'image') {
+    if (!text) return;
+    lastMsg = text;
+    inp.value = ''; autoResize(inp);
+    document.getElementById('welcomeScreen')?.remove();
+    appendMsg('user', text, true, 'pollinations');
+    history.push({ role: 'user', content: text });
+    const tid = showTyping();
+    document.getElementById('sendBtn').disabled = true;
+    try {
+      const imgModel = 'flux';
+      const encoded = encodeURIComponent(text);
+      const seed = Math.floor(Math.random() * 999999);
+      const imgUrl = `https://image.pollinations.ai/prompt/${encoded}?model=${imgModel}&width=768&height=768&seed=${seed}&nologo=true&enhance=true`;
+      // Pre-load image
+      await new Promise((res, rej) => {
+        const im = new Image(); im.onload = res; im.onerror = rej;
+        im.src = imgUrl;
+        setTimeout(res, 15000); // fallback timeout
+      });
+      removeTyping(tid);
+      const imgHtml = `<div style="display:flex;flex-direction:column;gap:10px">
+        <img src="${imgUrl}" alt="${esc(text)}" style="max-width:100%;border-radius:10px;border:1px solid var(--border);display:block" loading="lazy">
+        <div style="display:flex;gap:6px;flex-wrap:wrap">
+          <a href="${imgUrl}" download="drkchat-image.jpg" style="padding:4px 10px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;color:var(--text2);font-size:10px;font-family:'Space Mono',monospace;text-decoration:none;transition:all 0.2s" onmouseover="this.style.borderColor='var(--accent2)';this.style.color='var(--accent2)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text2)'">⬇ Download</a>
+          <button onclick="fillPrompt(this.closest('.msg').querySelector('.msg-bubble img').alt)" style="padding:4px 10px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;color:var(--text2);font-size:10px;font-family:'Space Mono',monospace;cursor:pointer;transition:all 0.2s" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text2)'">🔄 Remix</button>
+        </div>
+        <div style="font-size:9px;color:var(--text3);font-family:'Space Mono',monospace">🎨 Pollinations.ai · Flux · Free</div>
+      </div>`;
+      appendMsg('assistant', imgHtml, true, 'pollinations');
+      history.push({ role: 'assistant', content: `[Generated image for: ${text}]` });
+      persist('pollinations');
+    } catch(e) {
+      removeTyping(tid);
+      toast('Image gen failed: ' + e.message, 'err');
+      appendMsg('assistant', '❌ Image generation failed. Try a simpler prompt.', true, 'pollinations');
+    }
+    document.getElementById('sendBtn').disabled = false;
+    return;
+  }
+
   if (overLimit() && !hasOwnKey()) { document.getElementById('gate').classList.add('open'); return; }
 
   const ki = getKey();
@@ -899,7 +944,7 @@ function appendMsg(role, content, save = true, model = '', streaming = false) {
   div.innerHTML = `<div class="msg-av">${avContent}</div>
   <div class="msg-body">
     <div class="msg-meta"><span class="msg-name">${isU ? esc(localName.split(' ')[0] || 'You') : 'DrkChat'}</span><span class="msg-time">${time}</span>${!isU ? tag : ''}</div>
-    <div class="msg-bubble">${streaming && !isU ? '<span class="sc"></span>' : renderMd(content, isU)}</div>
+    <div class="msg-bubble">${streaming && !isU ? '<span class="sc"></span>' : (content.startsWith('<') && !isU ? content : renderMd(content, isU))}</div>
     <div class="msg-acts">${!isU ? `<button class="act-btn" onclick="copyMsg(this)">📋 Copy</button><button class="act-btn" onclick="regenMsg(this)">🔄 Regen</button><button class="act-btn" onclick="speakMsg(this)">🔊 Speak</button><button class="act-btn" onclick="translateMsg(this)">🌐 Translate</button>` : `<button class="act-btn" onclick="editMsg(this)">✏️ Edit</button>`}</div>
   </div>`;
   msgs.appendChild(div); msgs.scrollTop = 99999; return div;
@@ -941,7 +986,8 @@ window.setMode = m => {
   document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('on'));
   document.getElementById('mb-' + m)?.classList.add('on');
   const banner = document.getElementById('modeBanner');
-  const labels = { translate: `🌐 Translate → ${settings.targetLang}`, summarize: '📝 Summarize Mode', code: '💻 Code Helper', debate: '⚖️ Debate Mode', eli5: '🧒 ELI5 Mode', improve: '✨ Improve Mode', critique: '🔍 Critique Mode' };
+  const labels = { translate: `🌐 Translate → ${settings.targetLang}`, summarize: '📝 Summarize Mode', code: '💻 Code Helper', debate: '⚖️ Debate Mode', eli5: '🧒 ELI5 Mode', improve: '✨ Improve Mode', critique: '🔍 Critique Mode', image: '🎨 Image Gen · Powered by Pollinations.ai · Free & No Key' };
+  document.getElementById('msgInput').placeholder = m === 'image' ? 'Describe the image you want to generate…' : 'Ask anything…';
   if (m === 'chat') banner.className = 'mode-banner';
   else { banner.className = 'mode-banner show ' + m; document.getElementById('modeBannerTxt').textContent = labels[m] || m; }
 };
