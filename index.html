@@ -599,6 +599,13 @@ function loadFreeUsage() {
 }
 function bumpFree() { freeUsed++; localStorage.setItem('drk_free', freeUsed); updateMeter(); }
 function updateMeter() {
+  if (isOwner()) {
+    document.getElementById('usedCount').textContent = '∞';
+    document.getElementById('usageBar').style.width = '100%';
+    document.getElementById('usageBar').style.background = 'linear-gradient(90deg,var(--accent),var(--accent2))';
+    document.getElementById('usageNote').textContent = '👑 Owner — Unlimited messages';
+    updateApiPill(); return;
+  }
   const pct = Math.min((freeUsed / FREE_LIMIT) * 100, 100);
   document.getElementById('usedCount').textContent = Math.min(freeUsed, FREE_LIMIT);
   document.getElementById('usageBar').style.width = pct + '%';
@@ -616,7 +623,8 @@ function updateMeter() {
   }
   updateApiPill();
 }
-function overLimit() { return freeUsed >= FREE_LIMIT; }
+function isOwner() { return (localStorage.getItem('drk_name') || '').toLowerCase() === 'd4rkzonyt'; }
+function overLimit() { return !isOwner() && freeUsed >= FREE_LIMIT; }
 function hasOwnKey() { return (localStorage.getItem('drk_own_key') || '').startsWith('gsk_'); }
 function getKey() {
   // ⚠️ TEST KEY — remove before production
@@ -627,6 +635,7 @@ function getKey() {
   return null;
 }
 function updateApiPill() {
+  if (isOwner()) { document.getElementById('apiDot').className='status-dot'; document.getElementById('apiPillTxt').textContent='👑 owner'; return; }
   const dot = document.getElementById('apiDot');
   const txt = document.getElementById('apiPillTxt');
   if (hasOwnKey()) { dot.className = 'status-dot'; txt.textContent = 'your key'; }
