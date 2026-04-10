@@ -17,18 +17,14 @@
     const c = document.createElement('canvas');
     c.width = c.height = size;
     const ctx = c.getContext('2d');
-    const r = size * 0.22;
-    // Rounded rect bg
     ctx.beginPath();
     ctx.roundRect(0, 0, size, size, size * 0.22);
     ctx.fillStyle = '#0f0f1a'; ctx.fill();
-    // Gradient circle (moon base)
     const g = ctx.createLinearGradient(0, 0, size, size);
     g.addColorStop(0, '#a855f7'); g.addColorStop(1, '#22d3ee');
     ctx.beginPath();
     ctx.arc(size*0.5, size*0.5, size*0.31, 0, Math.PI*2);
     ctx.fillStyle = g; ctx.fill();
-    // Dark cutout to make crescent
     ctx.beginPath();
     ctx.arc(size*0.62, size*0.38, size*0.23, 0, Math.PI*2);
     ctx.fillStyle = '#0f0f1a'; ctx.fill();
@@ -37,13 +33,10 @@
   const icon192 = makeIcon(192);
   const icon512 = makeIcon(512);
   const manifest = {
-    name: 'DrkChat',
-    short_name: 'DrkChat',
+    name: 'DrkChat', short_name: 'DrkChat',
     description: 'Lightning-fast AI chat powered by Groq',
-    start_url: './',
-    display: 'standalone',
-    background_color: '#08080e',
-    theme_color: '#08080e',
+    start_url: './', display: 'standalone',
+    background_color: '#08080e', theme_color: '#08080e',
     icons: [
       { src: icon192, sizes: '192x192', type: 'image/png', purpose: 'any maskable' },
       { src: icon512, sizes: '512x512', type: 'image/png', purpose: 'any maskable' }
@@ -92,7 +85,7 @@ body::before { content: ''; position: fixed; inset: 0; background-image: url("da
 @keyframes d2{0%,100%{transform:translate(0,0)}50%{transform:translate(-80px,-60px)}}
 @keyframes d3{0%,100%{transform:translate(0,0)}33%{transform:translate(40px,-60px)}66%{transform:translate(-40px,40px)}}
 
-/* ── NAME MODAL ── */
+/* NAME MODAL */
 .name-overlay { position: fixed; inset: 0; z-index: 800; background: rgba(8,8,14,0.97); display: flex; align-items: center; justify-content: center; backdrop-filter: blur(12px); }
 .name-overlay.hidden { display: none; }
 .name-card { background: var(--surface); border: 1px solid var(--border); border-radius: 24px; padding: 40px 36px; width: 90%; max-width: 400px; animation: slideUp 0.35s cubic-bezier(0.4,0,0.2,1); position: relative; overflow: hidden; }
@@ -112,7 +105,7 @@ body::before { content: ''; position: fixed; inset: 0; background-image: url("da
 .name-submit { width: 100%; padding: 11px; background: linear-gradient(135deg, var(--accent), #7c3aed); border: none; border-radius: var(--radius-sm); color: #fff; font-family: 'Syne', sans-serif; font-weight: 800; font-size: 13px; cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 20px var(--accent-glow); }
 .name-submit:hover { transform: translateY(-1px); box-shadow: 0 6px 28px var(--accent-glow); }
 
-/* ── SIDEBAR ── */
+/* SIDEBAR */
 .sidebar { width: 270px; flex-shrink: 0; background: rgba(15,15,26,0.96); border-right: 1px solid var(--border); display: flex; flex-direction: column; position: relative; z-index: 10; backdrop-filter: blur(20px); transition: transform 0.3s cubic-bezier(0.4,0,0.2,1); }
 .sb-header { padding: 18px 18px 14px; border-bottom: 1px solid var(--border); }
 .logo { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
@@ -175,7 +168,7 @@ body::before { content: ''; position: fixed; inset: 0; background-image: url("da
 .key-hint { font-size: 9px; color: var(--text3); margin-top: 5px; font-family: 'Space Mono', monospace; }
 .key-hint a { color: var(--accent2); }
 
-/* ── MAIN ── */
+/* MAIN */
 .main { flex: 1; display: flex; flex-direction: column; position: relative; z-index: 5; overflow: hidden; }
 .topbar { padding: 13px 22px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 12px; background: rgba(8,8,14,0.85); backdrop-filter: blur(16px); }
 .mobile-toggle { display: none; background: none; border: none; color: var(--text2); cursor: pointer; font-size: 18px; }
@@ -187,7 +180,7 @@ body::before { content: ''; position: fixed; inset: 0; background-image: url("da
 .status-dot.off { background: var(--red); animation: none; }
 @keyframes pdot{0%,100%{opacity:1}50%{opacity:0.3}}
 .topbar-actions { display: flex; gap: 6px; }
-.icon-btn { width: 30px; height: 30px; background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text2); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 13px; transition: all 0.2s; }
+.icon-btn { width: 30px; height: 30px; background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text2); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 13px; transition: all 0.2s; text-decoration: none; }
 .icon-btn:hover { border-color: var(--accent); color: var(--accent); background: rgba(168,85,247,0.1); }
 .icon-btn.active-sys { border-color: var(--accent3); color: var(--accent3); }
 .mode-banner { padding: 7px 22px; border-bottom: 1px solid transparent; font-size: 10px; font-family: 'Space Mono', monospace; display: none; align-items: center; gap: 8px; }
@@ -342,7 +335,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:13px;heigh
 <div class="orb orb-2"></div>
 <div class="orb orb-3"></div>
 
-<!-- ══ NAME PROMPT (first visit only) ══ -->
+<!-- NAME PROMPT -->
 <div class="name-overlay hidden" id="nameOverlay">
   <div class="name-card">
     <div class="name-logo">
@@ -367,7 +360,6 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:13px;heigh
       <div class="logo-mark">🌑</div>
       <div class="logo-name"><em>Drk</em>Chat</div>
     </div>
-
     <div class="user-profile" id="userProfile" onclick="toggleUserMenu()">
       <div class="user-avatar" id="userAvatar">?</div>
       <div class="user-info">
@@ -381,7 +373,6 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:13px;heigh
         <div class="ud-item" onclick="clearAllData()">🗑️ Clear All Data</div>
       </div>
     </div>
-
     <div class="usage-meter">
       <div class="usage-header">
         <span class="usage-label">Free Usage</span>
@@ -444,7 +435,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:13px;heigh
       <div class="pill"><span id="modelBadge">llama-3.3</span></div>
     </div>
     <div class="topbar-actions">
-      <a href="https://ltnproject.qzz.io/doc.html" target="_blank" class="icon-btn" title="Docs" style="text-decoration:none">📖</a>
+      <a href="https://ltnproject.qzz.io/doc.html" target="_blank" class="icon-btn" title="Docs">📖</a>
       <button class="icon-btn" onclick="openSettings()" title="Settings">⚙️</button>
       <button class="icon-btn" onclick="openSysPrompt()" title="System Prompt" id="sysBtn">🧠</button>
       <button class="icon-btn" onclick="exportChat()" title="Export">📤</button>
@@ -568,11 +559,9 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:13px;heigh
 
 <script>
 // ─── CONFIG ────────────────────────────────────────────────────────────────
-const SALTING_URL = 'https://api.salting.io/r/0a1e9173-ea1f-48d0-bdf4-13b0ca29378e';
-const SALTING_KEY = '9229bfbaae9c6186f35c86b00f6a620aa7cd9e7c5b7cb61d6b445fe594d33f83';
-const GROQ_BASE   = 'https://api.groq.com/openai/v1/chat/completions';
-const FREE_LIMIT  = 15;
-const TEST_KEY    = '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'; // ⚠️ TEST ONLY
+// All API calls go through /api/groq (Vercel serverless) — key is server-side only
+const GROQ_PROXY = '/api/groq';
+const FREE_LIMIT = 15;
 
 // ─── STATE ─────────────────────────────────────────────────────────────────
 let sessId = null, sessions = {}, history = [], totalTok = 0;
@@ -675,30 +664,39 @@ function updateMeter() {
   }
   updateApiPill();
 }
+
 function isOwner() { return (localStorage.getItem('drk_name') || '').toLowerCase() === 'd4rkzonyt'; }
 function overLimit() { return !isOwner() && freeUsed >= FREE_LIMIT; }
 function hasOwnKey() { return (localStorage.getItem('drk_own_key') || '').startsWith('gsk_'); }
+
+// Returns { key, own } or null if blocked
+// own=true = user's own key (sent via header), own=false = server shared key
 function getKey() {
-  // ⚠️ TEST KEY — remove before production
-  return { key: TEST_KEY, own: true };
   const own = localStorage.getItem('drk_own_key') || '';
   if (own.startsWith('gsk_')) return { key: own, own: true };
   if (!overLimit()) return { key: null, own: false };
-  return null;
+  return null; // over limit, no key
 }
+
 function updateApiPill() {
-  if (isOwner()) { document.getElementById('apiDot').className='status-dot'; document.getElementById('apiPillTxt').textContent='👑 owner'; return; }
+  if (isOwner()) {
+    document.getElementById('apiDot').className = 'status-dot';
+    document.getElementById('apiPillTxt').textContent = '👑 owner';
+    return;
+  }
   const dot = document.getElementById('apiDot');
   const txt = document.getElementById('apiPillTxt');
   if (hasOwnKey()) { dot.className = 'status-dot'; txt.textContent = 'your key'; }
   else if (!overLimit()) { dot.className = 'status-dot warn'; txt.textContent = `shared (${FREE_LIMIT - freeUsed} left)`; }
   else { dot.className = 'status-dot off'; txt.textContent = 'key required'; }
 }
+
 window.saveOwnKey = val => {
   localStorage.setItem('drk_own_key', val);
   document.getElementById('ownKeyStatus').textContent = val.startsWith('gsk_') ? '🟢' : (val ? '🔴' : '—');
   updateApiPill();
 };
+
 window.submitGateKey = () => {
   const v = document.getElementById('gateKey').value.trim();
   if (!v.startsWith('gsk_')) { toast('Must start with gsk_', 'err'); return; }
@@ -730,6 +728,7 @@ window.newSession = () => {
   document.getElementById('tokBar').style.display = 'none';
   renderHist();
 };
+
 window.loadSess = id => {
   if (!sessions[id]) return;
   sessId = id;
@@ -741,11 +740,12 @@ window.loadSess = id => {
   else { history.forEach(m => appendMsg(m.role, m.content, false, sessions[id].model)); updateTokBar(true); }
   renderHist();
 };
+
 window.delSess = id => {
-  delete sessions[id];
-  lsSave();
+  delete sessions[id]; lsSave();
   if (id === sessId) newSession(); else renderHist();
 };
+
 function renderHist() {
   document.getElementById('histItems').innerHTML = Object.values(sessions)
     .sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0))
@@ -755,6 +755,7 @@ function renderHist() {
       <button class="hist-del" onclick="event.stopPropagation();delSess('${s.sessionId}')">✕</button>
     </div>`).join('');
 }
+
 function welcomeHTML() {
   const name = localName || 'there';
   return `<div class="welcome" id="welcomeScreen">
@@ -778,21 +779,16 @@ function welcomeHTML() {
 }
 
 // ─── API CALLS ───────────────────────────────────────────────────────────────
-async function callDirect(key, model, messages, forceStream) {
+// All requests go through /api/groq (Vercel serverless function)
+// User's own key is passed via x-groq-key header if available
+async function callGroq(messages, forceStream, userKey) {
   const useStream = forceStream !== undefined ? forceStream : settings.stream;
-  const r = await fetch(GROQ_BASE, {
+  const model = document.getElementById('modelSelect').value;
+  const headers = { 'Content-Type': 'application/json' };
+  if (userKey) headers['x-groq-key'] = userKey; // user's own key, used server-side
+  const r = await fetch(GROQ_PROXY, {
     method: 'POST',
-    headers: { 'Authorization': 'Bearer ' + key, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ model, messages, temperature: settings.temp, max_tokens: settings.maxTok, stream: useStream })
-  });
-  if (!r.ok) { const e = await r.json().catch(() => ({})); throw new Error(e.error?.message || 'HTTP ' + r.status); }
-  return r;
-}
-async function callSalting(model, messages, forceStream) {
-  const useStream = forceStream !== undefined ? forceStream : settings.stream;
-  const r = await fetch(SALTING_URL, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + SALTING_KEY },
+    headers,
     body: JSON.stringify({ model, messages, temperature: settings.temp, max_tokens: settings.maxTok, stream: useStream })
   });
   if (!r.ok) {
@@ -809,7 +805,7 @@ window.sendMsg = async () => {
   const text = inp.value.trim();
   if (!text && !attachedImg) return;
 
-  // ── IMAGE GENERATION MODE ──
+  // IMAGE GENERATION MODE
   if (mode === 'image') {
     if (!text) return;
     lastMsg = text;
@@ -820,22 +816,19 @@ window.sendMsg = async () => {
     const tid = showTyping();
     document.getElementById('sendBtn').disabled = true;
     try {
-      const imgModel = 'flux';
       const encoded = encodeURIComponent(text);
       const seed = Math.floor(Math.random() * 999999);
-      const imgUrl = `https://image.pollinations.ai/prompt/${encoded}?model=${imgModel}&width=768&height=768&seed=${seed}&nologo=true&enhance=true`;
-      // Pre-load image
+      const imgUrl = `https://image.pollinations.ai/prompt/${encoded}?model=flux&width=768&height=768&seed=${seed}&nologo=true&enhance=true`;
       await new Promise((res, rej) => {
-        const im = new Image(); im.onload = res; im.onerror = rej;
-        im.src = imgUrl;
-        setTimeout(res, 15000); // fallback timeout
+        const im = new Image(); im.onload = res; im.onerror = rej; im.src = imgUrl;
+        setTimeout(res, 15000);
       });
       removeTyping(tid);
       const imgHtml = `<div style="display:flex;flex-direction:column;gap:10px">
         <img src="${imgUrl}" alt="${esc(text)}" style="max-width:100%;border-radius:10px;border:1px solid var(--border);display:block" loading="lazy">
         <div style="display:flex;gap:6px;flex-wrap:wrap">
-          <a href="${imgUrl}" download="drkchat-image.jpg" style="padding:4px 10px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;color:var(--text2);font-size:10px;font-family:'Space Mono',monospace;text-decoration:none;transition:all 0.2s" onmouseover="this.style.borderColor='var(--accent2)';this.style.color='var(--accent2)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text2)'">⬇ Download</a>
-          <button onclick="fillPrompt(this.closest('.msg').querySelector('.msg-bubble img').alt)" style="padding:4px 10px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;color:var(--text2);font-size:10px;font-family:'Space Mono',monospace;cursor:pointer;transition:all 0.2s" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text2)'">🔄 Remix</button>
+          <a href="${imgUrl}" download="drkchat-image.jpg" style="padding:4px 10px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;color:var(--text2);font-size:10px;font-family:'Space Mono',monospace;text-decoration:none">⬇ Download</a>
+          <button onclick="fillPrompt(this.closest('.msg').querySelector('.msg-bubble img').alt)" style="padding:4px 10px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;color:var(--text2);font-size:10px;font-family:'Space Mono',monospace;cursor:pointer">🔄 Remix</button>
         </div>
         <div style="font-size:9px;color:var(--text3);font-family:'Space Mono',monospace">🎨 Pollinations.ai · Flux · Free</div>
       </div>`;
@@ -851,6 +844,7 @@ window.sendMsg = async () => {
     return;
   }
 
+  // Check gate
   if (overLimit() && !hasOwnKey()) { document.getElementById('gate').classList.add('open'); return; }
 
   const ki = getKey();
@@ -872,15 +866,12 @@ window.sendMsg = async () => {
   const t0 = Date.now();
 
   try {
-    let res;
-    if (ki?.own) res = await callDirect(ki.key, model, buildMsgs());
-    else res = await callSalting(model, buildMsgs());
-    bumpFree();
-
+    const r = await callGroq(buildMsgs(), undefined, ki?.key || null);
+    if (!isOwner()) bumpFree();
     removeTyping(tid);
-    if (settings.stream) await handleStream(res, model, t0);
+    if (settings.stream) await handleStream(r, model, t0);
     else {
-      const d = await res.json();
+      const d = await r.json();
       const c = d.choices[0]?.message?.content || '';
       appendMsg('assistant', c, true, model);
       history.push({ role: 'assistant', content: c });
@@ -910,12 +901,14 @@ function applyMode(text) {
   };
   return map[mode] || text;
 }
+
 function buildMsgs() {
   const styleMap = { balanced: '', concise: 'Be concise and direct.', detailed: 'Be thorough with examples.', academic: 'Use formal academic tone.', casual: 'Be friendly and conversational.', technical: 'Use expert technical terminology.' };
   const sp = sysPrompt || 'You are DrkChat, a powerful and sharp AI assistant. You are direct, creative, and highly capable.';
   const full = [sp, styleMap[settings.style]].filter(Boolean).join('\n\n');
   return [{ role: 'system', content: full }, ...history.slice(-20)];
 }
+
 async function handleStream(res, model, t0) {
   const reader = res.body.getReader(); const dec = new TextDecoder();
   let full = '', el = null, toks = 0;
@@ -924,7 +917,10 @@ async function handleStream(res, model, t0) {
     const lines = dec.decode(value).split('\n').filter(l => l.startsWith('data: '));
     for (const ln of lines) {
       const d = ln.replace('data: ', ''); if (d === '[DONE]') break;
-      try { const p = JSON.parse(d); const delta = p.choices?.[0]?.delta?.content || ''; if (delta) { full += delta; toks++; if (!el) el = appendMsg('assistant', '', true, model, true); updateStream(el, full); } } catch(e) {}
+      try {
+        const p = JSON.parse(d); const delta = p.choices?.[0]?.delta?.content || '';
+        if (delta) { full += delta; toks++; if (!el) el = appendMsg('assistant', '', true, model, true); updateStream(el, full); }
+      } catch(e) {}
     }
   }
   if (el) finalStream(el, full);
@@ -949,6 +945,7 @@ function appendMsg(role, content, save = true, model = '', streaming = false) {
   </div>`;
   msgs.appendChild(div); msgs.scrollTop = 99999; return div;
 }
+
 function updateStream(el, content) { const b = el.querySelector('.msg-bubble'); b.innerHTML = renderMd(content, false) + '<span class="sc"></span>'; document.getElementById('messages').scrollTop = 99999; hljs.highlightAll(); }
 function finalStream(el, content) { const b = el.querySelector('.msg-bubble'); b.innerHTML = renderMd(content, false); hljs.highlightAll(); addCopyBtns(b); }
 function renderMd(content, isUser) { if (isUser) return `<span style="white-space:pre-wrap">${esc(content)}</span>`; try { return marked.parse(content); } catch { return esc(content); } }
@@ -967,6 +964,7 @@ function persist(model) {
   s.model = model; s.totalTok = totalTok; s.updatedAt = Date.now();
   lsSave(); renderHist();
 }
+
 function updateTokBar(show) {
   document.getElementById('tokBar').style.display = show ? 'flex' : 'none';
   document.getElementById('totTok').textContent = totalTok;
@@ -998,12 +996,13 @@ window.editMsg = btn => { const t = btn.closest('.msg-body').querySelector('.msg
 
 window.translateMsg = async btn => {
   const bubble = btn.closest('.msg-body').querySelector('.msg-bubble'); const text = bubble.innerText;
-  const ki = getKey(); if (!ki && overLimit() && !hasOwnKey()) { document.getElementById('gate').classList.add('open'); return; }
+  if (overLimit() && !hasOwnKey()) { document.getElementById('gate').classList.add('open'); return; }
+  const ki = getKey();
   btn.innerHTML = '⏳';
   try {
-    const model = document.getElementById('modelSelect').value;
     const msgs = [{ role: 'user', content: `Translate to ${settings.targetLang}:\n\n${text.substring(0, 2000)}` }];
-    let r; if (ki?.own) r = await callDirect(ki.key, model, msgs, false); else { r = await callSalting(model, msgs, false); bumpFree(); }
+    const r = await callGroq(msgs, false, ki?.key || null);
+    if (!isOwner()) bumpFree();
     const d = await r.json(); const tr = d.choices?.[0]?.message?.content || 'Failed';
     const el = document.createElement('div');
     el.style.cssText = 'margin-top:10px;padding:10px 13px;background:rgba(34,211,238,0.07);border:1px solid rgba(34,211,238,0.2);border-radius:8px;font-size:13px;line-height:1.65';
@@ -1015,12 +1014,13 @@ window.translateMsg = async btn => {
 window.regenMsg = async btn => {
   const lastA = history.map((m, i) => ({ ...m, i })).filter(m => m.role === 'assistant').pop();
   if (!lastA) return; history = history.filter((_, i) => i !== lastA.i); btn.closest('.msg').remove();
-  const ki = getKey(); if (!ki) { document.getElementById('gate').classList.add('open'); return; }
+  if (overLimit() && !hasOwnKey()) { document.getElementById('gate').classList.add('open'); return; }
+  const ki = getKey();
   const model = document.getElementById('modelSelect').value;
   const tid = showTyping(); document.getElementById('sendBtn').disabled = true;
   try {
-    let r; if (ki.own) r = await callDirect(ki.key, model, buildMsgs()); else r = await callSalting(model, buildMsgs());
-    bumpFree();
+    const r = await callGroq(buildMsgs(), undefined, ki?.key || null);
+    if (!isOwner()) bumpFree();
     removeTyping(tid);
     if (settings.stream) await handleStream(r, model, Date.now());
     else { const d = await r.json(); const c = d.choices[0]?.message?.content || ''; appendMsg('assistant', c, true, model); history.push({ role: 'assistant', content: c }); }
@@ -1079,6 +1079,7 @@ window.toast = (msg, type = 'info') => {
   const el = document.createElement('div'); el.className = 'toast ' + type; el.innerHTML = `<span>${icons[type] || 'ℹ'}</span><span>${esc(msg)}</span>`;
   c.appendChild(el); setTimeout(() => el.remove(), 3100);
 };
+
 function esc(t) { return String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
 
 document.getElementById('modelSelect').addEventListener('change', e => {
@@ -1099,7 +1100,7 @@ function initApp() {
 }
 
 // ─── BOOT ─────────────────────────────────────────────────────────────────────
-loadLocalName(); // shows name prompt or goes straight to initApp()
+loadLocalName();
 </script>
 </body>
 </html>
