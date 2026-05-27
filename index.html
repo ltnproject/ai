@@ -2,493 +2,258 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <title>BMO</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&display=swap');
 
-* { margin:0; padding:0; box-sizing:border-box; }
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
 
-body {
-  background: #0e1a14;
-  font-family: 'Nunito', sans-serif;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  position: relative;
+body{
+  background:#0e1a14;
+  font-family:'Nunito',sans-serif;
+  min-height:100vh;min-height:100dvh;
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;
+  position:relative;
 }
 
-/* subtle grid bg */
-body::before {
-  content:'';
-  position:fixed; inset:0;
+body::before{
+  content:'';position:fixed;inset:0;
   background-image:
-    linear-gradient(rgba(105,240,174,0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(105,240,174,0.03) 1px, transparent 1px);
-  background-size: 40px 40px;
-  pointer-events:none;
+    linear-gradient(rgba(105,240,174,0.03) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(105,240,174,0.03) 1px,transparent 1px);
+  background-size:40px 40px;pointer-events:none;
 }
 
-/* ── TOP-LEFT BUTTONS ── */
-.top-btns {
-  position: fixed;
-  top: 18px;
-  left: 18px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  z-index: 50;
+/* ── TOP BUTTONS ── */
+.top-btns{
+  position:fixed;top:16px;left:16px;
+  display:flex;flex-direction:column;gap:10px;z-index:50;
 }
-
-.top-btn {
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
-  border: 1.5px solid rgba(105,240,174,0.25);
-  background: rgba(10,30,20,0.85);
-  color: #69f0ae;
-  font-size: 15px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s;
-  backdrop-filter: blur(6px);
+.top-btn{
+  width:34px;height:34px;border-radius:10px;
+  border:1.5px solid rgba(105,240,174,0.22);
+  background:rgba(8,24,14,0.9);
+  color:#69f0ae;font-size:14px;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  transition:all 0.2s;
 }
-
-.top-btn:hover {
-  border-color: #69f0ae;
-  box-shadow: 0 0 12px rgba(105,240,174,0.4);
-  transform: scale(1.08);
-}
-
-/* ── MAIN LAYOUT ── */
-.scene {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 28px;
-  position: relative;
-  z-index: 1;
-}
+.top-btn:hover{border-color:#69f0ae;box-shadow:0 0 10px rgba(105,240,174,0.35);}
 
 /* ── BMO BODY ── */
-.bmo-body {
-  width: 320px;
-  background: linear-gradient(160deg, #3eb489 0%, #2a8a64 40%, #1f6b4e 100%);
-  border-radius: 32px 32px 28px 28px;
-  padding: 18px 18px 24px;
-  box-shadow:
-    0 0 0 3px #1a5c3a,
-    0 12px 60px rgba(0,0,0,0.6),
-    0 0 80px rgba(62,180,137,0.15);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0;
-  position: relative;
+.scene{
+  display:flex;flex-direction:column;
+  align-items:center;gap:24px;
+  position:relative;z-index:1;
 }
 
-/* screen bezel */
-.bmo-screen-bezel {
-  width: 100%;
-  background: #111c17;
-  border-radius: 18px;
-  padding: 10px;
-  box-shadow: inset 0 2px 8px rgba(0,0,0,0.6);
-  margin-bottom: 18px;
+.bmo-body{
+  width:300px;
+  background:linear-gradient(160deg,#3eb489 0%,#2a8a64 40%,#1f6b4e 100%);
+  border-radius:30px 30px 26px 26px;
+  padding:16px 16px 22px;
+  box-shadow:0 0 0 3px #1a5c3a,0 16px 60px rgba(0,0,0,0.65),0 0 80px rgba(62,180,137,0.12);
+  display:flex;flex-direction:column;align-items:center;gap:0;
 }
 
-/* ── FACE SCREEN ── */
-.bmo-face {
-  width: 100%;
-  aspect-ratio: 1/1;
-  background: radial-gradient(ellipse at 40% 35%, #1a3d5c, #0a1e30 70%);
-  border-radius: 12px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 28px;
-  position: relative;
-  overflow: hidden;
-  transition: background 0.4s;
-  cursor: default;
+.bmo-screen-bezel{
+  width:100%;background:#111c17;
+  border-radius:16px;padding:10px;
+  box-shadow:inset 0 2px 8px rgba(0,0,0,0.6);
+  margin-bottom:16px;
 }
 
-/* scanline effect */
-.bmo-face::after {
-  content:'';
-  position:absolute; inset:0;
-  background: repeating-linear-gradient(
-    0deg,
-    transparent,
-    transparent 2px,
-    rgba(0,0,0,0.08) 2px,
-    rgba(0,0,0,0.08) 4px
-  );
-  pointer-events:none;
-  border-radius:12px;
+/* ── FACE ── */
+.bmo-face{
+  width:100%;aspect-ratio:1/1;
+  background:radial-gradient(ellipse at 40% 35%,#1a3d5c,#0a1e30 70%);
+  border-radius:10px;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:26px;
+  position:relative;overflow:hidden;
+  transition:background 0.5s;
+}
+.bmo-face::after{
+  content:'';position:absolute;inset:0;
+  background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.07) 2px,rgba(0,0,0,0.07) 4px);
+  pointer-events:none;border-radius:10px;
 }
 
-.bmo-face.listening {
-  background: radial-gradient(ellipse at 40% 35%, #0d3a5c, #04111f 70%);
-}
-.bmo-face.thinking {
-  background: radial-gradient(ellipse at 40% 35%, #2a1f4a, #0e0a1e 70%);
-}
-.bmo-face.speaking {
-  background: radial-gradient(ellipse at 40% 35%, #0d3a28, #051a10 70%);
-}
+.bmo-face.listening{background:radial-gradient(ellipse at 40% 35%,#0d3a5c,#04111f 70%);}
+.bmo-face.thinking {background:radial-gradient(ellipse at 40% 35%,#2a1f4a,#0e0a1e 70%);}
+.bmo-face.speaking {background:radial-gradient(ellipse at 40% 35%,#0d3a28,#051a10 70%);}
 
 /* ── EYES ── */
-.eyes {
-  display: flex;
-  gap: 44px;
-  align-items: center;
-  position: relative;
-  z-index: 2;
-}
+.eyes{display:flex;gap:42px;align-items:center;position:relative;z-index:2;}
 
-.eye {
-  width: 54px;
-  height: 54px;
-  background: radial-gradient(circle at 38% 32%, #7ecfff, #1b8fd4 55%, #0a5a96);
-  border-radius: 50%;
-  box-shadow:
-    0 0 20px rgba(79,195,247,0.7),
-    0 0 40px rgba(79,195,247,0.3);
-  position: relative;
-  animation: blink 6s infinite;
-  transition: background 0.4s, box-shadow 0.4s;
+.eye{
+  width:52px;height:52px;
+  background:radial-gradient(circle at 38% 32%,#7ecfff,#1b8fd4 55%,#0a5a96);
+  border-radius:50%;
+  box-shadow:0 0 20px rgba(79,195,247,0.7),0 0 40px rgba(79,195,247,0.3);
+  position:relative;
+  animation:blink 6s infinite;
+  transition:background 0.4s,box-shadow 0.4s;
 }
+.eye::after{content:'';position:absolute;width:17px;height:17px;background:#040d18;border-radius:50%;top:50%;left:50%;transform:translate(-50%,-50%);}
+.eye::before{content:'';position:absolute;width:9px;height:9px;background:rgba(255,255,255,0.65);border-radius:50%;top:10px;left:11px;z-index:3;}
 
-/* pupil */
-.eye::after {
-  content:'';
-  position:absolute;
-  width: 18px; height: 18px;
-  background: #040d18;
-  border-radius: 50%;
-  top: 50%; left: 50%;
-  transform: translate(-50%,-50%);
-}
+@keyframes blink{0%,88%,100%{transform:scaleY(1);}92%{transform:scaleY(0.06);}}
 
-/* shine */
-.eye::before {
-  content:'';
-  position:absolute;
-  width: 10px; height: 10px;
-  background: rgba(255,255,255,0.65);
-  border-radius: 50%;
-  top: 10px; left: 12px;
-  z-index: 3;
+.bmo-face.listening .eye{
+  animation:eyePulse 1s infinite alternate;
+  background:radial-gradient(circle at 38% 32%,#b0e8ff,#4fc3f7 55%,#0288d1);
+  box-shadow:0 0 30px rgba(79,195,247,1),0 0 60px rgba(79,195,247,0.5);
 }
+@keyframes eyePulse{from{box-shadow:0 0 20px rgba(79,195,247,0.8),0 0 40px rgba(79,195,247,0.3);}to{box-shadow:0 0 36px rgba(79,195,247,1),0 0 72px rgba(79,195,247,0.6);}}
 
-@keyframes blink {
-  0%,88%,100% { transform: scaleY(1); }
-  92% { transform: scaleY(0.06); }
+.bmo-face.thinking .eye{
+  animation:thinkEye 1.5s infinite;
+  background:radial-gradient(circle at 38% 32%,#c5b3ff,#9c6fff 55%,#6a3fc0);
+  box-shadow:0 0 24px rgba(156,111,255,0.8);
 }
+@keyframes thinkEye{0%,100%{transform:translateX(0);}25%{transform:translateX(4px);}75%{transform:translateX(-4px);}}
 
-/* listening eyes */
-.bmo-face.listening .eye {
-  animation: eyePulse 1s infinite alternate;
-  background: radial-gradient(circle at 38% 32%, #b0e8ff, #4fc3f7 55%, #0288d1);
-  box-shadow: 0 0 30px rgba(79,195,247,1), 0 0 60px rgba(79,195,247,0.5);
+.bmo-face.speaking .eye{
+  animation:speakEye 0.35s infinite alternate;
+  background:radial-gradient(circle at 38% 32%,#c8ffdf,#69f0ae 55%,#2eb872);
+  box-shadow:0 0 28px rgba(105,240,174,0.9),0 0 56px rgba(105,240,174,0.4);
 }
-@keyframes eyePulse {
-  from { box-shadow: 0 0 20px rgba(79,195,247,0.8), 0 0 40px rgba(79,195,247,0.3); }
-  to   { box-shadow: 0 0 36px rgba(79,195,247,1),   0 0 72px rgba(79,195,247,0.6); }
-}
-
-/* thinking eyes */
-.bmo-face.thinking .eye {
-  animation: thinkEye 1.5s infinite;
-  background: radial-gradient(circle at 38% 32%, #c5b3ff, #9c6fff 55%, #6a3fc0);
-  box-shadow: 0 0 24px rgba(156,111,255,0.8);
-}
-@keyframes thinkEye {
-  0%,100% { transform: translateX(0); }
-  25% { transform: translateX(4px); }
-  75% { transform: translateX(-4px); }
-}
-
-/* speaking eyes */
-.bmo-face.speaking .eye {
-  animation: speakEye 0.35s infinite alternate;
-  background: radial-gradient(circle at 38% 32%, #c8ffdf, #69f0ae 55%, #2eb872);
-  box-shadow: 0 0 28px rgba(105,240,174,0.9), 0 0 56px rgba(105,240,174,0.4);
-}
-@keyframes speakEye {
-  from { transform: scaleY(1); }
-  to   { transform: scaleY(0.72); }
-}
+@keyframes speakEye{from{transform:scaleY(1);}to{transform:scaleY(0.72);}}
 
 /* ── MOUTH ── */
-.mouth-wrap {
-  position: relative;
-  z-index: 2;
-  cursor: pointer;
-  padding: 12px;
-  border-radius: 50%;
-  transition: transform 0.15s;
+.mouth-wrap{
+  position:relative;z-index:2;
+  cursor:pointer;padding:14px;border-radius:50%;
+  transition:transform 0.15s;
+  -webkit-user-select:none;user-select:none;
 }
-.mouth-wrap:hover { transform: scale(1.12); }
-.mouth-wrap:active { transform: scale(0.95); }
+.mouth-wrap:active{transform:scale(0.9);}
 
-.mouth-shape {
-  width: 80px;
-  height: 32px;
-  border: 3.5px solid #4fc3f7;
-  border-top: none;
-  border-radius: 0 0 60px 60px;
-  transition: all 0.25s;
-  box-shadow: 0 6px 18px rgba(79,195,247,0.35);
-  position: relative;
+.mouth-shape{
+  width:76px;height:30px;
+  border:3.5px solid #4fc3f7;border-top:none;
+  border-radius:0 0 56px 56px;
+  transition:all 0.25s;
+  box-shadow:0 6px 18px rgba(79,195,247,0.3);
 }
+.bmo-face.listening .mouth-shape{
+  width:26px;height:26px;
+  border:3.5px solid #4fc3f7;border-radius:50%;
+  box-shadow:0 0 18px rgba(79,195,247,0.7);
+  background:rgba(79,195,247,0.1);
+}
+.bmo-face.thinking .mouth-shape{
+  width:44px;height:0;border:none;
+  border-top:3.5px solid #9c6fff;
+  border-radius:0;box-shadow:0 0 12px rgba(156,111,255,0.5);
+}
+.bmo-face.speaking .mouth-shape{
+  border-color:#69f0ae;
+  box-shadow:0 6px 18px rgba(105,240,174,0.5);
+  animation:talkMouth 0.2s infinite alternate;
+}
+@keyframes talkMouth{from{height:10px;border-radius:0 0 22px 22px;}to{height:34px;border-radius:0 0 56px 56px;}}
 
-/* listening mouth — small O */
-.bmo-face.listening .mouth-shape {
-  width: 28px; height: 28px;
-  border: 3.5px solid #4fc3f7;
-  border-radius: 50%;
-  box-shadow: 0 0 18px rgba(79,195,247,0.6);
-  background: rgba(79,195,247,0.08);
-}
-
-/* thinking mouth — flat line */
-.bmo-face.thinking .mouth-shape {
-  width: 48px; height: 0;
-  border: none;
-  border-top: 3.5px solid #9c6fff;
-  border-radius: 0;
-  box-shadow: 0 0 12px rgba(156,111,255,0.5);
-}
-
-/* speaking mouth — animated open/close */
-.bmo-face.speaking .mouth-shape {
-  border-color: #69f0ae;
-  box-shadow: 0 6px 18px rgba(105,240,174,0.5);
-  animation: talkMouth 0.18s infinite alternate;
-}
-@keyframes talkMouth {
-  from { height: 12px; border-radius: 0 0 24px 24px; }
-  to   { height: 36px; border-radius: 0 0 60px 60px; }
-}
-
-/* mic hint label on mouth */
-.mouth-hint {
-  position: absolute;
-  bottom: -22px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 9px;
-  font-weight: 800;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: rgba(79,195,247,0.5);
-  white-space: nowrap;
-  pointer-events: none;
-  transition: opacity 0.3s;
-}
-.bmo-face.listening .mouth-hint { color: rgba(79,195,247,0.9); }
-
-/* ── BMO BODY BOTTOM DETAILS ── */
-.bmo-details {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  padding: 0 8px;
-}
-
-.bmo-buttons-row {
-  display: flex;
-  gap: 8px;
-}
-
-.bmo-dot {
-  width: 12px; height: 12px;
-  border-radius: 50%;
-  background: #1a5c3a;
-  box-shadow: inset 0 1px 3px rgba(0,0,0,0.5);
-}
-.bmo-dot.red { background: #c0392b; box-shadow: 0 0 6px rgba(192,57,43,0.5); }
-.bmo-dot.yellow { background: #d4ac0d; box-shadow: 0 0 6px rgba(212,172,13,0.4); }
-
-.bmo-label {
-  font-size: 9px;
-  font-weight: 900;
-  letter-spacing: 0.2em;
-  color: rgba(255,255,255,0.25);
-  text-transform: uppercase;
-}
+/* ── BODY DETAILS ── */
+.bmo-details{display:flex;justify-content:space-between;align-items:center;width:100%;padding:0 6px;}
+.bmo-dots{display:flex;gap:7px;}
+.dot{width:11px;height:11px;border-radius:50%;background:#1a5c3a;box-shadow:inset 0 1px 3px rgba(0,0,0,0.5);}
+.dot.r{background:#c0392b;box-shadow:0 0 6px rgba(192,57,43,0.5);}
+.dot.y{background:#d4ac0d;box-shadow:0 0 6px rgba(212,172,13,0.4);}
+.bmo-label{font-size:9px;font-weight:900;letter-spacing:0.2em;color:rgba(255,255,255,0.2);text-transform:uppercase;}
 
 /* ── STATUS + BUBBLE ── */
-.status {
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: #69f0ae;
-  opacity: 0.55;
-  transition: all 0.3s;
-  min-height: 14px;
+.status{
+  font-size:11px;font-weight:800;letter-spacing:0.16em;
+  text-transform:uppercase;color:#69f0ae;opacity:0.5;
+  transition:all 0.3s;min-height:14px;text-align:center;
 }
-.status.listening { color: #4fc3f7; opacity: 1; }
-.status.thinking  { color: #9c6fff; opacity: 1; }
-.status.speaking  { color: #69f0ae; opacity: 1; }
+.status.listening{color:#4fc3f7;opacity:1;}
+.status.thinking {color:#9c6fff;opacity:1;}
+.status.speaking {color:#69f0ae;opacity:1;}
+.status.error    {color:#ff6b6b;opacity:1;}
 
-.bubble {
-  max-width: 320px;
-  min-height: 52px;
-  background: rgba(10,28,18,0.88);
-  border: 1.5px solid rgba(62,180,137,0.2);
-  border-radius: 16px;
-  padding: 14px 18px;
-  font-size: 13.5px;
-  line-height: 1.65;
-  color: #c8f7e0;
-  text-align: center;
-  backdrop-filter: blur(10px);
-  word-break: break-word;
-  transition: all 0.3s;
+.bubble{
+  max-width:300px;min-height:50px;
+  background:rgba(10,28,18,0.88);
+  border:1.5px solid rgba(62,180,137,0.18);
+  border-radius:16px;padding:13px 16px;
+  font-size:13px;line-height:1.65;color:#c8f7e0;
+  text-align:center;word-break:break-word;
+  transition:all 0.3s;
 }
-.bubble.empty { opacity: 0.3; font-style: italic; color: #4a7a5e; }
+.bubble.empty{opacity:0.3;font-style:italic;color:#4a7a5e;}
 
-/* ── SETTINGS PANEL ── */
-.settings-overlay {
-  display: none;
-  position: fixed; inset: 0;
-  background: rgba(0,0,0,0.75);
-  z-index: 100;
-  align-items: center;
-  justify-content: center;
-  backdrop-filter: blur(6px);
+/* ── SETTINGS ── */
+.settings-overlay{
+  display:none;position:fixed;inset:0;
+  background:rgba(0,0,0,0.78);z-index:100;
+  align-items:center;justify-content:center;
 }
-.settings-overlay.open { display: flex; }
-
-.settings-panel {
-  background: #0d1e14;
-  border: 1.5px solid rgba(62,180,137,0.3);
-  border-radius: 22px;
-  padding: 28px;
-  width: 300px;
-  box-shadow: 0 8px 48px rgba(0,0,0,0.7);
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+.settings-overlay.open{display:flex;}
+.settings-panel{
+  background:#0d1e14;
+  border:1.5px solid rgba(62,180,137,0.28);
+  border-radius:22px;padding:26px;width:290px;
+  box-shadow:0 8px 48px rgba(0,0,0,0.7);
+  display:flex;flex-direction:column;gap:18px;
 }
-
-.settings-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.settings-header{display:flex;justify-content:space-between;align-items:center;}
+.settings-header h2{font-size:15px;font-weight:900;color:#69f0ae;letter-spacing:0.08em;text-transform:uppercase;}
+.s-close{background:none;border:none;color:#4a7a5e;font-size:20px;cursor:pointer;}
+.s-close:hover{color:#69f0ae;}
+.field label{display:block;font-size:10px;font-weight:800;letter-spacing:0.14em;text-transform:uppercase;color:#3eb489;margin-bottom:6px;}
+.field select,.field input{
+  width:100%;background:rgba(255,255,255,0.04);
+  border:1.5px solid rgba(62,180,137,0.2);border-radius:10px;
+  padding:9px 12px;color:#c8f7e0;
+  font-family:'Nunito',sans-serif;font-size:13px;
+  outline:none;-webkit-appearance:none;appearance:none;
 }
-.settings-header h2 {
-  font-size: 16px;
-  font-weight: 900;
-  color: #69f0ae;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+.field select:focus,.field input:focus{border-color:#69f0ae;}
+.field select option{background:#0d1e14;}
+.save-btn{
+  width:100%;padding:11px;border-radius:11px;border:none;
+  background:linear-gradient(135deg,#2a8a64,#69f0ae);
+  color:#041208;font-family:'Nunito',sans-serif;
+  font-weight:900;font-size:13px;cursor:pointer;
+  letter-spacing:0.1em;text-transform:uppercase;
 }
-.s-close {
-  background: none; border: none;
-  color: #4a7a5e; font-size: 20px;
-  cursor: pointer; transition: color 0.2s;
-}
-.s-close:hover { color: #69f0ae; }
-
-.field label {
-  display: block;
-  font-size: 10px; font-weight: 800;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: #3eb489;
-  margin-bottom: 7px;
-}
-.field select, .field input {
-  width: 100%;
-  background: rgba(255,255,255,0.04);
-  border: 1.5px solid rgba(62,180,137,0.2);
-  border-radius: 10px;
-  padding: 9px 13px;
-  color: #c8f7e0;
-  font-family: 'Nunito', sans-serif;
-  font-size: 13px;
-  outline: none;
-  appearance: none;
-  transition: border-color 0.2s;
-}
-.field select:focus, .field input:focus { border-color: #69f0ae; }
-.field select option { background: #0d1e14; }
-
-.save-btn {
-  width: 100%; padding: 11px;
-  border-radius: 11px; border: none;
-  background: linear-gradient(135deg, #2a8a64, #69f0ae);
-  color: #041208;
-  font-family: 'Nunito', sans-serif;
-  font-weight: 900; font-size: 13px;
-  cursor: pointer;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  transition: opacity 0.2s, transform 0.1s;
-}
-.save-btn:hover { opacity: 0.88; transform: scale(1.02); }
 </style>
 </head>
 <body>
 
-<!-- Top-left buttons -->
 <div class="top-btns">
-  <button class="top-btn" title="Close" onclick="window.close()">✕</button>
-  <button class="top-btn" title="Settings" onclick="openSettings()">⚙</button>
+  <button class="top-btn" onclick="window.close()">✕</button>
+  <button class="top-btn" onclick="openSettings()">⚙</button>
 </div>
 
-<!-- Main scene -->
 <div class="scene">
-
-  <!-- BMO Body -->
   <div class="bmo-body">
     <div class="bmo-screen-bezel">
       <div class="bmo-face" id="face">
-        <!-- Eyes -->
         <div class="eyes">
           <div class="eye"></div>
           <div class="eye"></div>
         </div>
-        <!-- Mouth — tap to stop mic -->
-        <div class="mouth-wrap" id="mouthBtn" title="Tap to stop">
+        <div class="mouth-wrap" id="mouthBtn">
           <div class="mouth-shape"></div>
-          <div class="mouth-hint" id="mouthHint">tap to stop</div>
         </div>
       </div>
     </div>
-
-    <!-- Body details -->
     <div class="bmo-details">
-      <div class="bmo-buttons-row">
-        <div class="bmo-dot red"></div>
-        <div class="bmo-dot yellow"></div>
-        <div class="bmo-dot"></div>
-      </div>
+      <div class="bmo-dots"><div class="dot r"></div><div class="dot y"></div><div class="dot"></div></div>
       <div class="bmo-label">BMO</div>
-      <div class="bmo-buttons-row">
-        <div class="bmo-dot"></div>
-        <div class="bmo-dot"></div>
-      </div>
+      <div class="bmo-dots"><div class="dot"></div><div class="dot"></div></div>
     </div>
   </div>
 
-  <div class="status" id="status">listening always on</div>
-  <div class="bubble empty" id="bubble">Say something to BMO...</div>
-
+  <div class="status" id="status">tap mouth to talk</div>
+  <div class="bubble empty" id="bubble">Tap my mouth to start talking!</div>
 </div>
 
-<!-- Settings -->
 <div class="settings-overlay" id="settingsOverlay">
   <div class="settings-panel">
     <div class="settings-header">
@@ -529,25 +294,28 @@ const BRIDGE = 'https://api.salting.io/r/5f5a42f6-7f2a-4a5e-b835-c006445302d3';
 let model = 'gpt-oss-20b';
 let systemPrompt = 'You are BMO, a cheerful and friendly AI. Keep replies short and fun.';
 let voiceSpeed = 1;
-let isListening = false;
-let isSpeaking = false;
-let recognition = null;
 let history = [];
-let manuallyStopped = false;
+let isRecording = false;
+let mediaRecorder = null;
+let audioChunks = [];
+let stream = null;
 
-const face    = document.getElementById('face');
-const status  = document.getElementById('status');
-const bubble  = document.getElementById('bubble');
+const face     = document.getElementById('face');
+const statusEl = document.getElementById('status');
+const bubble   = document.getElementById('bubble');
 const mouthBtn = document.getElementById('mouthBtn');
-const mouthHint = document.getElementById('mouthHint');
 
 function setState(s) {
   face.className = 'bmo-face' + (s ? ' ' + s : '');
-  status.className = 'status' + (s ? ' ' + s : '');
-  if (s === 'listening') { status.textContent = 'listening...'; mouthHint.style.opacity = '1'; }
-  else if (s === 'thinking') { status.textContent = 'thinking...'; mouthHint.style.opacity = '0'; }
-  else if (s === 'speaking') { status.textContent = 'speaking...'; mouthHint.style.opacity = '0'; }
-  else { status.textContent = 'starting mic...'; mouthHint.style.opacity = '0'; }
+  statusEl.className = 'status' + (s ? ' ' + s : '');
+  const labels = {
+    listening: 'recording... tap to send',
+    thinking:  'thinking...',
+    speaking:  'speaking...',
+    error:     'error',
+    '':        'tap mouth to talk'
+  };
+  statusEl.textContent = labels[s] ?? s;
 }
 
 function setBubble(text, empty=false) {
@@ -555,80 +323,93 @@ function setBubble(text, empty=false) {
   bubble.className = 'bubble' + (empty ? ' empty' : '');
 }
 
-// ── CONTINUOUS RECOGNITION ──
-const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-
-function startListening() {
-  if (!SR) { setBubble('Speech recognition not supported.', true); return; }
-  if (manuallyStopped) return;
-
-  recognition = new SR();
-  recognition.lang = 'en-US';
-  recognition.interimResults = false;
-  recognition.continuous = false;
-
-  recognition.onstart = () => {
-    isListening = true;
-    setState('listening');
-    if (!isSpeaking) setBubble('Listening...', true);
-  };
-
-  recognition.onresult = (e) => {
-    const text = e.results[0][0].transcript.trim();
-    if (!text) { restartIfNeeded(); return; }
-    setBubble('You: ' + text);
-    isListening = false;
-    sendToAI(text);
-  };
-
-  recognition.onerror = (e) => {
-    isListening = false;
-    if (e.error === 'no-speech' || e.error === 'aborted') {
-      restartIfNeeded();
-    } else {
-      setBubble('Mic error: ' + e.error, true);
-      setTimeout(restartIfNeeded, 1500);
-    }
-  };
-
-  recognition.onend = () => {
-    isListening = false;
-    restartIfNeeded();
-  };
-
-  try { recognition.start(); } catch(e) {}
-}
-
-function restartIfNeeded() {
-  if (manuallyStopped || isSpeaking) return;
-  setTimeout(startListening, 300);
-}
-
-function stopListening() {
-  manuallyStopped = true;
-  isListening = false;
-  if (recognition) { try { recognition.stop(); } catch(e){} }
-  setState('');
-  status.textContent = 'mic off — tap mouth to resume';
-  mouthHint.style.opacity = '0';
-}
-
-function resumeListening() {
-  manuallyStopped = false;
-  startListening();
-}
-
-// mouth tap = toggle stop/resume
-mouthBtn.addEventListener('click', () => {
-  if (isSpeaking) { speechSynthesis.cancel(); isSpeaking = false; }
-  if (manuallyStopped) resumeListening();
-  else stopListening();
+// ── RECORD with MediaRecorder (Safari-safe) ──
+mouthBtn.addEventListener('click', async () => {
+  if (isRecording) {
+    stopRecording();
+  } else {
+    await startRecording();
+  }
 });
 
-// ── AI ──
+async function startRecording() {
+  try {
+    stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+  } catch(e) {
+    setBubble('Microphone access denied. Please allow mic in Safari settings.', true);
+    setState('error');
+    return;
+  }
+
+  // pick best supported format
+  const mimeType = ['audio/webm', 'audio/mp4', 'audio/ogg'].find(m => MediaRecorder.isTypeSupported(m)) || '';
+  mediaRecorder = new MediaRecorder(stream, mimeType ? { mimeType } : {});
+  audioChunks = [];
+
+  mediaRecorder.ondataavailable = e => { if (e.data.size > 0) audioChunks.push(e.data); };
+
+  mediaRecorder.onstop = async () => {
+    stream.getTracks().forEach(t => t.stop());
+    const blob = new Blob(audioChunks, { type: mediaRecorder.mimeType || 'audio/webm' });
+    await transcribeAndSend(blob);
+  };
+
+  mediaRecorder.start();
+  isRecording = true;
+  setState('listening');
+  setBubble('Recording... tap mouth again to send.', true);
+}
+
+function stopRecording() {
+  if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+    mediaRecorder.stop();
+  }
+  isRecording = false;
+  setState('thinking');
+}
+
+// ── TRANSCRIBE via Groq Whisper ──
+async function transcribeAndSend(blob) {
+  setState('thinking');
+  setBubble('Transcribing...', true);
+
+  try {
+    // get file extension from mime
+    const ext = blob.type.includes('mp4') ? 'mp4' : blob.type.includes('ogg') ? 'ogg' : 'webm';
+    const formData = new FormData();
+    formData.append('file', blob, 'audio.' + ext);
+    formData.append('model', 'whisper-large-v3-turbo');
+    formData.append('response_format', 'json');
+
+    const res = await fetch(BRIDGE + '/openai/v1/audio/transcriptions', {
+      method: 'POST',
+      body: formData
+    });
+
+    const data = await res.json();
+    const text = data.text?.trim();
+
+    if (!text) {
+      setBubble('Could not hear anything. Tap mouth to try again.', true);
+      setState('');
+      return;
+    }
+
+    setBubble('You: ' + text);
+    await sendToAI(text);
+
+  } catch(err) {
+    console.error(err);
+    setBubble('Transcription failed. Check connection.', true);
+    setState('error');
+    setTimeout(() => setState(''), 2000);
+  }
+}
+
+// ── SEND TO AI ──
 async function sendToAI(userText) {
   setState('thinking');
-  history.push({ role:'user', content: userText });
+  history.push({ role: 'user', content: userText });
 
   try {
     const res = await fetch(BRIDGE + '/openai/v1/chat/completions', {
@@ -636,44 +417,46 @@ async function sendToAI(userText) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         model,
-        messages: [{ role:'system', content: systemPrompt }, ...history],
+        messages: [{ role: 'system', content: systemPrompt }, ...history],
         max_tokens: 180
       })
     });
+
     const data = await res.json();
     const reply = data.choices?.[0]?.message?.content || "Hmm, I'm not sure!";
-    history.push({ role:'assistant', content: reply });
+    history.push({ role: 'assistant', content: reply });
     if (history.length > 20) history = history.slice(-20);
     speak(reply);
+
   } catch(err) {
     setState('');
-    setBubble('Network error. Check connection.', true);
-    setTimeout(restartIfNeeded, 2000);
+    setBubble('Network error. Tap mouth to try again.', true);
   }
 }
 
-// ── TTS ──
+// ── TTS (simple, Safari-safe) ──
 function speak(text) {
-  isSpeaking = true;
   setState('speaking');
   setBubble('BMO: ' + text);
 
+  // cancel any existing
+  window.speechSynthesis.cancel();
+
   const utt = new SpeechSynthesisUtterance(text);
   utt.rate = parseFloat(voiceSpeed);
-  utt.pitch = 1.15;
+  utt.pitch = 1.1;
+  utt.volume = 1;
 
-  const voices = speechSynthesis.getVoices();
-  const pick = voices.find(v => /Google|Samantha|Karen|Moira|Tessa/.test(v.name));
-  if (pick) utt.voice = pick;
+  // Safari needs a short delay
+  setTimeout(() => {
+    window.speechSynthesis.speak(utt);
+  }, 100);
 
-  utt.onend = () => { isSpeaking = false; restartIfNeeded(); };
-  utt.onerror = () => { isSpeaking = false; restartIfNeeded(); };
-
-  speechSynthesis.cancel();
-  speechSynthesis.speak(utt);
+  utt.onend = () => setState('');
+  utt.onerror = () => setState('');
 }
 
-// ── SETTINGS ──
+// settings
 function openSettings() { document.getElementById('settingsOverlay').classList.add('open'); }
 function closeSettings() { document.getElementById('settingsOverlay').classList.remove('open'); }
 function saveSettings() {
@@ -682,12 +465,6 @@ function saveSettings() {
   voiceSpeed = document.getElementById('voiceSpeed').value;
   closeSettings();
 }
-
-// auto-start
-speechSynthesis.onvoiceschanged = () => speechSynthesis.getVoices();
-window.addEventListener('load', () => {
-  setTimeout(startListening, 600);
-});
 </script>
 </body>
 </html>
