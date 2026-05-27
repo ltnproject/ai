@@ -6,221 +6,81 @@
 <title>BMO</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&display=swap');
-
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-
 body{
-  background:#0e1a14;
-  font-family:'Nunito',sans-serif;
+  background:#0e1a14;font-family:'Nunito',sans-serif;
   min-height:100vh;min-height:100dvh;
   display:flex;align-items:center;justify-content:center;
-  overflow:hidden;
-  position:relative;
+  overflow:hidden;position:relative;
 }
-
 body::before{
   content:'';position:fixed;inset:0;
-  background-image:
-    linear-gradient(rgba(105,240,174,0.03) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(105,240,174,0.03) 1px,transparent 1px);
+  background-image:linear-gradient(rgba(105,240,174,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(105,240,174,0.03) 1px,transparent 1px);
   background-size:40px 40px;pointer-events:none;
 }
-
-/* ── TOP BUTTONS ── */
-.top-btns{
-  position:fixed;top:16px;left:16px;
-  display:flex;flex-direction:column;gap:10px;z-index:50;
-}
-.top-btn{
-  width:34px;height:34px;border-radius:10px;
-  border:1.5px solid rgba(105,240,174,0.22);
-  background:rgba(8,24,14,0.9);
-  color:#69f0ae;font-size:14px;
-  cursor:pointer;display:flex;align-items:center;justify-content:center;
-  transition:all 0.2s;
-}
+.top-btns{position:fixed;top:16px;left:16px;display:flex;flex-direction:column;gap:10px;z-index:50;}
+.top-btn{width:34px;height:34px;border-radius:10px;border:1.5px solid rgba(105,240,174,0.22);background:rgba(8,24,14,0.9);color:#69f0ae;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s;}
 .top-btn:hover{border-color:#69f0ae;box-shadow:0 0 10px rgba(105,240,174,0.35);}
-
-/* ── BMO BODY ── */
-.scene{
-  display:flex;flex-direction:column;
-  align-items:center;gap:24px;
-  position:relative;z-index:1;
-}
-
-.bmo-body{
-  width:300px;
-  background:linear-gradient(160deg,#3eb489 0%,#2a8a64 40%,#1f6b4e 100%);
-  border-radius:30px 30px 26px 26px;
-  padding:16px 16px 22px;
-  box-shadow:0 0 0 3px #1a5c3a,0 16px 60px rgba(0,0,0,0.65),0 0 80px rgba(62,180,137,0.12);
-  display:flex;flex-direction:column;align-items:center;gap:0;
-}
-
-.bmo-screen-bezel{
-  width:100%;background:#111c17;
-  border-radius:16px;padding:10px;
-  box-shadow:inset 0 2px 8px rgba(0,0,0,0.6);
-  margin-bottom:16px;
-}
-
-/* ── FACE ── */
-.bmo-face{
-  width:100%;aspect-ratio:1/1;
-  background:radial-gradient(ellipse at 40% 35%,#1a3d5c,#0a1e30 70%);
-  border-radius:10px;
-  display:flex;flex-direction:column;
-  align-items:center;justify-content:center;gap:26px;
-  position:relative;overflow:hidden;
-  transition:background 0.5s;
-}
-.bmo-face::after{
-  content:'';position:absolute;inset:0;
-  background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.07) 2px,rgba(0,0,0,0.07) 4px);
-  pointer-events:none;border-radius:10px;
-}
-
+.scene{display:flex;flex-direction:column;align-items:center;gap:20px;position:relative;z-index:1;}
+.bmo-body{width:290px;background:linear-gradient(160deg,#3eb489 0%,#2a8a64 40%,#1f6b4e 100%);border-radius:30px 30px 26px 26px;padding:16px 16px 20px;box-shadow:0 0 0 3px #1a5c3a,0 16px 60px rgba(0,0,0,0.65);}
+.bmo-screen-bezel{width:100%;background:#111c17;border-radius:16px;padding:10px;box-shadow:inset 0 2px 8px rgba(0,0,0,0.6);margin-bottom:14px;}
+.bmo-face{width:100%;aspect-ratio:1/1;background:radial-gradient(ellipse at 40% 35%,#1a3d5c,#0a1e30 70%);border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;position:relative;overflow:hidden;transition:background 0.5s;}
+.bmo-face::after{content:'';position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.07) 2px,rgba(0,0,0,0.07) 4px);pointer-events:none;}
 .bmo-face.listening{background:radial-gradient(ellipse at 40% 35%,#0d3a5c,#04111f 70%);}
-.bmo-face.thinking {background:radial-gradient(ellipse at 40% 35%,#2a1f4a,#0e0a1e 70%);}
-.bmo-face.speaking {background:radial-gradient(ellipse at 40% 35%,#0d3a28,#051a10 70%);}
-
-/* ── EYES ── */
-.eyes{display:flex;gap:42px;align-items:center;position:relative;z-index:2;}
-
-.eye{
-  width:52px;height:52px;
-  background:radial-gradient(circle at 38% 32%,#7ecfff,#1b8fd4 55%,#0a5a96);
-  border-radius:50%;
-  box-shadow:0 0 20px rgba(79,195,247,0.7),0 0 40px rgba(79,195,247,0.3);
-  position:relative;
-  animation:blink 6s infinite;
-  transition:background 0.4s,box-shadow 0.4s;
-}
-.eye::after{content:'';position:absolute;width:17px;height:17px;background:#040d18;border-radius:50%;top:50%;left:50%;transform:translate(-50%,-50%);}
-.eye::before{content:'';position:absolute;width:9px;height:9px;background:rgba(255,255,255,0.65);border-radius:50%;top:10px;left:11px;z-index:3;}
-
+.bmo-face.thinking{background:radial-gradient(ellipse at 40% 35%,#2a1f4a,#0e0a1e 70%);}
+.bmo-face.speaking{background:radial-gradient(ellipse at 40% 35%,#0d3a28,#051a10 70%);}
+.eyes{display:flex;gap:40px;align-items:center;position:relative;z-index:2;}
+.eye{width:50px;height:50px;background:radial-gradient(circle at 38% 32%,#7ecfff,#1b8fd4 55%,#0a5a96);border-radius:50%;box-shadow:0 0 20px rgba(79,195,247,0.7),0 0 40px rgba(79,195,247,0.3);position:relative;animation:blink 6s infinite;transition:background 0.4s,box-shadow 0.4s;}
+.eye::after{content:'';position:absolute;width:16px;height:16px;background:#040d18;border-radius:50%;top:50%;left:50%;transform:translate(-50%,-50%);}
+.eye::before{content:'';position:absolute;width:8px;height:8px;background:rgba(255,255,255,0.65);border-radius:50%;top:9px;left:10px;z-index:3;}
 @keyframes blink{0%,88%,100%{transform:scaleY(1);}92%{transform:scaleY(0.06);}}
-
-.bmo-face.listening .eye{
-  animation:eyePulse 1s infinite alternate;
-  background:radial-gradient(circle at 38% 32%,#b0e8ff,#4fc3f7 55%,#0288d1);
-  box-shadow:0 0 30px rgba(79,195,247,1),0 0 60px rgba(79,195,247,0.5);
-}
-@keyframes eyePulse{from{box-shadow:0 0 20px rgba(79,195,247,0.8),0 0 40px rgba(79,195,247,0.3);}to{box-shadow:0 0 36px rgba(79,195,247,1),0 0 72px rgba(79,195,247,0.6);}}
-
-.bmo-face.thinking .eye{
-  animation:thinkEye 1.5s infinite;
-  background:radial-gradient(circle at 38% 32%,#c5b3ff,#9c6fff 55%,#6a3fc0);
-  box-shadow:0 0 24px rgba(156,111,255,0.8);
-}
+.bmo-face.listening .eye{animation:eyePulse 1s infinite alternate;background:radial-gradient(circle at 38% 32%,#b0e8ff,#4fc3f7 55%,#0288d1);box-shadow:0 0 30px rgba(79,195,247,1),0 0 60px rgba(79,195,247,0.5);}
+@keyframes eyePulse{from{box-shadow:0 0 20px rgba(79,195,247,0.8);}to{box-shadow:0 0 40px rgba(79,195,247,1),0 0 80px rgba(79,195,247,0.6);}}
+.bmo-face.thinking .eye{animation:thinkEye 1.5s infinite;background:radial-gradient(circle at 38% 32%,#c5b3ff,#9c6fff 55%,#6a3fc0);box-shadow:0 0 24px rgba(156,111,255,0.8);}
 @keyframes thinkEye{0%,100%{transform:translateX(0);}25%{transform:translateX(4px);}75%{transform:translateX(-4px);}}
-
-.bmo-face.speaking .eye{
-  animation:speakEye 0.35s infinite alternate;
-  background:radial-gradient(circle at 38% 32%,#c8ffdf,#69f0ae 55%,#2eb872);
-  box-shadow:0 0 28px rgba(105,240,174,0.9),0 0 56px rgba(105,240,174,0.4);
-}
+.bmo-face.speaking .eye{animation:speakEye 0.35s infinite alternate;background:radial-gradient(circle at 38% 32%,#c8ffdf,#69f0ae 55%,#2eb872);box-shadow:0 0 28px rgba(105,240,174,0.9),0 0 56px rgba(105,240,174,0.4);}
 @keyframes speakEye{from{transform:scaleY(1);}to{transform:scaleY(0.72);}}
-
-/* ── MOUTH ── */
-.mouth-wrap{
-  position:relative;z-index:2;
-  cursor:pointer;padding:14px;border-radius:50%;
-  transition:transform 0.15s;
-  -webkit-user-select:none;user-select:none;
-}
-.mouth-wrap:active{transform:scale(0.9);}
-
-.mouth-shape{
-  width:76px;height:30px;
-  border:3.5px solid #4fc3f7;border-top:none;
-  border-radius:0 0 56px 56px;
-  transition:all 0.25s;
-  box-shadow:0 6px 18px rgba(79,195,247,0.3);
-}
-.bmo-face.listening .mouth-shape{
-  width:26px;height:26px;
-  border:3.5px solid #4fc3f7;border-radius:50%;
-  box-shadow:0 0 18px rgba(79,195,247,0.7);
-  background:rgba(79,195,247,0.1);
-}
-.bmo-face.thinking .mouth-shape{
-  width:44px;height:0;border:none;
-  border-top:3.5px solid #9c6fff;
-  border-radius:0;box-shadow:0 0 12px rgba(156,111,255,0.5);
-}
-.bmo-face.speaking .mouth-shape{
-  border-color:#69f0ae;
-  box-shadow:0 6px 18px rgba(105,240,174,0.5);
-  animation:talkMouth 0.2s infinite alternate;
-}
-@keyframes talkMouth{from{height:10px;border-radius:0 0 22px 22px;}to{height:34px;border-radius:0 0 56px 56px;}}
-
-/* ── BODY DETAILS ── */
-.bmo-details{display:flex;justify-content:space-between;align-items:center;width:100%;padding:0 6px;}
+.mouth-wrap{position:relative;z-index:2;cursor:pointer;padding:14px;border-radius:50%;transition:transform 0.15s;-webkit-user-select:none;user-select:none;}
+.mouth-wrap:active{transform:scale(0.88);}
+.mouth-shape{width:72px;height:28px;border:3.5px solid #4fc3f7;border-top:none;border-radius:0 0 56px 56px;transition:all 0.25s;box-shadow:0 6px 18px rgba(79,195,247,0.3);}
+.bmo-face.listening .mouth-shape{width:24px;height:24px;border:3.5px solid #4fc3f7;border-radius:50%;box-shadow:0 0 18px rgba(79,195,247,0.7);background:rgba(79,195,247,0.1);}
+.bmo-face.thinking .mouth-shape{width:40px;height:0;border:none;border-top:3.5px solid #9c6fff;border-radius:0;}
+.bmo-face.speaking .mouth-shape{border-color:#69f0ae;animation:talkMouth 0.2s infinite alternate;}
+@keyframes talkMouth{from{height:10px;border-radius:0 0 22px 22px;}to{height:32px;border-radius:0 0 56px 56px;}}
+.bmo-details{display:flex;justify-content:space-between;align-items:center;width:100%;padding:0 4px;}
 .bmo-dots{display:flex;gap:7px;}
-.dot{width:11px;height:11px;border-radius:50%;background:#1a5c3a;box-shadow:inset 0 1px 3px rgba(0,0,0,0.5);}
-.dot.r{background:#c0392b;box-shadow:0 0 6px rgba(192,57,43,0.5);}
-.dot.y{background:#d4ac0d;box-shadow:0 0 6px rgba(212,172,13,0.4);}
+.dot{width:10px;height:10px;border-radius:50%;background:#1a5c3a;}
+.dot.r{background:#c0392b;box-shadow:0 0 5px rgba(192,57,43,0.6);}
+.dot.y{background:#d4ac0d;box-shadow:0 0 5px rgba(212,172,13,0.5);}
 .bmo-label{font-size:9px;font-weight:900;letter-spacing:0.2em;color:rgba(255,255,255,0.2);text-transform:uppercase;}
-
-/* ── STATUS + BUBBLE ── */
-.status{
-  font-size:11px;font-weight:800;letter-spacing:0.16em;
-  text-transform:uppercase;color:#69f0ae;opacity:0.5;
-  transition:all 0.3s;min-height:14px;text-align:center;
-}
+.status{font-size:11px;font-weight:800;letter-spacing:0.14em;text-transform:uppercase;color:#69f0ae;opacity:0.5;transition:all 0.3s;min-height:14px;text-align:center;}
 .status.listening{color:#4fc3f7;opacity:1;}
-.status.thinking {color:#9c6fff;opacity:1;}
-.status.speaking {color:#69f0ae;opacity:1;}
-.status.error    {color:#ff6b6b;opacity:1;}
-
-.bubble{
-  max-width:300px;min-height:50px;
-  background:rgba(10,28,18,0.88);
-  border:1.5px solid rgba(62,180,137,0.18);
-  border-radius:16px;padding:13px 16px;
-  font-size:13px;line-height:1.65;color:#c8f7e0;
-  text-align:center;word-break:break-word;
-  transition:all 0.3s;
-}
+.status.thinking{color:#9c6fff;opacity:1;}
+.status.speaking{color:#69f0ae;opacity:1;}
+.status.error{color:#ff6b6b;opacity:1;}
+.bubble{max-width:290px;min-height:48px;background:rgba(10,28,18,0.9);border:1.5px solid rgba(62,180,137,0.18);border-radius:14px;padding:12px 15px;font-size:13px;line-height:1.6;color:#c8f7e0;text-align:center;word-break:break-word;transition:all 0.3s;}
 .bubble.empty{opacity:0.3;font-style:italic;color:#4a7a5e;}
-
-/* ── SETTINGS ── */
-.settings-overlay{
-  display:none;position:fixed;inset:0;
-  background:rgba(0,0,0,0.78);z-index:100;
-  align-items:center;justify-content:center;
-}
+.bubble.err{border-color:rgba(255,100,100,0.4);color:#ff9999;}
+/* text input row */
+.input-row{display:flex;gap:8px;align-items:center;width:290px;}
+.text-input{flex:1;background:rgba(10,28,18,0.9);border:1.5px solid rgba(62,180,137,0.2);border-radius:12px;padding:10px 14px;color:#c8f7e0;font-family:'Nunito',sans-serif;font-size:13px;outline:none;}
+.text-input:focus{border-color:#69f0ae;}
+.text-input::placeholder{color:#4a7a5e;}
+.send-btn{width:40px;height:40px;border-radius:12px;border:1.5px solid rgba(62,180,137,0.3);background:rgba(62,180,137,0.15);color:#69f0ae;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.send-btn:active{background:rgba(62,180,137,0.3);}
+/* settings */
+.settings-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.78);z-index:100;align-items:center;justify-content:center;}
 .settings-overlay.open{display:flex;}
-.settings-panel{
-  background:#0d1e14;
-  border:1.5px solid rgba(62,180,137,0.28);
-  border-radius:22px;padding:26px;width:290px;
-  box-shadow:0 8px 48px rgba(0,0,0,0.7);
-  display:flex;flex-direction:column;gap:18px;
-}
+.settings-panel{background:#0d1e14;border:1.5px solid rgba(62,180,137,0.28);border-radius:22px;padding:24px;width:280px;box-shadow:0 8px 48px rgba(0,0,0,0.7);display:flex;flex-direction:column;gap:16px;}
 .settings-header{display:flex;justify-content:space-between;align-items:center;}
-.settings-header h2{font-size:15px;font-weight:900;color:#69f0ae;letter-spacing:0.08em;text-transform:uppercase;}
+.settings-header h2{font-size:14px;font-weight:900;color:#69f0ae;letter-spacing:0.08em;text-transform:uppercase;}
 .s-close{background:none;border:none;color:#4a7a5e;font-size:20px;cursor:pointer;}
-.s-close:hover{color:#69f0ae;}
-.field label{display:block;font-size:10px;font-weight:800;letter-spacing:0.14em;text-transform:uppercase;color:#3eb489;margin-bottom:6px;}
-.field select,.field input{
-  width:100%;background:rgba(255,255,255,0.04);
-  border:1.5px solid rgba(62,180,137,0.2);border-radius:10px;
-  padding:9px 12px;color:#c8f7e0;
-  font-family:'Nunito',sans-serif;font-size:13px;
-  outline:none;-webkit-appearance:none;appearance:none;
-}
-.field select:focus,.field input:focus{border-color:#69f0ae;}
+.field label{display:block;font-size:10px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:#3eb489;margin-bottom:5px;}
+.field select,.field input{width:100%;background:rgba(255,255,255,0.04);border:1.5px solid rgba(62,180,137,0.2);border-radius:10px;padding:9px 12px;color:#c8f7e0;font-family:'Nunito',sans-serif;font-size:13px;outline:none;-webkit-appearance:none;appearance:none;}
 .field select option{background:#0d1e14;}
-.save-btn{
-  width:100%;padding:11px;border-radius:11px;border:none;
-  background:linear-gradient(135deg,#2a8a64,#69f0ae);
-  color:#041208;font-family:'Nunito',sans-serif;
-  font-weight:900;font-size:13px;cursor:pointer;
-  letter-spacing:0.1em;text-transform:uppercase;
-}
+.save-btn{width:100%;padding:11px;border-radius:11px;border:none;background:linear-gradient(135deg,#2a8a64,#69f0ae);color:#041208;font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;cursor:pointer;letter-spacing:0.08em;text-transform:uppercase;}
+/* debug log */
+.debug{max-width:290px;font-size:10px;color:#3a6a4a;font-family:monospace;text-align:center;min-height:12px;}
 </style>
 </head>
 <body>
@@ -234,13 +94,8 @@ body::before{
   <div class="bmo-body">
     <div class="bmo-screen-bezel">
       <div class="bmo-face" id="face">
-        <div class="eyes">
-          <div class="eye"></div>
-          <div class="eye"></div>
-        </div>
-        <div class="mouth-wrap" id="mouthBtn">
-          <div class="mouth-shape"></div>
-        </div>
+        <div class="eyes"><div class="eye"></div><div class="eye"></div></div>
+        <div class="mouth-wrap" id="mouthBtn"><div class="mouth-shape"></div></div>
       </div>
     </div>
     <div class="bmo-details">
@@ -251,7 +106,15 @@ body::before{
   </div>
 
   <div class="status" id="status">tap mouth to talk</div>
-  <div class="bubble empty" id="bubble">Tap my mouth to start talking!</div>
+  <div class="bubble empty" id="bubble">Tap my mouth OR type below!</div>
+
+  <!-- text fallback -->
+  <div class="input-row">
+    <input class="text-input" id="textInput" placeholder="Type here..." />
+    <button class="send-btn" id="sendBtn">➤</button>
+  </div>
+
+  <div class="debug" id="debug"></div>
 </div>
 
 <div class="settings-overlay" id="settingsOverlay">
@@ -268,12 +131,11 @@ body::before{
         <option value="llama-3.3-70b-versatile">Llama 3.3 70B</option>
         <option value="llama3-8b-8192">Llama 3.1 8B</option>
         <option value="gemma2-9b-it">Gemma 2 9B</option>
-        <option value="qwen-qwq-32b">Qwen QwQ 32B</option>
       </select>
     </div>
     <div class="field">
       <label>System Prompt</label>
-      <input type="text" id="systemPrompt" value="You are BMO, a cheerful and friendly AI. Keep replies short and fun." />
+      <input type="text" id="systemPrompt" value="You are BMO, a cheerful friendly AI. Keep replies short and fun." />
     </div>
     <div class="field">
       <label>Voice Speed</label>
@@ -289,130 +151,164 @@ body::before{
 </div>
 
 <script>
+// ── CONFIG ──
+// Your Salting bridge destination was set to https://api.groq.com/
+// So the full Groq path appends after the bridge UUID
 const BRIDGE = 'https://api.salting.io/r/5f5a42f6-7f2a-4a5e-b835-c006445302d3';
+const CHAT_URL = BRIDGE + '/openai/v1/chat/completions';
+const WHISPER_URL = BRIDGE + '/openai/v1/audio/transcriptions';
 
 let model = 'gpt-oss-20b';
-let systemPrompt = 'You are BMO, a cheerful and friendly AI. Keep replies short and fun.';
+let systemPrompt = 'You are BMO, a cheerful friendly AI. Keep replies short and fun.';
 let voiceSpeed = 1;
 let history = [];
 let isRecording = false;
 let mediaRecorder = null;
 let audioChunks = [];
-let stream = null;
 
 const face     = document.getElementById('face');
 const statusEl = document.getElementById('status');
 const bubble   = document.getElementById('bubble');
 const mouthBtn = document.getElementById('mouthBtn');
+const textInput= document.getElementById('textInput');
+const sendBtn  = document.getElementById('sendBtn');
+const debugEl  = document.getElementById('debug');
+
+function log(msg) { debugEl.textContent = msg; console.log('[BMO]', msg); }
 
 function setState(s) {
   face.className = 'bmo-face' + (s ? ' ' + s : '');
   statusEl.className = 'status' + (s ? ' ' + s : '');
-  const labels = {
-    listening: 'recording... tap to send',
-    thinking:  'thinking...',
-    speaking:  'speaking...',
-    error:     'error',
-    '':        'tap mouth to talk'
-  };
-  statusEl.textContent = labels[s] ?? s;
+  const map = { listening:'recording... tap again to send', thinking:'thinking...', speaking:'speaking...', error:'error — see below', '':'tap mouth to talk' };
+  statusEl.textContent = map[s] ?? s;
 }
 
-function setBubble(text, empty=false) {
+function setBubble(text, cls='') {
   bubble.textContent = text;
-  bubble.className = 'bubble' + (empty ? ' empty' : '');
+  bubble.className = 'bubble' + (cls ? ' ' + cls : '');
 }
 
-// ── RECORD with MediaRecorder (Safari-safe) ──
+// ── MIC via MediaRecorder ──
 mouthBtn.addEventListener('click', async () => {
-  if (isRecording) {
-    stopRecording();
-  } else {
-    await startRecording();
-  }
+  if (isRecording) { stopRecording(); return; }
+  await startRecording();
 });
 
 async function startRecording() {
+  log('requesting mic...');
   try {
-    stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
+    log('mic granted');
+
+    // find supported mime
+    const mimes = ['audio/mp4','audio/webm;codecs=opus','audio/webm','audio/ogg'];
+    const mime = mimes.find(m => { try { return MediaRecorder.isTypeSupported(m); } catch(e){ return false; }}) || '';
+    log('mime: ' + (mime || 'default'));
+
+    mediaRecorder = new MediaRecorder(stream, mime ? { mimeType: mime } : {});
+    audioChunks = [];
+
+    mediaRecorder.ondataavailable = e => { if (e.data && e.data.size > 0) audioChunks.push(e.data); };
+    mediaRecorder.onstop = () => {
+      stream.getTracks().forEach(t => t.stop());
+      processAudio();
+    };
+
+    mediaRecorder.start(100); // collect every 100ms
+    isRecording = true;
+    setState('listening');
+    setBubble('Recording... tap mouth again to send.');
+
   } catch(e) {
-    setBubble('Microphone access denied. Please allow mic in Safari settings.', true);
+    log('mic error: ' + e.message);
     setState('error');
-    return;
+    setBubble('Mic denied. Use the text box below instead!', 'err');
   }
-
-  // pick best supported format
-  const mimeType = ['audio/webm', 'audio/mp4', 'audio/ogg'].find(m => MediaRecorder.isTypeSupported(m)) || '';
-  mediaRecorder = new MediaRecorder(stream, mimeType ? { mimeType } : {});
-  audioChunks = [];
-
-  mediaRecorder.ondataavailable = e => { if (e.data.size > 0) audioChunks.push(e.data); };
-
-  mediaRecorder.onstop = async () => {
-    stream.getTracks().forEach(t => t.stop());
-    const blob = new Blob(audioChunks, { type: mediaRecorder.mimeType || 'audio/webm' });
-    await transcribeAndSend(blob);
-  };
-
-  mediaRecorder.start();
-  isRecording = true;
-  setState('listening');
-  setBubble('Recording... tap mouth again to send.', true);
 }
 
 function stopRecording() {
+  isRecording = false;
   if (mediaRecorder && mediaRecorder.state !== 'inactive') {
     mediaRecorder.stop();
   }
-  isRecording = false;
   setState('thinking');
+  setBubble('Processing...', '');
+  log('stopped recording, processing...');
 }
 
-// ── TRANSCRIBE via Groq Whisper ──
-async function transcribeAndSend(blob) {
-  setState('thinking');
-  setBubble('Transcribing...', true);
+async function processAudio() {
+  if (!audioChunks.length) {
+    setState('');
+    setBubble('No audio captured. Try again.', 'err');
+    return;
+  }
+
+  const actualMime = mediaRecorder.mimeType || 'audio/webm';
+  const blob = new Blob(audioChunks, { type: actualMime });
+  log('audio blob: ' + blob.size + ' bytes, type: ' + actualMime);
+
+  // Try Groq Whisper transcription
+  const ext = actualMime.includes('mp4') ? 'm4a' : actualMime.includes('ogg') ? 'ogg' : 'webm';
+  const form = new FormData();
+  form.append('file', blob, 'audio.' + ext);
+  form.append('model', 'whisper-large-v3-turbo');
+  form.append('response_format', 'json');
 
   try {
-    // get file extension from mime
-    const ext = blob.type.includes('mp4') ? 'mp4' : blob.type.includes('ogg') ? 'ogg' : 'webm';
-    const formData = new FormData();
-    formData.append('file', blob, 'audio.' + ext);
-    formData.append('model', 'whisper-large-v3-turbo');
-    formData.append('response_format', 'json');
-
-    const res = await fetch(BRIDGE + '/openai/v1/audio/transcriptions', {
+    log('sending to whisper...');
+    const res = await fetch(WHISPER_URL, {
       method: 'POST',
-      body: formData
+      body: form
     });
+    log('whisper status: ' + res.status);
+    const text_raw = await res.text();
+    log('whisper raw: ' + text_raw.slice(0,80));
 
-    const data = await res.json();
-    const text = data.text?.trim();
+    let transcript = '';
+    try {
+      const json = JSON.parse(text_raw);
+      transcript = json.text?.trim() || '';
+    } catch(e) {
+      transcript = '';
+    }
 
-    if (!text) {
-      setBubble('Could not hear anything. Tap mouth to try again.', true);
+    if (!transcript) {
       setState('');
+      setBubble('Could not hear. Try the text box!', 'err');
       return;
     }
 
-    setBubble('You: ' + text);
-    await sendToAI(text);
+    setBubble('You: ' + transcript);
+    await sendToAI(transcript);
 
-  } catch(err) {
-    console.error(err);
-    setBubble('Transcription failed. Check connection.', true);
-    setState('error');
-    setTimeout(() => setState(''), 2000);
+  } catch(e) {
+    log('whisper error: ' + e.message);
+    setState('');
+    setBubble('Transcription failed. Use text box below!', 'err');
   }
 }
 
-// ── SEND TO AI ──
+// ── TEXT INPUT ──
+sendBtn.addEventListener('click', sendText);
+textInput.addEventListener('keydown', e => { if (e.key === 'Enter') sendText(); });
+
+async function sendText() {
+  const text = textInput.value.trim();
+  if (!text) return;
+  textInput.value = '';
+  setBubble('You: ' + text);
+  await sendToAI(text);
+}
+
+// ── AI CALL ──
 async function sendToAI(userText) {
   setState('thinking');
   history.push({ role: 'user', content: userText });
 
+  log('calling ' + CHAT_URL + ' model=' + model);
+
   try {
-    const res = await fetch(BRIDGE + '/openai/v1/chat/completions', {
+    const res = await fetch(CHAT_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -422,41 +318,58 @@ async function sendToAI(userText) {
       })
     });
 
-    const data = await res.json();
-    const reply = data.choices?.[0]?.message?.content || "Hmm, I'm not sure!";
+    log('chat status: ' + res.status);
+    const raw = await res.text();
+    log('chat raw: ' + raw.slice(0, 100));
+
+    let reply = '';
+    try {
+      const data = JSON.parse(raw);
+      reply = data.choices?.[0]?.message?.content?.trim() || '';
+      if (!reply && data.error) reply = 'API error: ' + data.error.message;
+    } catch(e) {
+      reply = 'Parse error: ' + raw.slice(0,60);
+    }
+
+    if (!reply) reply = "Hmm, no response!";
     history.push({ role: 'assistant', content: reply });
     if (history.length > 20) history = history.slice(-20);
     speak(reply);
 
-  } catch(err) {
-    setState('');
-    setBubble('Network error. Tap mouth to try again.', true);
+  } catch(e) {
+    log('fetch error: ' + e.message);
+    setState('error');
+    setBubble('Network error: ' + e.message, 'err');
+    setTimeout(() => setState(''), 3000);
   }
 }
 
-// ── TTS (simple, Safari-safe) ──
+// ── TTS ──
 function speak(text) {
   setState('speaking');
   setBubble('BMO: ' + text);
 
-  // cancel any existing
+  if (!window.speechSynthesis) { setState(''); return; }
   window.speechSynthesis.cancel();
 
-  const utt = new SpeechSynthesisUtterance(text);
-  utt.rate = parseFloat(voiceSpeed);
-  utt.pitch = 1.1;
-  utt.volume = 1;
+  const go = () => {
+    const utt = new SpeechSynthesisUtterance(text);
+    utt.rate = parseFloat(voiceSpeed);
+    utt.pitch = 1.1;
+    utt.volume = 1;
+    const voices = speechSynthesis.getVoices();
+    const pick = voices.find(v => /Samantha|Karen|Moira|Google UK|Google US/.test(v.name));
+    if (pick) utt.voice = pick;
+    utt.onend = () => { setState(''); log('done speaking'); };
+    utt.onerror = (e) => { setState(''); log('tts error: ' + e.error); };
+    speechSynthesis.speak(utt);
+  };
 
-  // Safari needs a short delay
-  setTimeout(() => {
-    window.speechSynthesis.speak(utt);
-  }, 100);
-
-  utt.onend = () => setState('');
-  utt.onerror = () => setState('');
+  // Safari needs a tiny delay after cancel
+  setTimeout(go, 150);
 }
 
-// settings
+// ── SETTINGS ──
 function openSettings() { document.getElementById('settingsOverlay').classList.add('open'); }
 function closeSettings() { document.getElementById('settingsOverlay').classList.remove('open'); }
 function saveSettings() {
@@ -465,6 +378,9 @@ function saveSettings() {
   voiceSpeed = document.getElementById('voiceSpeed').value;
   closeSettings();
 }
+
+speechSynthesis.onvoiceschanged = () => speechSynthesis.getVoices();
+log('ready');
 </script>
 </body>
 </html>
